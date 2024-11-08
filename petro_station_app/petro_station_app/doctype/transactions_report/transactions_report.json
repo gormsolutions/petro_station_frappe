@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-11-09 01:16:31.087842",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "from_date",
+  "to_date",
+  "column_break_kybj",
+  "station",
+  "section_break_fipt",
+  "transaction_report_accounts",
+  "section_break_plcu",
+  "column_break_cywm",
+  "column_break_nene",
+  "grand_totals"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "series",
+   "options": "PSA-TR-.YYYY.-"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "From Date"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "To Date"
+  },
+  {
+   "fieldname": "column_break_kybj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "station",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Station",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "section_break_fipt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "transaction_report_accounts",
+   "fieldtype": "Table",
+   "label": "Transaction Report Accounts",
+   "options": "Transaction Report Accounts"
+  },
+  {
+   "fieldname": "section_break_plcu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_cywm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_nene",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "grand_totals",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Grand Totals"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-11-09 01:16:31.087842",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Transactions Report",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

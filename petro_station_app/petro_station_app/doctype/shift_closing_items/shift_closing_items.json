@@ -1,0 +1,99 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-18 17:14:32.575466",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "fuel",
+  "qty_on_meter",
+  "rate",
+  "meter_based_total_amount",
+  "qty_on_sales",
+  "column_break_nlri",
+  "sales_based_total_amount",
+  "cash_sales",
+  "opening",
+  "closing"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "fuel",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Fuel",
+   "options": "Item"
+  },
+  {
+   "fieldname": "opening",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Opening"
+  },
+  {
+   "fieldname": "closing",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Closing"
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty_on_meter",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty On meter"
+  },
+  {
+   "columns": 2,
+   "fieldname": "qty_on_sales",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty On Sales"
+  },
+  {
+   "columns": 1,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate"
+  },
+  {
+   "columns": 2,
+   "fieldname": "meter_based_total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Meter based Total Amount"
+  },
+  {
+   "columns": 1,
+   "fieldname": "sales_based_total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Sales based Total Amount"
+  },
+  {
+   "columns": 2,
+   "fieldname": "cash_sales",
+   "fieldtype": "Currency",
+   "label": "Diffrece in meter amount and Sales"
+  },
+  {
+   "fieldname": "column_break_nlri",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-10-25 17:58:40.457887",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Shift Closing Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

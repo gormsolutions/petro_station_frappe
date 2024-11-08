@@ -1,0 +1,407 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-10-09 12:17:10.720783",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "customer",
+  "pick_the_card",
+  "otp_code",
+  "customer_name",
+  "station",
+  "price_list",
+  "column_break_ynuv",
+  "make_payments",
+  "date",
+  "time",
+  "due_date",
+  "net_total",
+  "credit_sales_id",
+  "invoice_no",
+  "section_break_egou",
+  "items",
+  "section_break_acbi",
+  "total_qty",
+  "additional_discount_amount",
+  "commission",
+  "column_break_bfdf",
+  "grand_totals",
+  "remarks",
+  "settings_tab",
+  "company",
+  "fuel_card_details_tab",
+  "card",
+  "card_number",
+  "card_limit",
+  "phone_number",
+  "column_break_mhoq",
+  "status",
+  "customers_balance",
+  "has_card",
+  "amended_from",
+  "customer_doc_tab",
+  "create_reciept",
+  "fuel_items",
+  "section_break_puur",
+  "total_items_qty",
+  "column_break_ilcx",
+  "grand_items_total"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "PSA-CSA-.YYYY.-"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pick_the_card",
+   "fieldtype": "Link",
+   "label": "Pick the Card",
+   "options": "Fuel Card"
+  },
+  {
+   "fieldname": "otp_code",
+   "fieldtype": "Data",
+   "label": "OTP Code",
+   "options": "Fuel Card"
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "station",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Station",
+   "options": "Cost Center",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "station.custom_price_list",
+   "fieldname": "price_list",
+   "fieldtype": "Link",
+   "label": "Price List",
+   "options": "Price List"
+  },
+  {
+   "fieldname": "column_break_ynuv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "now",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Date"
+  },
+  {
+   "default": "now",
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date"
+  },
+  {
+   "fieldname": "net_total",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Net Total"
+  },
+  {
+   "fieldname": "credit_sales_id",
+   "fieldtype": "Link",
+   "label": "Credit Sales ID",
+   "options": "Credit Sales App"
+  },
+  {
+   "fieldname": "section_break_egou",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Fuel Sales Items"
+  },
+  {
+   "fieldname": "section_break_acbi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "Total Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "additional_discount_amount",
+   "fieldtype": "Currency",
+   "label": "Additional Discount Amount"
+  },
+  {
+   "fieldname": "column_break_bfdf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "grand_totals",
+   "fieldtype": "Currency",
+   "label": "Grand Totals",
+   "read_only": 1
+  },
+  {
+   "fieldname": "settings_tab",
+   "fieldtype": "Tab Break",
+   "label": "Settings"
+  },
+  {
+   "default": "Shell Elgon",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "description": "If Checked the customers Limit will reduced on Submition, uncheck if NO CARD PLEASE",
+   "fieldname": "fuel_card_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Fuel Card Details"
+  },
+  {
+   "fetch_from": "pick_the_card.custom_serie",
+   "fieldname": "card",
+   "fieldtype": "Data",
+   "label": "My Crad",
+   "options": "Fuel Card",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "pick_the_card.custom_serie",
+   "fieldname": "card_number",
+   "fieldtype": "Data",
+   "label": "Card Number ",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "pick_the_card.card_limit",
+   "fieldname": "card_limit",
+   "fieldtype": "Currency",
+   "label": "Card Limit",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "pick_the_card.contact_number",
+   "fieldname": "phone_number",
+   "fieldtype": "Phone",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "column_break_mhoq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "pick_the_card.status",
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "status",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "pick_the_card.customers_balance",
+   "fieldname": "customers_balance",
+   "fieldtype": "Currency",
+   "label": "Customer's Balance",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "If checked the customer's CARD LIMIT will Reduce on submition, Uncheck if no FUEL CARD PLEASE",
+   "fieldname": "has_card",
+   "fieldtype": "Check",
+   "label": "Has Fuel Card"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Customer Document",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Customer Document",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "default": "now",
+   "fieldname": "make_payments",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Make Payments"
+  },
+  {
+   "fieldname": "customer_doc_tab",
+   "fieldtype": "Tab Break",
+   "label": "Customer Doc"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "fuel_items",
+   "fieldtype": "Table",
+   "label": "Fuel Items",
+   "options": "Fuel Customers Items"
+  },
+  {
+   "fieldname": "section_break_puur",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "total_items_qty",
+   "fieldtype": "Float",
+   "label": "Total Items Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ilcx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "grand_items_total",
+   "fieldtype": "Currency",
+   "label": "Grand Items Total",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "create_reciept",
+   "fieldtype": "Button",
+   "label": "Create Reciept"
+  },
+  {
+   "fieldname": "invoice_no",
+   "fieldtype": "Data",
+   "label": "Invoice No"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "commission",
+   "fieldtype": "Currency",
+   "label": "Commision"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-10-09 19:05:07.954987",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Cash Refund",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "customer_name",
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
+}

@@ -1,0 +1,485 @@
+{
+ "actions": [],
+ "allow_auto_repeat": 1,
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-06-28 22:09:16.323716",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "from_date",
+  "from_time",
+  "station",
+  "price_list",
+  "naming_series",
+  "status",
+  "column_break_nvpk",
+  "to_date",
+  "to_time",
+  "employee",
+  "employe_name",
+  "shift",
+  "get_pump_details",
+  "get_all_shift_details",
+  "section_break_sidz",
+  "items",
+  "section_break_doxq",
+  "get_shift_details",
+  "column_break_agkm",
+  "post_cash_sale",
+  "section_break_fsse",
+  "overal_shift_closing_items",
+  "meter_based_grand_total_amount",
+  "section_break_uqtj",
+  "get_calculations",
+  "total_sales",
+  "total_cash_sales",
+  "column_break_ihxx",
+  "total_discount",
+  "total_credit_sales",
+  "percentaget_discount",
+  "section_break_zuwz",
+  "get_bankings_and_cash",
+  "get_for_todaty",
+  "accounts",
+  "section_break_wool",
+  "amended_from",
+  "attendance_tab",
+  "section_break_aadq",
+  "attendance",
+  "tab_3_tab",
+  "get_invoice_details",
+  "invoice_items",
+  "get_all_transfers_for_today",
+  "cash_transfers",
+  "get_all_expense_for_today",
+  "expenditures",
+  "dipping_tab",
+  "time",
+  "get_dipping_levels",
+  "take_dipping",
+  "dipping_details",
+  "get_dipping_totals",
+  "dipping_totals",
+  "recieve_stock_tab",
+  "get_drafts",
+  "transfer_fuel",
+  "recieve_stock",
+  "credit_customers_tab",
+  "get_outstandings",
+  "credits_customer_item"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_wool",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Station Shift Management",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Date"
+  },
+  {
+   "fieldname": "from_time",
+   "fieldtype": "Time",
+   "hidden": 1,
+   "label": "From Time"
+  },
+  {
+   "fieldname": "column_break_nvpk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "To Date"
+  },
+  {
+   "fieldname": "to_time",
+   "fieldtype": "Time",
+   "hidden": 1,
+   "label": "To Time"
+  },
+  {
+   "fieldname": "section_break_sidz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "station",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Station",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming",
+   "options": "PSA-SSM-.YYYY.-"
+  },
+  {
+   "fieldname": "section_break_uqtj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_sales",
+   "fieldtype": "Currency",
+   "label": "Total Sales"
+  },
+  {
+   "fieldname": "total_cash_sales",
+   "fieldtype": "Currency",
+   "label": "Total Cash Sales"
+  },
+  {
+   "fieldname": "column_break_ihxx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "total_discount",
+   "fieldtype": "Currency",
+   "label": "Total Discount"
+  },
+  {
+   "fieldname": "total_credit_sales",
+   "fieldtype": "Currency",
+   "label": "Total Credit Sales"
+  },
+  {
+   "columns": 9,
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Station Shift Management item",
+   "options": "Station Shift Management item"
+  },
+  {
+   "fieldname": "get_pump_details",
+   "fieldtype": "Button",
+   "hidden": 1,
+   "label": "Get Shift Details"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Status",
+   "options": "\nDraft\nReturn\nCredit Note Issued\nSubmitted\nPaid\nPartly Paid\nUnpaid\nUnpaid and Discounted\nPartly Paid and Discounted\nOverdue and Discounted\nOverdue\nCancelled\nInternal Transfer"
+  },
+  {
+   "fieldname": "section_break_aadq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "attendance",
+   "fieldtype": "Table",
+   "label": "Attendance",
+   "options": "Station Shift Employee"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "accounts",
+   "fieldtype": "Table",
+   "label": "Bankings and Cash",
+   "options": "Station Shift GL Accounts"
+  },
+  {
+   "fieldname": "attendance_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attendance"
+  },
+  {
+   "fieldname": "section_break_zuwz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "get_calculations",
+   "fieldtype": "Button",
+   "label": "Get Calculations"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "percentaget_discount",
+   "fieldtype": "Data",
+   "label": "Percentage Discount"
+  },
+  {
+   "fieldname": "get_bankings_and_cash",
+   "fieldtype": "Button",
+   "label": "Get Bankings and Cash"
+  },
+  {
+   "fieldname": "tab_3_tab",
+   "fieldtype": "Tab Break",
+   "label": "Invoice"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "invoice_items",
+   "fieldtype": "Table",
+   "label": "Invoice Items",
+   "options": "Invoice Items"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "cash_transfers",
+   "fieldtype": "Table",
+   "label": "Cash Transfers",
+   "options": "Cash Transfers"
+  },
+  {
+   "fieldname": "get_for_todaty",
+   "fieldtype": "Button",
+   "label": "Get for Todaty"
+  },
+  {
+   "fieldname": "get_invoice_details",
+   "fieldtype": "Button",
+   "label": "Get Invoice Details"
+  },
+  {
+   "fieldname": "get_all_transfers_for_today",
+   "fieldtype": "Button",
+   "label": "Get All Transfers for today"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "expenditures",
+   "fieldtype": "Table",
+   "label": "Expenditures",
+   "options": "Expenditures"
+  },
+  {
+   "fieldname": "get_all_expense_for_today",
+   "fieldtype": "Button",
+   "label": "Get all expense for Today"
+  },
+  {
+   "fieldname": "get_all_shift_details",
+   "fieldtype": "Button",
+   "label": "Get ALL Shift Details"
+  },
+  {
+   "fieldname": "dipping_tab",
+   "fieldtype": "Tab Break",
+   "label": "Dipping"
+  },
+  {
+   "fieldname": "dipping_details",
+   "fieldtype": "Table",
+   "label": "Dipping Details",
+   "options": "Dipping Items"
+  },
+  {
+   "fieldname": "recieve_stock_tab",
+   "fieldtype": "Tab Break",
+   "label": "Recieve Stock"
+  },
+  {
+   "fieldname": "recieve_stock",
+   "fieldtype": "Table",
+   "label": "Recieve Stock",
+   "options": "Recieve Stock"
+  },
+  {
+   "default": "23:30:00",
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time",
+   "read_only": 1
+  },
+  {
+   "fieldname": "get_dipping_levels",
+   "fieldtype": "Button",
+   "label": "Get Dipping Levels"
+  },
+  {
+   "fieldname": "transfer_fuel",
+   "fieldtype": "Button",
+   "label": "Transfer Fuel"
+  },
+  {
+   "fieldname": "take_dipping",
+   "fieldtype": "Button",
+   "label": "Submit Dipping Levels"
+  },
+  {
+   "fieldname": "get_drafts",
+   "fieldtype": "Button",
+   "label": "Get Drafts"
+  },
+  {
+   "fieldname": "credit_customers_tab",
+   "fieldtype": "Tab Break",
+   "label": "Credit Customers"
+  },
+  {
+   "fieldname": "credits_customer_item",
+   "fieldtype": "Table",
+   "label": "Credits Customer Item",
+   "options": "Credits Customer Item"
+  },
+  {
+   "fieldname": "get_outstandings",
+   "fieldtype": "Button",
+   "label": "Get Outstandings"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employe_name",
+   "fieldtype": "Data",
+   "label": "Employe Name",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_doxq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "overal_shift_closing_items",
+   "fieldtype": "Table",
+   "label": "Overal shift closing items",
+   "options": "Shift Closing Items"
+  },
+  {
+   "fieldname": "get_shift_details",
+   "fieldtype": "Button",
+   "label": "Get Overall Shift Details"
+  },
+  {
+   "fieldname": "meter_based_grand_total_amount",
+   "fieldtype": "Currency",
+   "label": "Meter based Grand Total Amount"
+  },
+  {
+   "fieldname": "dipping_totals",
+   "fieldtype": "Table",
+   "label": "Dipping Totals",
+   "options": "Dipping Items"
+  },
+  {
+   "fieldname": "get_dipping_totals",
+   "fieldtype": "Button",
+   "label": "Get Dipping Totals"
+  },
+  {
+   "fieldname": "column_break_agkm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "post_cash_sale",
+   "fieldtype": "Button",
+   "label": "Post Cash Sale"
+  },
+  {
+   "fieldname": "section_break_fsse",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Shift",
+   "options": "\nNight\nDay",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "station.custom_price_list",
+   "fieldname": "price_list",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Price List",
+   "options": "Price List"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "make_attachments_public": 1,
+ "modified": "2024-11-03 18:20:24.914625",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Station Shift Management",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "from_date"
+}

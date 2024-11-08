@@ -1,0 +1,119 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-19 03:46:46.716832",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "source_tank",
+  "received_date",
+  "time_recieved",
+  "tart_tank",
+  "item",
+  "dipping_qty",
+  "date",
+  "time",
+  "status",
+  "voucher",
+  "fuel_transfer_status"
+ ],
+ "fields": [
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Fuel\"]]",
+   "options": "Item"
+  },
+  {
+   "fieldname": "dipping_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Fuel\"]]",
+   "options": "Item"
+  },
+  {
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Time",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Fuel\"]]",
+   "options": "Item"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Status"
+  },
+  {
+   "fieldname": "source_tank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Source Tank",
+   "link_filters": "[[\"Warehouse\",\"warehouse_type\",\"=\",\"Transit\"]]",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "tart_tank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Target Tank",
+   "link_filters": "[[\"Warehouse\",\"warehouse_type\",\"=\",\"Transit\"]]",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "fuel_transfer_status",
+   "fieldtype": "Data",
+   "label": "fuel transfer status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "time_recieved",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Time Recieved",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Fuel\"]]",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "received_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Recieved Date",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Fuel\"]]",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "voucher",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Vourcher",
+   "options": "Stock Entry"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-09-21 20:54:16.610109",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Recieve Stock",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

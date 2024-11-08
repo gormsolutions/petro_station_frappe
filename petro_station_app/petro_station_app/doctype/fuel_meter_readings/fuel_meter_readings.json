@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-10-18 14:25:22.151124",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_aswt",
+  "amended_from",
+  "naming_series",
+  "employee",
+  "pump",
+  "employee_name",
+  "qty_as_per_now",
+  "column_break_hcrr",
+  "initial_date",
+  "current_date",
+  "item",
+  "initial_reading_value",
+  "current_reading_value"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_aswt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Fuel Meter Readings",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "PSA-FMR-.YYYY.-"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "User"
+  },
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Date",
+   "label": "Employee Name",
+   "options": "User"
+  },
+  {
+   "fieldname": "qty_as_per_now",
+   "fieldtype": "Float",
+   "label": "Qty as per Now",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_hcrr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "initial_date",
+   "fieldtype": "Datetime",
+   "label": "Initial Date"
+  },
+  {
+   "fieldname": "current_date",
+   "fieldtype": "Date",
+   "label": "Current Date"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "initial_reading_value",
+   "fieldtype": "Float",
+   "label": "Initial Reading Value",
+   "options": "Item"
+  },
+  {
+   "fieldname": "current_reading_value",
+   "fieldtype": "Float",
+   "label": "Current reading value",
+   "options": "Item"
+  },
+  {
+   "fieldname": "pump",
+   "fieldtype": "Link",
+   "label": "Pump",
+   "options": "Warehouse"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-10-18 14:56:38.786316",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Fuel Meter Readings",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
