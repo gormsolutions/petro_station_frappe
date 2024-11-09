@@ -1,0 +1,32 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-09 02:23:03.111713",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "account"
+ ],
+ "fields": [
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Account",
+   "options": "Account"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-11-09 02:23:48.379523",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Trans Account Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

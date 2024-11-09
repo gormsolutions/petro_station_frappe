@@ -35,7 +35,6 @@
   "expense_items",
   "grand_total",
   "je_id",
-  "amended_from",
   "amended_from"
  ],
  "fields": [
@@ -152,7 +151,7 @@
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
-   "options": "Gas Sales Items"
+   "options": "Lubs Sales Items"
   },
   {
    "fieldname": "section_break_acbi",
@@ -224,16 +223,6 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Sales",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
    "options": "Lubs Invoces",
    "print_hide": 1,
    "read_only": 1,
@@ -243,7 +232,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-08 17:25:10.845659",
+ "modified": "2024-11-09 01:42:23.909654",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Lubs Invoces",

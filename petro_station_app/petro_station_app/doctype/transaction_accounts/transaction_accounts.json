@@ -1,0 +1,51 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-11-09 02:21:38.235084",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "trans_account_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "PSA-TRACC-.YYYY.-"
+  },
+  {
+   "fieldname": "trans_account_items",
+   "fieldtype": "Table",
+   "label": "Trans Account Items",
+   "options": "Trans Account Items"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-11-09 02:25:02.417866",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Transaction Accounts",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

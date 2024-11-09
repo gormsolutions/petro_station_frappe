@@ -11,6 +11,7 @@
   "to_date",
   "column_break_kybj",
   "station",
+  "transaction_id",
   "section_break_fipt",
   "transaction_report_accounts",
   "section_break_plcu",
@@ -60,7 +61,7 @@
    "fieldname": "transaction_report_accounts",
    "fieldtype": "Table",
    "label": "Transaction Report Accounts",
-   "options": "Transaction Report Accounts"
+   "options": "Transactions Report Accounts"
   },
   {
    "fieldname": "section_break_plcu",
@@ -80,11 +81,18 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Grand Totals"
+  },
+  {
+   "default": "PSA-TRACC-2024-00001",
+   "fieldname": "transaction_id",
+   "fieldtype": "Link",
+   "label": "Transaction ID",
+   "options": "Transaction Accounts"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-09 01:16:31.087842",
+ "modified": "2024-11-09 02:41:25.218988",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",
