@@ -1,18 +1,18 @@
 {
  "charts": [],
- "content": "[{\"id\":\"QWhtC9F_VK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Gas Dashboard</span>\",\"col\":12}},{\"id\":\"1SPlVbi9lL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Loaned Empty\",\"col\":3}},{\"id\":\"H1kVtFu7uP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opening Stock\",\"col\":3}},{\"id\":\"iFrSaZNAvf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Recieve Stock\",\"col\":3}},{\"id\":\"b3dMmjGfav\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales\",\"col\":3}},{\"id\":\"AsnfDe9aj6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Debtors\",\"col\":3}}]",
+ "content": "[{\"id\":\"QWhtC9F_VK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h1\\\">Gas Dashboard</span>\",\"col\":12}},{\"id\":\"EDV6IHT1sg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive payment from Customer\",\"col\":3}},{\"id\":\"iFrSaZNAvf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Recieve Stock\",\"col\":3}},{\"id\":\"b3dMmjGfav\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales\",\"col\":3}},{\"id\":\"JVUznSsLyh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Summary Report\",\"col\":3}},{\"id\":\"rog1SlXFEQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"></span><span class=\\\"h2\\\">Oil &amp; Gas Purchase Management</span>\",\"col\":12}},{\"id\":\"H1kVtFu7uP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opening Stock\",\"col\":3}},{\"id\":\"8DPQPmmifs\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Balance\",\"col\":3}},{\"id\":\"Vi5pDVOIkn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Balances\",\"col\":3}},{\"id\":\"ToZPdvw1BL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock movement Report\",\"col\":3}}]",
  "creation": "2024-10-28 16:23:35.174608",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
- "idx": 2,
+ "idx": 3,
  "indicator_color": "orange",
  "is_hidden": 0,
  "label": "GAS DASHBOARD",
  "links": [],
- "modified": "2024-11-09 04:33:51.543840",
+ "modified": "2024-11-09 16:41:26.876942",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "GAS DASHBOARD",
@@ -34,18 +34,46 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Loaned Empty",
-   "link_to": "Stock Entry",
-   "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Material Issue\",false]]",
+   "label": "Sales",
+   "link_to": "Gas Invoices",
+   "stats_filter": "[]",
    "type": "DocType"
   },
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Sales",
-   "link_to": "Gas Invoices",
+   "label": "Receive payment from Customer",
+   "link_to": "Payment Entry",
    "stats_filter": "[]",
    "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Stock Balance",
+   "link_to": "Stock Balance",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Customer Balances",
+   "link_to": "Customer Balances.",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Stock movement Report",
+   "link_to": "Stock Ledger",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Summary Report",
+   "link_to": "Sales Summary Report",
+   "type": "Report"
   },
   {
    "color": "Grey",
@@ -61,14 +89,6 @@
    "label": "Opening Stock",
    "link_to": "Stock Entry",
    "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Material Receipt\",false],[\"Stock Entry Detail\",\"t_warehouse\",\"=\",\"Mbale Gas Store - SE\",false]]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Debtors",
-   "link_to": "Gas Invoices",
-   "stats_filter": "[[\"Gas Invoices\",\"include_payments\",\"=\",0,false]]",
    "type": "DocType"
   }
  ],

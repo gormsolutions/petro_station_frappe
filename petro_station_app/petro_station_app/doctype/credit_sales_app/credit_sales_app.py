@@ -8,13 +8,11 @@ from frappe import _  # type: ignore
 
 class CreditSalesApp(Document):
     def on_submit(self):
-        
-        # Group items by posting date
+        # Group items by posting_date and then create Customer Documents
         grouped_items = self.group_items_by_posting_date()
-
-        # Create new Customer Documents based on grouped items
         self.create_new_customer_documents(grouped_items)
         
+              
         # Check if customer has a fuel card and the status is "Active"
         if self.has_card == 1 and self.status == "Active":
             # Fetch the corresponding Fuel Card for the customer using the custom field
@@ -209,30 +207,33 @@ class CreditSalesApp(Document):
 
     def group_items_by_posting_date(self):
         grouped_items = {}
-        # Group items in the `items` child table by posting_date
-        for item in self.get("items"):
-            posting_date = self.date
+        
+        # Group items in the Fuel Customers Items (fuel_items) child table by posting_date
+        for item in self.get("fuel_items"):
+            posting_date = item.get("posting_date")
             if posting_date not in grouped_items:
                 grouped_items[posting_date] = []
             grouped_items[posting_date].append({
-                "invoice_no": item.invoice_no,
-                "price_list": item.price_list,
-                "pos_profile": item.pos_profile,
-                "item_code": item.item_code,
-                "qty": item.qty,
-                "rate": item.rate,
-                "amount": item.amount,
-                "warehouse": item.warehouse,
-                "uom": item.uom,
-                "order_number": item.order_number,
-                "milage": item.milage,
-                "number_plate": item.number_plate
+                "invoice_no": item.get("invoice_no"),  # Getting invoice_no from fuel_items
+                "price_list": item.get("price_list"),
+                "pos_profile": item.get("pos_profile"),
+                "item_code": item.get("item_code"),
+                "qty": item.get("qty"),
+                "rate": item.get("rate"),
+                "amount": item.get("amount"),
+                "warehouse": item.get("warehouse"),
+                "uom": item.get("uom"),
+                "order_number": item.get("order_number"),
+                "milage": item.get("milage"),
+                "number_plate": item.get("number_plate")
             })
+        
         return grouped_items
 
     def create_new_customer_documents(self, grouped_items):
         for posting_date, items in grouped_items.items():
-            invoice_no = items[0]["invoice_no"]  # Fetching invoice_no from the first item
+            # Use invoice_no from the first item in the grouped items
+            invoice_no = items[0]["invoice_no"]
 
             # Create a new Customer Document
             cust_doc = frappe.get_doc({
@@ -243,19 +244,19 @@ class CreditSalesApp(Document):
                 "customer_name": self.customer_name,
                 "station": self.station,
                 "price_list": self.price_list,
-                "invoice_no": invoice_no,
+                "invoice_no": invoice_no,  # Set invoice_no from fuel_items
                 "include_payments": self.include_payments,
                 "posting_date": posting_date,
                 "time": self.time,
                 "due_date": self.due_date,
-                "net_total": 0,  # Will calculate below
-                "total_qty": 0,  # Will calculate below
-                "grand_totals": 0,  # Will calculate below
+                "net_total": 0,  # Initialize for calculation
+                "total_qty": 0,  # Initialize for calculation
+                "grand_totals": 0,  # Initialize for calculation
                 "additional_discount_amount": self.additional_discount_amount,
                 "credit_sales_id": self.name
             })
 
-            # Add fuel items to the new customer document and calculate totals
+            # Add fuel items to the new Customer Document and calculate totals
             for item in items:
                 cust_doc.append("items", {
                     "price_list": item["price_list"],

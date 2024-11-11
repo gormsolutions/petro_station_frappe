@@ -45,6 +45,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Empty Cylinder Store - SE",
    "fetch_from": "pos_profile.warehouse",
    "fieldname": "warehouse",
    "fieldtype": "Data",
@@ -67,7 +68,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-03 15:40:34.869405",
+ "modified": "2024-11-10 20:09:46.697167",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Gas Empty cylinders",

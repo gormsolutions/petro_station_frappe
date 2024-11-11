@@ -7,7 +7,7 @@ from frappe import _  # type: ignore
 
 class GasInvoices(Document):
     def on_submit(self):
-        self.create_stock_entry("Material Issue", "custom_gas_sale_id", "Empty cylinders sold successfully", self.items)
+        # self.create_stock_entry("Material Issue", "custom_gas_sale_id", "Empty cylinders sold successfully", self.items)
         self.create_sales_invoice()
         self.create_stock_entry("Material Receipt", "custom_gas_sales_id", "Empty cylinders received successfully", self.gas_empty_cylinders)
 
@@ -38,8 +38,8 @@ class GasInvoices(Document):
                 "item_code": item.item_code,
                 "qty": item.qty,
                 "uom": item.uom,
-                "s_warehouse": self.store if stock_entry_type == "Material Issue" else None,
-                "t_warehouse": self.store if stock_entry_type == "Material Receipt" else None,
+                "cost_center": "Hashim Gas Limited Mbale Depot - SE",
+                "t_warehouse": "Empty Cylinder Store - SE",
             })
 
         stock_entry.insert()

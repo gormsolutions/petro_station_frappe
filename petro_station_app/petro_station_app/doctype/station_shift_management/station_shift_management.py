@@ -5,7 +5,7 @@ from frappe.utils import add_days, today
 class StationShiftManagement(Document):
     def on_submit(self):
         # Define the tolerance limit
-        tolerance = 100
+        tolerance = 1000
 
         # Calculate the difference
         difference = abs(self.meter_based_grand_total_amount - self.total_sales)

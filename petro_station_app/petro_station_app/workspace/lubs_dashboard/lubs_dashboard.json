@@ -1,0 +1,37 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"CzJXFywxTE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">LUBS DASHBOARD</span>\",\"col\":12}},{\"id\":\"AGghi3u8-U\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubs Invoces\",\"col\":3}}]",
+ "creation": "2024-11-09 12:06:36.318902",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "idx": 0,
+ "indicator_color": "cyan",
+ "is_hidden": 0,
+ "label": "LUBS DASHBOARD",
+ "links": [],
+ "modified": "2024-11-09 12:07:37.296890",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "LUBS DASHBOARD",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 41.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Lubs Invoces",
+   "link_to": "Lubs Invoces",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "LUBS DASHBOARD"
+}
