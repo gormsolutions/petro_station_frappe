@@ -39,7 +39,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "PURCHASE STORE - FEU",
    "fieldname": "accepted_warehouse",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -103,7 +102,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-17 19:09:48.763983",
+ "modified": "2024-11-11 13:49:59.105465",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Stock transfer Item",

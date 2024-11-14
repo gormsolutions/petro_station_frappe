@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"QWhtC9F_VK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h1\\\">Gas Dashboard</span>\",\"col\":12}},{\"id\":\"EDV6IHT1sg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive payment from Customer\",\"col\":3}},{\"id\":\"iFrSaZNAvf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Recieve Stock\",\"col\":3}},{\"id\":\"b3dMmjGfav\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales\",\"col\":3}},{\"id\":\"JVUznSsLyh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Summary Report\",\"col\":3}},{\"id\":\"rog1SlXFEQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"></span><span class=\\\"h2\\\">Oil &amp; Gas Purchase Management</span>\",\"col\":12}},{\"id\":\"H1kVtFu7uP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opening Stock\",\"col\":3}},{\"id\":\"8DPQPmmifs\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Balance\",\"col\":3}},{\"id\":\"Vi5pDVOIkn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Balances\",\"col\":3}},{\"id\":\"ToZPdvw1BL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock movement Report\",\"col\":3}}]",
+ "content": "[{\"id\":\"QWhtC9F_VK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h1\\\">Gas Dashboard</span>\",\"col\":12}},{\"id\":\"jC_emFnc0h\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opening Stock\",\"col\":3}},{\"id\":\"EDV6IHT1sg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive payment from Customer\",\"col\":3}},{\"id\":\"iFrSaZNAvf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Recieve Stock\",\"col\":3}},{\"id\":\"b3dMmjGfav\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales\",\"col\":3}},{\"id\":\"JVUznSsLyh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Summary Report\",\"col\":3}},{\"id\":\"rog1SlXFEQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"></span><span class=\\\"h2\\\">Oil &amp; Gas Purchase Management</span>\",\"col\":12}},{\"id\":\"WGBDxBzEc_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Stock Balance\",\"col\":3}},{\"id\":\"H5xoIKMYQb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"opening Stock\",\"col\":3}},{\"id\":\"Vi5pDVOIkn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Balances\",\"col\":3}},{\"id\":\"ToZPdvw1BL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock movement Report\",\"col\":3}}]",
  "creation": "2024-10-28 16:23:35.174608",
  "custom_blocks": [],
  "docstatus": 0,
@@ -12,7 +12,7 @@
  "is_hidden": 0,
  "label": "GAS DASHBOARD",
  "links": [],
- "modified": "2024-11-09 16:41:26.876942",
+ "modified": "2024-11-12 14:31:18.507512",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "GAS DASHBOARD",
@@ -34,6 +34,22 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Opening Stock",
+   "link_to": "Stock Reconciliation",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "opening Stock",
+   "link_to": "Stock Entry",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Sales",
    "link_to": "Gas Invoices",
    "stats_filter": "[]",
@@ -46,13 +62,6 @@
    "link_to": "Payment Entry",
    "stats_filter": "[]",
    "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Stock Balance",
-   "link_to": "Stock Balance",
-   "type": "Report"
   },
   {
    "color": "Grey",
@@ -78,17 +87,16 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Recieve Stock",
-   "link_to": "Purchase Invoice",
-   "stats_filter": "[]",
-   "type": "DocType"
+   "label": "Gas Stock Balance",
+   "link_to": "Gas Stock Balance",
+   "type": "Report"
   },
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Opening Stock",
-   "link_to": "Stock Entry",
-   "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Material Receipt\",false],[\"Stock Entry Detail\",\"t_warehouse\",\"=\",\"Mbale Gas Store - SE\",false]]",
+   "label": "Recieve Stock",
+   "link_to": "Purchase Invoice",
+   "stats_filter": "[]",
    "type": "DocType"
   }
  ],

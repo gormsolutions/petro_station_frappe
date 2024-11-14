@@ -38,8 +38,8 @@ class GasInvoices(Document):
                 "item_code": item.item_code,
                 "qty": item.qty,
                 "uom": item.uom,
-                "cost_center": "Hashim Gas Limited Mbale Depot - SE",
-                "t_warehouse": "Empty Cylinder Store - SE",
+                "cost_center": self.station,
+                "t_warehouse": item.warehouse,
             })
 
         stock_entry.insert()
