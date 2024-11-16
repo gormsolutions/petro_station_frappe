@@ -9,10 +9,13 @@
   "section_break_xbft",
   "customer",
   "customer_name",
+  "staff",
   "tel",
   "column_break_uash",
   "from_date",
   "to_date",
+  "stationary_charges",
+  "station",
   "section_break_labx",
   "statement_details",
   "section_break_hhat",
@@ -115,11 +118,30 @@
    "fieldtype": "Currency",
    "label": "Total Outstanding Amount",
    "read_only": 1
+  },
+  {
+   "fieldname": "stationary_charges",
+   "fieldtype": "Currency",
+   "label": "Stationary Charges"
+  },
+  {
+   "fieldname": "staff",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Staff",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "station",
+   "fieldtype": "Link",
+   "label": "Station",
+   "options": "Cost Center"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-11 11:28:15.287317",
+ "modified": "2024-11-15 18:43:51.601311",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Customer Statement",

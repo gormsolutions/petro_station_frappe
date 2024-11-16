@@ -47,8 +47,11 @@
   {
    "fetch_from": "pos_profile.warehouse",
    "fieldname": "warehouse",
-   "fieldtype": "Data",
-   "label": "Warehouse"
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "link_filters": "[[\"Warehouse\",\"name\",\"in\",[\"Empty Cylinders Gulu Depot - SE\",\"Empty Cylinders Jinja Depot - SE\",\"Empty Cylinder Mbale Store - SE\"]]]",
+   "options": "Warehouse",
+   "reqd": 1
   },
   {
    "fetch_from": "item_code.stock_uom",
@@ -67,7 +70,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-14 03:02:20.738510",
+ "modified": "2024-11-15 11:41:23.250161",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Gas Empty cylinders",

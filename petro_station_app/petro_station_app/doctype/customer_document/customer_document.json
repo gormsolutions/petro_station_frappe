@@ -22,6 +22,7 @@
   "due_date",
   "net_total",
   "credit_sales_id",
+  "stationery_credit_id",
   "cash_refund_id",
   "fuel_sales_id",
   "section_break_egou",
@@ -165,16 +166,6 @@
    "options": "Company"
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Customer Document",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
-  },
-  {
    "description": "If Checked the customers Limit will reduced on Submition, uncheck if NO CARD PLEASE",
    "fieldname": "fuel_card_details_tab",
    "fieldtype": "Tab Break",
@@ -234,16 +225,6 @@
    "label": "Has Fuel Card"
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Customer Document",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
-  },
-  {
    "fieldname": "credit_sales_id",
    "fieldtype": "Link",
    "label": "Credit Sales ID",
@@ -262,6 +243,7 @@
    "options": "Fuel Sales App"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "invoice_no",
    "fieldtype": "Data",
    "label": "Invoice No"
@@ -283,12 +265,28 @@
    "label": "Station",
    "options": "Cost Center",
    "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Customer Document",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "stationery_credit_id",
+   "fieldtype": "Link",
+   "label": "Stationery Credit ID",
+   "options": "Customer Statement"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-10-26 17:28:37.270430",
+ "modified": "2024-11-15 19:37:53.566771",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Customer Document",

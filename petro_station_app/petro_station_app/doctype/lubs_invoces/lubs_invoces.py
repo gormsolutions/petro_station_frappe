@@ -50,6 +50,7 @@ class LubsInvoces(Document):
                     "charge_type": tax.charge_type,
                     "account_head": tax.account_head,
                     "rate": tax.rate,
+                    "included_in_print_rate":1,
                     "tax_amount": tax.tax_amount,
                     "description": tax.description,
                     "cost_center": tax.cost_center,
