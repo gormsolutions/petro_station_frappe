@@ -100,7 +100,7 @@ class CreditSalesApp(Document):
             frappe.db.commit()
             frappe.msgprint(_("Tank to Pump transfer successfully transferred to the Client"))
 
-        # Check if a Sales Invoice has already been created 
+        # Check if a Sales Invoice has already been created self.price_list
         if not self.sales_invoice_created:
             sales_invoice = frappe.new_doc("Sales Invoice")
             sales_invoice.customer = self.customer
@@ -108,6 +108,7 @@ class CreditSalesApp(Document):
             sales_invoice.due_date = self.due_date
             sales_invoice.allocate_advances_automatically = 0 if self.include_payments == 1 else 1
             sales_invoice.cost_center = self.station
+            sales_invoice.selling_price_list = self.price_list
             sales_invoice.update_stock = 1
             sales_invoice.set_posting_time = 1
             sales_invoice.posting_date = self.date

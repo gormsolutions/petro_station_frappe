@@ -127,6 +127,7 @@
   },
   {
    "allow_in_quick_entry": 1,
+   "default": "Lubricant Stock",
    "fieldname": "store",
    "fieldtype": "Link",
    "label": "Store",
@@ -233,7 +234,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-09 12:49:22.431330",
+ "modified": "2024-11-18 11:00:54.644786",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Lubs Invoces",

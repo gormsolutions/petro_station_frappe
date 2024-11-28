@@ -8,6 +8,7 @@
  "field_order": [
   "naming_series",
   "station",
+  "employee",
   "column_break_aidj",
   "date",
   "mode_of_payment",
@@ -74,12 +75,19 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-20 15:56:40.784878",
+ "modified": "2024-11-27 12:53:52.815701",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Expenses",

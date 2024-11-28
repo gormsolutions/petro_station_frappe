@@ -17,7 +17,7 @@ class FuelSalesApp(Document):
             stock_entry.posting_time = self.time
             stock_entry.posting_date = self.date
             stock_entry.custom_employee = self.employee
-            stock_entry.custom_credit_sales_app = self.name
+            stock_entry.custom_cash_sales_app = self.name
 
             for item in fuel_items:
                 source_warehouse = item.warehouse
@@ -45,7 +45,7 @@ class FuelSalesApp(Document):
             frappe.db.commit()
             frappe.msgprint(_("Tank to Pump transfer successfully transferred to the Client"))
 
-        # Check if a Sales Invoice has already been created 
+        # Check if a Sales Invoice has already been created  price_list
         if not self.sales_invoice_created:
             sales_invoice = frappe.new_doc("Sales Invoice")
             sales_invoice.customer = self.customer
@@ -55,6 +55,7 @@ class FuelSalesApp(Document):
             sales_invoice.cost_center = self.station 
             sales_invoice.update_stock = 1
             sales_invoice.set_posting_time = 1
+            sales_invoice.selling_price_list = self.price_list
             sales_invoice.posting_date = self.date
             sales_invoice.posting_time = self.time
             sales_invoice.additional_discount_account = "5125 - Discounts on Fuel - SE"

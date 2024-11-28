@@ -431,7 +431,7 @@ def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=Non
     sales_invoices = frappe.get_list(
         "Sales Invoice",
         filters=filters,
-        fields=["name", "posting_date", "posting_time", "total", "discount_amount", "outstanding_amount"]
+        fields=["name", "posting_date", "posting_time", "grand_total", "discount_amount", "outstanding_amount"]
     )
 
     for invoice in sales_invoices:
@@ -448,7 +448,7 @@ def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=Non
 
         if has_matching_item:
             # Aggregate grand total and outstanding amount
-            totals['grand_total'] += invoice_doc.total
+            totals['grand_total'] += invoice_doc.grand_total
             totals['outstanding_amount'] += invoice_doc.outstanding_amount
 
             # Aggregate additional discount amount only if outstanding amount is 0

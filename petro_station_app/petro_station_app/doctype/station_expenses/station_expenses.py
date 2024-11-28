@@ -23,8 +23,9 @@ class StationExpenses(Document):
         # Create new Journal Entry
         journal_entry = frappe.new_doc('Journal Entry')
         journal_entry.voucher_type = 'Journal Entry'
-        journal_entry.company = 'Fahaab Energy Uganda'
+        journal_entry.company = 'Shell Elgon'
         journal_entry.posting_date = self.date
+        journal_entry.custom_employee = self.employee
         journal_entry.custom_station_expense_id = self.name
         
         for item in self.items:
@@ -35,7 +36,7 @@ class StationExpenses(Document):
             
             # Debit Entry
             journal_entry.append('accounts', {
-                'account': "2110 - Creditors - FEU",
+                'account': "2110 - Creditors - SE",
                 'party_type': item.party_type,
                 'party': item.party,
                 'description': item.description,
@@ -54,7 +55,7 @@ class StationExpenses(Document):
             
             # Additional Debit Entry
             journal_entry.append('accounts', {
-                'account': "2110 - Creditors - FEU",
+                'account': "2110 - Creditors - SE",
                 'party_type': item.party_type,
                 'description': item.description,
                 'party': item.party,

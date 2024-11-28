@@ -142,11 +142,13 @@
    "fieldtype": "Section Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_sales",
    "fieldtype": "Currency",
    "label": "Total Sales"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_cash_sales",
    "fieldtype": "Currency",
    "label": "Total Cash Sales"
@@ -162,6 +164,7 @@
    "label": "Total Discount"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_credit_sales",
    "fieldtype": "Currency",
    "label": "Total Credit Sales"
@@ -329,6 +332,7 @@
    "label": "Get Drafts"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "credit_customers_tab",
    "fieldtype": "Tab Break",
    "label": "Credit Customers"
@@ -347,6 +351,10 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Employee",
    "options": "Employee",
    "reqd": 1
@@ -375,6 +383,7 @@
    "label": "Get Overall Shift Details"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "meter_based_grand_total_amount",
    "fieldtype": "Currency",
    "label": "Meter based Grand Total Amount"
@@ -416,6 +425,7 @@
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fetch_from": "station.custom_price_list",
    "fieldname": "price_list",
    "fieldtype": "Link",
@@ -440,7 +450,7 @@
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2024-11-12 10:22:39.680788",
+ "modified": "2024-11-25 17:15:06.867437",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Shift Management",
