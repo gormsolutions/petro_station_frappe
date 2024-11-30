@@ -80,7 +80,6 @@
    "options": "Currency"
   },
   {
-   "default": "Fahaab Energy Depot Soroti - FEU",
    "fieldname": "cost_center",
    "fieldtype": "Link",
    "label": "Cost Center",
@@ -107,7 +106,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-27 14:52:36.340750",
+ "modified": "2024-11-29 10:43:36.112172",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Purchase Management Suppliers",

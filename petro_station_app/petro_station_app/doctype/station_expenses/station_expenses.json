@@ -79,7 +79,7 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
-   "label": "Employee",
+   "label": "Pump Attendant",
    "options": "Employee",
    "reqd": 1
   }
@@ -87,7 +87,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-27 12:53:52.815701",
+ "modified": "2024-11-28 17:56:35.706646",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Expenses",

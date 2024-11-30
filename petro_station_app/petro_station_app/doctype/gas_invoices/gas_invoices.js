@@ -1,8 +1,28 @@
 // Copyright (c) 2024, mututa paul and contributors
+
 // For license information, please see license.txt
 
 frappe.ui.form.on("Gas Invoices", {
 	refresh(frm) {
+
+        if (frm.doc.docstatus === 1) {
+            frm.add_custom_button(__('Post Expense'), function() {
+                frappe.call({
+                    method: 'petro_station_app.custom_api.api.create_journal_entry_gas',
+                    args: {
+                        docname: frm.doc.name,
+                        employee:frm.doc.employee
+                    },
+                    callback: function(r) {
+                        if (!r.exc && r.message) {
+                            frappe.msgprint(__('Journal Entry created successfully'));
+                            // frm.set_value('je_id', r.message);
+                            // frm.save_or_update();
+                        }
+                    }
+                });
+            });
+        }
 
 	},
 

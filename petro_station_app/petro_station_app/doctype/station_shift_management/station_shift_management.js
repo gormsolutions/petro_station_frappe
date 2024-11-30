@@ -705,6 +705,7 @@ function populateInvoiceItems(frm) {
             // console.log(r)
             if (r.message && r.message.Invoices) {
                 var invoices = r.message.Invoices;
+                console.log(invoices)
 
                 // Clear existing items before populating (optional)
                 frm.clear_table('invoice_items');
@@ -720,14 +721,16 @@ function populateInvoiceItems(frm) {
                         var new_item = frm.add_child('invoice_items'); // Create a new child row
 
 
-                        // Set values from item to new item fields 
-                        new_item.invoice_id = invoice['Invoice Name'];
+
+                        // Set values from item to new item fields     new_item.invoice_id = invoice['Invoice Name'];
                         new_item.date = invoice['Posting Date'];
                         new_item.customer_name = invoice['Customer Name'];
                         new_item.invoice_no = invoice['Invoice No'];
+                        new_item.invoice_id = invoice['Invoice Name'];
                         new_item.customer = invoice['Customer'];
                         new_item.item_code = item['Item Code'];
                         new_item.quantity = item['Quantity'];
+                        new_item.rate = item['Rate'];
                         new_item.amount = item['Amount'];
                         // Add other relevant fields based on your data structure
 

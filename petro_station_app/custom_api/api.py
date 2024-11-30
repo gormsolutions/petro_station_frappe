@@ -508,3 +508,76 @@ def get_system_reading(pump,from_date):
     else:
         return None  # Handle case where no readings are found
 
+@frappe.whitelist()
+def create_journal_entry_gas(docname):
+    gas_sales_app = frappe.get_doc('Gas Invoices', docname)
+    
+    existing_receipt = frappe.get_all("Journal Entry", filters={"custom_gas_invoices_id": gas_sales_app.name}, limit=1)
+    if existing_receipt:
+        frappe.msgprint(_("Journal Entry already exists for this Gas Invoices"))
+        return
+    
+    methods = frappe.get_value("Mode of Payment Account", {"parent": gas_sales_app.mode_of_payment}, "default_account")
+    if not methods:
+        frappe.throw(_("No default account found for the mode of payment: {0}").format(gas_sales_app.mode_of_payment))
+
+    journal_entry = frappe.new_doc('Journal Entry')
+    journal_entry.voucher_type = 'Journal Entry'
+    journal_entry.company = gas_sales_app.company
+    journal_entry.posting_date = gas_sales_app.date
+    journal_entry.custom_gas_invoices_id = gas_sales_app.name
+    journal_entry.custom_employee = gas_sales_app.employee
+    journal_entry.custom_cost_center = gas_sales_app.station
+
+    for item in gas_sales_app.expense_items:
+        claim_account = frappe.get_value("Expense Claim Account", {"parent": item.claim_type}, "default_account")
+        if not claim_account:
+            frappe.throw(_("No default account found for the claim type: {0}").format(item.claim_type))
+
+        # Debit Entry
+        journal_entry.append('accounts', {
+            'account': "2110 - Creditors - SE",
+            'party_type': item.party_type,
+            'party': item.party,
+            'description': item.description,
+            'debit_in_account_currency': item.amount,
+            'credit_in_account_currency': 0,
+            'cost_center': gas_sales_app.station
+        })
+
+        # Credit Entry
+        journal_entry.append('accounts', {
+            'account': methods,
+            'debit_in_account_currency': 0,
+            'credit_in_account_currency': item.amount,
+            'cost_center': gas_sales_app.station
+        })
+
+        # Additional Debit Entry
+        journal_entry.append('accounts', {
+            'account': "2110 - Creditors - SE",
+            'party_type': item.party_type,
+            'description': item.description,
+            'party': item.party,
+            'debit_in_account_currency': 0,
+            'credit_in_account_currency': item.amount,
+            'cost_center': gas_sales_app.station
+        })
+
+        # Additional Credit Entry
+        journal_entry.append('accounts', {
+            'account': claim_account,
+            'debit_in_account_currency': item.amount,
+            'credit_in_account_currency': 0,
+            'cost_center': gas_sales_app.station
+        })
+
+    # Save the journal entry
+    journal_entry.save()
+    # Uncomment the following line to submit the journal entry
+    journal_entry.submit()
+
+    # Set the journal_entry_id in the Fuel Sales App
+    # fuel_sales_app.db_set('journal_entry_id', journal_entry.name)
+
+    return journal_entry.name

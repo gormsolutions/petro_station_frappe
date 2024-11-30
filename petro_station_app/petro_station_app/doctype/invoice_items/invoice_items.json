@@ -9,6 +9,7 @@
   "item_code",
   "customer_name",
   "quantity",
+  "rate",
   "amount",
   "discount",
   "date",
@@ -72,12 +73,19 @@
    "fieldname": "invoice_no",
    "fieldtype": "Data",
    "label": "Invoice No"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate",
+   "precision": "3"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-22 15:35:25.549281",
+ "modified": "2024-11-30 16:49:28.116762",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Invoice Items",

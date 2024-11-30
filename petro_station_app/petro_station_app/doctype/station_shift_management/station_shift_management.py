@@ -4,6 +4,11 @@ from frappe.utils import add_days, today
 
 class StationShiftManagement(Document):
     def on_submit(self):
+        if not self.overal_shift_closing_items:
+                # Throw an error if the overal_shift_closing_items is not there
+            frappe.throw(
+                f"Get Overall Shift Details before submiting the Shift."
+            )
         # Define the tolerance limit
         tolerance = 1000
 

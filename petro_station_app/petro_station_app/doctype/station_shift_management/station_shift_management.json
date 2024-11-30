@@ -25,6 +25,8 @@
   "items",
   "section_break_doxq",
   "get_shift_details",
+  "column_break_kajf",
+  "get_rates_for_discounts",
   "column_break_agkm",
   "post_cash_sale",
   "section_break_fsse",
@@ -444,13 +446,22 @@
    "fieldname": "total_qty_ago",
    "fieldtype": "Float",
    "label": "Total Qty AGO"
+  },
+  {
+   "fieldname": "column_break_kajf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "get_rates_for_discounts",
+   "fieldtype": "Button",
+   "label": "Get Rates For Discounts"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2024-11-25 17:15:06.867437",
+ "modified": "2024-11-30 18:37:10.903070",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Shift Management",
@@ -497,6 +508,32 @@
    "read": 1,
    "report": 1,
    "role": "Accounts Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station managers",
    "share": 1,
    "submit": 1,
    "write": 1

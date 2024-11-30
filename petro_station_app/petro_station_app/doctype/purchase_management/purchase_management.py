@@ -82,6 +82,7 @@ class PurchaseManagement(Document):
         purchase_invoice_entry.supplier = purchase_invo.supplier
         purchase_invoice_entry.currency = purchase_invo.currency
         purchase_invoice_entry.set_posting_time = 1
+        purchase_invoice_entry.update_stock = 0  # Ensure stock is not updated
         purchase_invoice_entry.posting_time = purchase_invo.posting_time
         purchase_invoice_entry.posting_date = purchase_invo.posting_date
         purchase_invoice_entry.due_date = self.due_date
