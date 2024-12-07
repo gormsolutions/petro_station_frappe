@@ -44,6 +44,7 @@ frappe.ui.form.on('Credit Sales App', {
                 frappe.validated = false; // Prevent form submission
             }
         }
+
     },
     customer: function(frm) {
         // Clear the card field initially
@@ -406,7 +407,7 @@ function create_new_customer_documents(grouped_items, frm) {
 }
 
 function populateFuelCustomersItems(frm) {
-    console.log(frm.doc.items)
+    // console.log(frm.doc.items)
     // Check if there are no entries in the Fuel Customers Items table
     if (!frm.doc.fuel_items || frm.doc.fuel_items.length === 0) {
         // Ensure fuel_sales_items is defined

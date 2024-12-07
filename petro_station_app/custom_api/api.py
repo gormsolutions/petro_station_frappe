@@ -581,3 +581,73 @@ def create_journal_entry_gas(docname):
     # fuel_sales_app.db_set('journal_entry_id', journal_entry.name)
 
     return journal_entry.name
+
+@frappe.whitelist()
+def get_gl_account_transactions(station, from_date=None, to_date=None):
+    # Define filters for GL Entry based on station and date range
+    filters = {"cost_center": station, "is_cancelled": 0}
+    if from_date:
+        filters["posting_date"] = [">=", from_date]
+    if to_date:
+        filters["posting_date"] = ["<=", to_date]
+
+    # Fetch GL Entries for the specified cost center and date range
+    fetch_entries = frappe.get_all(
+        "GL Entry",
+        filters=filters,
+        fields=["name", "debit", "credit", "account", "posting_date"]
+    )
+
+    # Dictionary to store total debits and credits for each account
+    account_totals = {}
+
+    # Process GL Entries and filter by account type "Cash"
+    for entry in fetch_entries:
+        account_doc = frappe.get_doc("Account", entry['account'])
+        if account_doc.account_type == "Cash":
+            if entry['account'] not in account_totals:
+                account_totals[entry['account']] = {
+                    "account": entry['account'],
+                    "total_debits": 0,
+                    "total_credits": 0
+                }
+            account_totals[entry['account']]["total_debits"] += entry['debit']
+            account_totals[entry['account']]["total_credits"] += entry['credit']
+
+    # Fetch all customer payments for the station within the date range
+    payment_filters = {"cost_center": station, "party_type": "Customer", "docstatus": 1}
+    if from_date:
+        payment_filters["posting_date"] = [">=", from_date]
+    if to_date:
+        payment_filters["posting_date"] = ["<=", to_date]
+
+    customer_payments = frappe.get_all(
+        "Payment Entry",
+        filters=payment_filters,
+        fields=["party", "paid_amount", "name", "posting_date"]
+    )
+
+    # Summarize total customer payments
+    total_customer_payments = sum(payment["paid_amount"] for payment in customer_payments)
+
+    # Fetch all expenses for the station within the date range
+    expense_filters = filters.copy()
+    total_expenses = 0
+    expense_entries = frappe.get_all(
+        "GL Entry",
+        filters=expense_filters,
+        fields=["debit", "credit", "account", "posting_date"]
+    )
+    for expense in expense_entries:
+        account_doc = frappe.get_doc("Account", expense["account"])
+        if account_doc.account_type == "Expense Account":
+            total_expenses += expense["debit"]
+
+    # Return the aggregated data
+    return {
+        "account_totals": account_totals,
+        "total_customer_payments": total_customer_payments,
+        "total_expenses": total_expenses,
+        "from_date": from_date,
+        "to_date": to_date
+    }

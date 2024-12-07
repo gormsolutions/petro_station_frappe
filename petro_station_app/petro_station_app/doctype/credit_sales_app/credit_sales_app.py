@@ -123,15 +123,17 @@ class CreditSalesApp(Document):
             sales_invoice.additional_discount_account = "5125 - Discounts on Fuel - SE"
             sales_invoice.custom_credit_sales_app = self.name
             remarks = ""
-
+            
             # Append item details to the Sales Invoice
             for item in self.items:
+               
                 sales_invoice.append("items", {
                     "item_code": item.item_code,
                     "qty": item.qty,
                     "rate": item.rate,
                     "warehouse": item.warehouse,
                     "amount": item.amount,
+                    "discount_amount": item.discount_amount,
                     "cost_center":self.station,
                     "custom_vehicle_plates": item.number_plate
                 })

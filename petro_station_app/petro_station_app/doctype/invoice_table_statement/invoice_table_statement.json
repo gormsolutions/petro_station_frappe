@@ -21,6 +21,7 @@
   "additional_discount_amount",
   "station_inv",
   "invoice_vourcher",
+  "sales_invoice_no",
   "sales_app_id",
   "payment_date",
   "payment_entry",
@@ -202,12 +203,21 @@
    "fieldname": "opening",
    "fieldtype": "Data",
    "label": "Opening"
+  },
+  {
+   "columns": 1,
+   "fieldname": "sales_invoice_no",
+   "fieldtype": "Link",
+   "label": "Sales Invoice No",
+   "options": "Sales Invoice",
+   "print_hide": 1,
+   "report_hide": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-12 08:16:48.063639",
+ "modified": "2024-12-02 10:37:06.273373",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Invoice Table Statement",

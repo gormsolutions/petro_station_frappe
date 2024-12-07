@@ -618,7 +618,6 @@ function getBankingandCash(frm) {
 
 
 }
-
 function getBankingandCashwithoutdate(frm) {
 
     frappe.call({

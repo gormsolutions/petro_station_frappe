@@ -14,10 +14,13 @@
   "transaction_id",
   "section_break_fipt",
   "transaction_report_accounts",
+  "grand_totals",
+  "section_break_rypd",
+  "account_type_items",
   "section_break_plcu",
   "column_break_cywm",
-  "column_break_nene",
-  "grand_totals"
+  "vivo_card",
+  "column_break_nene"
  ],
  "fields": [
   {
@@ -88,11 +91,26 @@
    "fieldtype": "Link",
    "label": "Transaction ID",
    "options": "Transaction Accounts"
+  },
+  {
+   "fieldname": "section_break_rypd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "account_type_items",
+   "fieldtype": "Table",
+   "label": "Account Type Items",
+   "options": "Account Type Items"
+  },
+  {
+   "fieldname": "vivo_card",
+   "fieldtype": "Currency",
+   "label": "VIVO Card"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-20 13:27:48.788453",
+ "modified": "2024-12-06 21:23:26.022050",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",
