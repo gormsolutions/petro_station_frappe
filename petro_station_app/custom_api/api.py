@@ -378,7 +378,7 @@ def get_gl_acount_withoutdate(station):
     fetch_entries = frappe.get_all(
         "GL Entry",
         filters={"cost_center": station,"is_cancelled": 0,},
-        fields=["name", "debit", "credit", "account"]
+        fields=["name", "debit", "credit", "account"]  
     )
 
     # Dictionary to store the total debits and credits for each account

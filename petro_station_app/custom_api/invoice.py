@@ -393,65 +393,59 @@ def get_expenses_with_totals(cost_center=None, posting_date=None):
         frappe.throw(_("An error occurred while fetching sales invoices: {}").format(str(e)))
 
 @frappe.whitelist()
-def get_expense_totals(cost_center=None,employee=None, posting_date=None):
+def get_expense_totals(cost_center=None, employee=None, posting_date=None):
     try:
-        # Check if cost_center or posting_date is None
+        # Common filters for both queries
         filters = {"docstatus": 1}
         if cost_center:
             filters["station"] = cost_center
         if posting_date:
             filters["date"] = posting_date
-            
         if employee:
             filters["employee"] = employee
 
-        # Fetch sales invoices with specified fields
-        expenses = frappe.get_all(
+        # Fetch from Fuel Sales App
+        expenses_from_sales_app = frappe.get_all(
             "Fuel Sales App",
             filters=filters,
-            fields=["name", "date", "employee","station", "grand_total"]
+            fields=["name", "date", "employee", "station", "grand_total"]
         )
 
-        if not expenses:
-            frappe.logger().info("No sales invoices found with the given filters")
-            return {
-                "Total Grand Total": 0,
-                "Total Amount": 0,
-            }
+        # Fetch from Station Expenses
+        expenses_from_station_expenses = frappe.get_all(
+            "Station Expenses",
+            filters=filters,
+            fields=["name", "date", "employee", "station", "grand_total"]
+        )
+
+        # Combine both lists
+        all_expenses = expenses_from_sales_app + expenses_from_station_expenses
 
         # Initialize totals
         total_grand_total = 0
         total_amount = 0
+        expenses_list = []
 
-        # Dictionary to store aggregated expense details
-        expenses_dict = {}
+        # Process each expense
+        for expense in all_expenses:
+            # Initialize expense details
+            expense_details = {
+                "Expense Name": expense["name"],
+                "Posting Date": expense["date"],
+                "Grand Total": expense["grand_total"],
+                "Station": expense["station"],
+                "Items": []
+            }
 
-        # Iterate over the fetched sales invoices
-        for expense in expenses:
-            # Check if expense already exists in expenses_dict based on name
-            if expense["name"] not in expenses_dict:
-                # Initialize expense details
-                expense_details = {
-                    "Expense Name": expense["name"],
-                    "Posting Date": expense["date"],
-                    "Grand Total": expense["grand_total"],
-                    "Items": []
-                }
-
-                # Add expense details to expenses_dict
-                expenses_dict[expense["name"]] = expense_details
-
-            # Fetch items for each expense
+            # Fetch associated items
             items = frappe.get_all(
                 "Expense Claim Items",
                 filters={"parent": expense["name"]},
                 fields=["description", "party", "amount", "claim_type"]
             )
 
-            # Dictionary to aggregate items by claim type
-            aggregated_items = {}
-
             # Aggregate items by claim type
+            aggregated_items = {}
             for item in items:
                 key = item["claim_type"]
                 if key not in aggregated_items:
@@ -465,27 +459,25 @@ def get_expense_totals(cost_center=None,employee=None, posting_date=None):
                     aggregated_items[key]["Amount"] += item["amount"]
 
             # Append aggregated items to expense details
-            expenses_dict[expense["name"]]["Items"].extend(list(aggregated_items.values()))
+            expense_details["Items"].extend(list(aggregated_items.values()))
 
-            # Add expense amounts to totals
+            # Add expense details to the final list
+            expenses_list.append(expense_details)
+
+            # Update totals
             total_grand_total += expense["grand_total"]
             for agg_item in aggregated_items.values():
                 total_amount += agg_item["Amount"]
 
-        # Convert expenses_dict to a list of values
-        expenses_list = list(expenses_dict.values())
-
-        # Add totals to the response
+        # Prepare the result
         result = {
             "Expenses": expenses_list,
             "Total Grand Total": total_grand_total,
             "Total Amount": total_amount
         }
 
-        # Log final result
+        # Log and return the result
         frappe.logger().info(f"Final result: {result}")
-
-        # Return the list of expenses with items and totals
         return result
 
     except Exception as e:

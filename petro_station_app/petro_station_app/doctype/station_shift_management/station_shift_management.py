@@ -147,7 +147,7 @@ class StationShiftManagement(Document):
             frappe.log_error(frappe.get_traceback(), "Stock Entry Fetch Error")
             return {"status": "failed", "error": str(e)}
 
-   
+ 
    
    
     def on_update(self):

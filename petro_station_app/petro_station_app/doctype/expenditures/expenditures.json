@@ -28,7 +28,7 @@
   },
   {
    "fieldname": "expense_id",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Expend ID",
    "options": "Fuel Sales App"
@@ -43,7 +43,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-08 16:53:02.491840",
+ "modified": "2024-12-07 12:20:41.521356",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Expenditures",
