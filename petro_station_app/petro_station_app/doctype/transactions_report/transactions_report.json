@@ -20,7 +20,9 @@
   "section_break_plcu",
   "column_break_cywm",
   "vivo_card",
-  "column_break_nene"
+  "column_break_nene",
+  "stock_report_tab",
+  "stock_report_items"
  ],
  "fields": [
   {
@@ -106,11 +108,22 @@
    "fieldname": "vivo_card",
    "fieldtype": "Currency",
    "label": "VIVO Card"
+  },
+  {
+   "fieldname": "stock_report_tab",
+   "fieldtype": "Tab Break",
+   "label": "Stock Report"
+  },
+  {
+   "fieldname": "stock_report_items",
+   "fieldtype": "Table",
+   "label": "Stock Report Items",
+   "options": "Stock Report Items"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-06 21:23:26.022050",
+ "modified": "2024-12-12 17:52:39.547524",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",
