@@ -7,6 +7,10 @@ from frappe import _  # type: ignore
 
 class GasInvoices(Document):
     def on_submit(self):
+        if self.gas_empty_cylinders:
+            if not self.store_for_empties:
+                frappe.throw(_("Store For Empties"))
+                
         # self.create_stock_entry("Material Issue", "custom_gas_sale_id", "Empty cylinders sold successfully", self.items)
         self.create_sales_invoice()
         self.create_stock_entry("Material Receipt", "custom_gas_sales_id", "Empty cylinders received successfully", self.gas_empty_cylinders)
@@ -134,3 +138,50 @@ class GasInvoices(Document):
         except Exception as e:
             frappe.log_error(message=str(e), title="Payment Entry Creation Error")
             frappe.throw(_("Error in creating Payment Entry: {0}".format(str(e))))
+
+    def on_update(self):
+        # Use a flag to prevent infinite recursion
+        if not hasattr(self, "_from_on_update"):
+            setattr(self, "_from_on_update", True)
+
+            if self.items:
+                for item in self.items:
+                    # Fetch the item details
+                    refill_item = frappe.get_doc('Item', item.item_code)
+
+                    # Debug: Log the item's custom_gas_stock_entry_name
+                    frappe.log_error(message=f"Processing item {item.item_code} with custom_gas_stock_entry_name: {refill_item.custom_gas_stock_entry_name}", title="Debug Log")
+
+                    # Check if the item's custom_gas_stock_entry_name is 'Refill'
+                    if refill_item.custom_gas_stock_entry_name == 'Refill':
+                        # Fetch the product bundle details for the item's name
+                        product_bundle = frappe.get_doc('Product Bundle', item.item_code)
+
+                        # Debug: Log the fetched Product Bundle details
+                        frappe.log_error(message=f"Fetched Product Bundle for item {item.item_code}: {product_bundle}", title="Debug Log")
+
+                        # Iterate through the Product Bundle's items
+                        for bundle_item in product_bundle.items:
+                            # Fetch the corresponding item details
+                            bundle_item_details = frappe.get_doc('Item', bundle_item.item_code)
+
+                            # Debug: Log the bundle item's custom_gas_stock_entry_name
+                            frappe.log_error(message=f"Processing bundle item {bundle_item.item_code} with custom_gas_stock_entry_name: {bundle_item_details.custom_gas_stock_entry_name}", title="Debug Log")
+
+                            # Check if the bundle item's custom_gas_stock_entry_name is 'Empties'
+                            if bundle_item_details.custom_gas_stock_entry_name == 'Empties':
+                                # Add to the gas_empty_cylinders child table
+                                self.append("gas_empty_cylinders", {
+                                    "item_code": bundle_item.item_code,
+                                    "qty": item.qty,
+                                    "uom": item.uom,
+                                    "warehouse": self.store_for_empties
+                                })
+                                # Debug: Log successful append
+                                frappe.log_error(message=f"Appended to gas_empty_cylinders: {bundle_item.item_code}, qty: {item.qty}, uom: {item.uom}", title="Debug Log")
+
+                # Save the document to commit changes to the child table
+                self.save(ignore_permissions=True)
+
+            # Remove the flag after execution
+            delattr(self, "_from_on_update")

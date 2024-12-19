@@ -123,6 +123,7 @@
    "options": "Currency"
   },
   {
+   "default": "Standard Buying",
    "fieldname": "price_list",
    "fieldtype": "Link",
    "label": "Price List",
@@ -218,6 +219,11 @@
   {
    "fieldname": "cost_center",
    "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Station",
    "options": "Cost Center"
   },
@@ -280,7 +286,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-29 16:01:29.841005",
+ "modified": "2024-12-18 18:51:34.664618",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Purchase Management",

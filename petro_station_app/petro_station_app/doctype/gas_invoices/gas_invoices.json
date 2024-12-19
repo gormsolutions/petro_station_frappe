@@ -13,6 +13,7 @@
   "station",
   "price_list",
   "mode_of_payment",
+  "store_for_empties",
   "column_break_ynuv",
   "include_payments",
   "date",
@@ -247,12 +248,19 @@
    "fieldname": "gas_items_sold_column",
    "fieldtype": "Column Break",
    "label": "Gas Items Sold"
+  },
+  {
+   "fieldname": "store_for_empties",
+   "fieldtype": "Link",
+   "label": "Store For Empties",
+   "link_filters": "[[\"Warehouse\",\"name\",\"in\",[\"Empty Cylinders Gulu Depot - SE\",\"Empty Cylinders Jinja Depot - SE\",\"Empty Cylinder Mbale Store - SE\"]]]",
+   "options": "Warehouse"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-14 03:01:32.932144",
+ "modified": "2024-12-19 07:54:01.470404",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Gas Invoices",
