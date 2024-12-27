@@ -119,8 +119,7 @@
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Staff",
-   "options": "Employee",
-   "reqd": 1
+   "options": "Employee"
   },
   {
    "fieldname": "section_break_egou",
@@ -260,7 +259,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-19 07:54:01.470404",
+ "modified": "2024-12-23 17:03:35.877308",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Gas Invoices",

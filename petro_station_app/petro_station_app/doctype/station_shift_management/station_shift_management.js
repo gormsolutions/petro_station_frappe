@@ -589,6 +589,7 @@ function getBankingandCash(frm) {
         callback: function (r) {
             if (r.message) {
                 var accounts = r.message; // Assign the returned accounts 
+                // console.log(accounts)
 
                 // Clear existing items before populating (optional)
                 frm.clear_table('accounts');
@@ -597,6 +598,7 @@ function getBankingandCash(frm) {
                 for (var key in accounts) {
                     if (accounts.hasOwnProperty(key)) {
                         var account_data = accounts[key];
+                        console.log(account_data)
                         var new_item = frm.add_child('accounts'); // Create a new child row
 
                         // Set values from response to new item fields
@@ -719,13 +721,13 @@ function populateInvoiceItems(frm) {
                         var item = items[j];
                         var new_item = frm.add_child('invoice_items'); // Create a new child row
 
-
-
                         // Set values from item to new item fields     new_item.invoice_id = invoice['Invoice Name'];
                         new_item.date = invoice['Posting Date'];
                         new_item.customer_name = invoice['Customer Name'];
                         new_item.invoice_no = invoice['Invoice No'];
                         new_item.invoice_id = invoice['Invoice Name'];
+                        new_item.credit_id = invoice['credit No'];
+                        new_item.sales_id = invoice['sales No'];
                         new_item.customer = invoice['Customer'];
                         new_item.item_code = item['Item Code'];
                         new_item.quantity = item['Quantity'];

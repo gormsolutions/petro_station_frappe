@@ -287,25 +287,25 @@ def get_details_employee(station):
 def get_gl_account(station, employee=None, from_date=None):
     if not from_date:
         return {"error": "from_date is required"}
-    
+
     # Fetch Payment Entry Vouchers related to the employee
     fetch_voucher = frappe.get_all(
         "Payment Entry",
         filters={
             "cost_center": station,
             "custom_employee": employee,  # Assuming you have a field for employee in Payment Entry
-            "posting_date": (">=", from_date)
+            "posting_date": from_date  # Correctly filtering for exact date
         },
         fields=["name", "custom_employee"]
     )
-    
+
     # Fetch Journal Entry Vouchers related to the employee
     fetch_journal_voucher = frappe.get_all(
         "Journal Entry",
         filters={
             "custom_cost_center": station,
             "custom_employee": employee,  # Assuming you have a field for employee in Journal Entry
-            "posting_date": (">=", from_date)
+            "posting_date": from_date  # Correctly filtering for exact date
         },
         fields=["name", "custom_employee"]
     )
@@ -325,7 +325,7 @@ def get_gl_account(station, employee=None, from_date=None):
             "voucher_no": ["in", voucher_nos],
             "voucher_type": "Payment Entry",
             "is_cancelled": 0,
-            "posting_date": (">=", from_date)
+            "posting_date": from_date  # Correctly filtering for exact date
         },
         fields=["name", "debit", "credit", "voucher_no", "account"]
     )
@@ -338,7 +338,7 @@ def get_gl_account(station, employee=None, from_date=None):
             "voucher_no": ["in", journal_voucher_nos],
             "voucher_type": "Journal Entry",
             "is_cancelled": 0,
-            "posting_date": (">=", from_date)
+            "posting_date": from_date  # Correctly filtering for exact date
         },
         fields=["name", "debit", "credit", "voucher_no", "account"]
     )

@@ -22,7 +22,7 @@ def get_sales_invoices_with_totals(cost_center=None, employee=None, posting_date
         sales_invoices = frappe.get_all(
             "Sales Invoice",
             filters=filters,
-            fields=["name", "posting_date", "custom_invoice_no","customer_name","customer","grand_total", "additional_discount_account", "outstanding_amount", "cost_center"]
+            fields=["name", "posting_date", "custom_credit_sales_app","custom_invoice_no","customer_name","custom_fuel_sales_app_id","customer","grand_total", "additional_discount_account", "outstanding_amount", "cost_center"]
         )
 
         # Log fetched sales invoices
@@ -55,6 +55,8 @@ def get_sales_invoices_with_totals(cost_center=None, employee=None, posting_date
                 invoice_details = {
                     "Invoice Name": invoice["name"],
                     "Invoice No": invoice["custom_invoice_no"],
+                    "credit No": invoice["custom_credit_sales_app"],
+                    "sales No": invoice["custom_fuel_sales_app_id"],
                     "Posting Date": invoice["posting_date"],
                     "Customer Name": invoice["customer_name"],
                     "Customer": invoice["customer"],
