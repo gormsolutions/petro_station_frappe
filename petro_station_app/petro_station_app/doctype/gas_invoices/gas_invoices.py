@@ -50,44 +50,65 @@ class GasInvoices(Document):
         stock_entry.submit()
         frappe.msgprint(_(success_message))
 
-    def create_sales_invoice(self):
-        existing_sales_invoice = frappe.db.exists("Sales Invoice", {
-            "custom_gas_invice_id": self.name,
-            "docstatus": 1
-        })
-        if existing_sales_invoice:
-            frappe.msgprint(_("Sales Invoice already exists for this transaction"))
-            return
+    # def create_sales_invoice(self):
+    #     existing_sales_invoice = frappe.db.exists("Sales Invoice", {
+    #         "custom_gas_invice_id": self.name,
+    #         "docstatus": 1
+    #     })
+    #     if existing_sales_invoice:
+    #         frappe.msgprint(_("Sales Invoice already exists for this transaction"))
+    #         return
 
-        sales_invoice = frappe.new_doc("Sales Invoice")
-        sales_invoice.customer = self.customer
-        sales_invoice.due_date = self.due_date
-        sales_invoice.allocate_advances_automatically = not self.include_payments
-        sales_invoice.cost_center = self.station
-        sales_invoice.update_stock = 1
-        sales_invoice.set_posting_time = 1
-        sales_invoice.posting_date = self.date
-        sales_invoice.posting_time = self.time
-        sales_invoice.custom_gas_invice_id = self.name
-        sales_invoice.custom_employee = self.employee
+    #     sales_invoice = frappe.new_doc("Sales Invoice")
+    #     sales_invoice.customer = self.customer
+    #     sales_invoice.due_date = self.due_date
+    #     sales_invoice.allocate_advances_automatically = not self.include_payments
+    #     sales_invoice.cost_center = self.station
+    #     sales_invoice.update_stock = 1
+    #     sales_invoice.set_posting_time = 1
+    #     sales_invoice.posting_date = self.date
+    #     sales_invoice.posting_time = self.time
+    #     sales_invoice.custom_gas_invice_id = self.name
+    #     sales_invoice.custom_employee = self.employee
+        
+    #     promotional_items = []
+        
+    #     for item in self.items:
+    #         # Fetch item details from Item doctype
+    #         custom_on_promotion, custom_promotion_amount = frappe.get_value(
+    #             "Item", 
+    #             item.item_code, 
+    #             ["custom_on_promotion", "custom_promotion_amount"]
+    #         )
+            
+    #         sales_invoice.append("items", {
+    #             "item_code": item.item_code,
+    #             "qty": item.qty,
+    #             "rate": item.rate,
+    #             "warehouse": self.store,
+    #             "amount": item.amount,
+    #             "cost_center": self.station,
+    #         })
+            
+    #         # Check if the item is promotional
+    #         if custom_on_promotion == 1 and custom_promotion_amount:
+    #             promotional_items.append({
+    #                 "item_code": item.item_code,
+    #                 "promotion_amount": custom_promotion_amount
+    #             })
 
-        for item in self.items:
-            sales_invoice.append("items", {
-                "item_code": item.item_code,
-                "qty": item.qty,
-                "rate": item.rate,
-                "warehouse": self.store,
-                "amount": item.amount,
-                "cost_center": self.station,
-            })
+    #     if sales_invoice.items:
+    #         sales_invoice.insert()
+    #         sales_invoice.submit()
+    #         frappe.msgprint(_("Sales Invoice created and submitted"))
+            
+    #         # Create a Journal Entry for promotional items
+    #         if promotional_items:
+    #             self.create_promotion_journal_entry(promotional_items)
 
-        if sales_invoice.items:
-            sales_invoice.insert()
-            sales_invoice.submit()
-            frappe.msgprint(_("Sales Invoice created and submitted"))
-
-            if self.include_payments:
-                self.create_payment_entry(sales_invoice)
+    #         if self.include_payments:
+    #             self.create_payment_entry(sales_invoice)
+            
 
     def create_payment_entry(self, sales_invoice):
         mode_of_pay_doc = frappe.get_doc("Mode of Payment", self.mode_of_payment)
@@ -211,3 +232,146 @@ class GasInvoices(Document):
 
             # Remove the flag after execution
             delattr(self, "_from_on_update")
+
+    def create_sales_invoice(self):
+        existing_sales_invoice = frappe.db.exists("Sales Invoice", {
+            "custom_gas_invice_id": self.name,
+            "docstatus": 1
+        })
+        if existing_sales_invoice:
+            frappe.msgprint(_("Sales Invoice already exists for this transaction"))
+            return
+
+        sales_invoice = frappe.new_doc("Sales Invoice")
+        sales_invoice.customer = self.customer
+        sales_invoice.due_date = self.due_date
+        sales_invoice.allocate_advances_automatically = not self.include_payments
+        sales_invoice.cost_center = self.station
+        sales_invoice.update_stock = 1
+        sales_invoice.set_posting_time = 1
+        sales_invoice.posting_date = self.date
+        sales_invoice.posting_time = self.time
+        sales_invoice.custom_gas_invice_id = self.name
+        sales_invoice.custom_employee = self.employee
+        
+        promotional_items = []
+        total_amount = 0
+        
+        for item in self.items:
+            # Fetch item details from Item doctype
+            custom_on_promotion, custom_promotion_amount = frappe.get_value(
+                "Item", 
+                item.item_code, 
+                ["custom_on_promotion", "custom_promotion_amount"]
+            )
+            
+            sales_invoice.append("items", {
+                "item_code": item.item_code,
+                "qty": item.qty,
+                "rate": item.rate,
+                "warehouse": self.store,
+                "amount": item.amount,
+                "cost_center": self.station,
+            })
+            
+            total_amount += item.amount
+
+            # Check if the item is promotional
+            if custom_on_promotion == 1 and custom_promotion_amount:
+                promotional_items.append({
+                    "item_code": item.item_code,
+                    "promotion_amount": custom_promotion_amount
+                })
+
+        if sales_invoice.items:
+            sales_invoice.insert()
+            sales_invoice.submit()
+            frappe.msgprint(_("Sales Invoice created and submitted"))
+            
+            # Create a Journal Entry for promotional items
+            if promotional_items:
+                self.create_promotion_journal_entry(promotional_items, total_amount, sales_invoice.name)
+
+            if self.include_payments:
+                self.create_payment_entry(sales_invoice)
+
+    def create_promotion_journal_entry(self, promotional_items, total_amount, sales_invoice_name):
+        # Fetch default promotional account and mode of payment account from Promotional Settings
+        promotional_accounts = frappe.get_all(
+            "Promotional Settings",
+            fields=["account", "mode_of_payment_account"],
+            limit_page_length=1  # Limit to the first record
+        )
+
+        # Extract the first promotional account and mode of payment account
+        promotional_account = promotional_accounts[0].get("account") if promotional_accounts else None
+        mode_of_payment_account = promotional_accounts[0].get("mode_of_payment_account") if promotional_accounts else None
+
+        # Throw an error if the promotional account is not set
+        if not promotional_account:
+            frappe.throw(_("No default promotional account found in Promotional Settings. Please configure it."))
+
+        # Create a new Journal Entry
+        journal_entry = frappe.new_doc("Journal Entry")
+        journal_entry.voucher_type = "Journal Entry"
+        journal_entry.company = self.company
+        journal_entry.posting_date = self.date
+        journal_entry.custom_employee = self.employee
+        journal_entry.promotion_gas_id = self.name
+        
+        total_debit = 0
+        total_credit = 0
+        
+        # Debit Entry for 1310 - Debtors - SE account (Grand Total of the invoice)
+        journal_entry.append("accounts", {
+            "account": "1310 - Debtors - SE",
+            "reference_type":"Sales Invoice",
+            "reference_name":sales_invoice_name,
+            "party_type": "Customer",
+            "party": self.customer,
+            "description": f"Invoice for {self.name}",
+            "debit_in_account_currency": 0,
+            "credit_in_account_currency": total_amount,
+            "cost_center": self.station,
+        })
+        total_debit += total_amount
+
+        # Calculate total promotion amount
+        total_promotion_amount = sum(item.get('promotion_amount') for item in promotional_items)
+
+        # Credit Entry for the promotional account
+        if total_promotion_amount > 0:
+            journal_entry.append("accounts", {
+                "account": promotional_account,
+                "party_type": "Customer",
+                "party": self.customer,
+                "description": f"Promotion for {self.name}",
+                "debit_in_account_currency": total_promotion_amount,
+                "credit_in_account_currency": 0,
+                "cost_center": self.station,
+            })
+            total_credit += total_promotion_amount
+
+        # Credit Entry for the mode of payment account (Grand Total - Promotion Amount)
+        if mode_of_payment_account:
+            journal_entry.append("accounts", {
+                "account": mode_of_payment_account,
+                "description": f"Payment for {self.name}",
+                "debit_in_account_currency": total_amount - total_promotion_amount,
+                "credit_in_account_currency": 0,
+                "cost_center": self.station,
+            })
+            total_credit += total_amount - total_promotion_amount
+
+        # Ensure the Journal Entry has valid debit and credit totals
+        if total_debit != total_credit:
+            frappe.throw(_("The debit and credit totals for the Journal Entry do not match."))
+
+        # Save and submit the Journal Entry
+        if journal_entry.accounts:
+            journal_entry.insert()
+            journal_entry.submit()
+            frappe.db.commit()
+            frappe.msgprint(_("Journal Entry for promotional items created and submitted."))
+        else:
+            frappe.throw(_("Journal Entry could not be created as no valid promotional items were found."))

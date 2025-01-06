@@ -52,6 +52,7 @@
    "fieldname": "warehouse",
    "fieldtype": "Link",
    "label": "warehouse",
+   "link_filters": "[[\"Warehouse\",\"warehouse_type\",\"=\",\"Transit\"]]",
    "options": "Warehouse",
    "reqd": 1
   },
@@ -70,7 +71,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-11 14:00:56.718965",
+ "modified": "2025-01-03 19:12:56.584079",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Purchase Management Items",

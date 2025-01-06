@@ -458,7 +458,7 @@ def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=Non
             # Aggregate total payments from related payment entries
             payment_entries = frappe.get_list(
                 "Payment Entry",
-                filters={"reference_name": invoice.name, "docstatus": 1},
+                filters={"reference_name": invoice.name, "docstatus": 1,"custom_employee":employee},
                 fields=["paid_amount"]
             )
             for payment in payment_entries:

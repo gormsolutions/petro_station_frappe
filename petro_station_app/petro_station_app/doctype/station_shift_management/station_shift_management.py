@@ -62,18 +62,26 @@ class StationShiftManagement(Document):
 
 
     def before_save(self):
-        # Check if a document already exists for the same date and station
-        if self.from_date and self.station:
-            existing_doc = frappe.db.exists(
-                'Station Shift Management',
-                {
-                    'from_date': self.from_date,
-                    'employee': self.employee
-                }
-            )
+        # Get roles of the logged-in user
+        roles = frappe.get_roles()
 
-            if existing_doc and existing_doc != self.name:
-                frappe.throw(f"A shift management document already exists for station {self.station} on {self.from_date}.")
+        # Proceed only if the logged-in user does not have "Management Role"
+        if "Management Role" not in roles:
+            if self.from_date and self.station:
+                # Check if a document already exists for the same date and employee
+                existing_doc = frappe.db.exists(
+                    'Station Shift Management',
+                    {
+                        'from_date': self.from_date,
+                        'employee': self.employee
+                    }
+                )
+
+                # If a document exists and it's not the current document
+                if existing_doc and existing_doc != self.name:
+                    frappe.throw(
+                        f"A shift management document already exists for station {self.station} on {self.from_date}."
+                    )
 
     def take_dipping_before(self):
        # Check if a Stock Reconciliation document exists for the same date and station

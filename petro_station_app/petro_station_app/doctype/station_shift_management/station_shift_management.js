@@ -440,7 +440,7 @@ function updateTheCurentReading(frm, cdt, cdn) {
         },
         error: function (err) {
             // Handle server call error
-            console.log(err);
+            // console.log(err);
             frappe.msgprint(__('Error fetching data. Please try again later.'));
         }
     });
@@ -458,7 +458,7 @@ function fetchSalesDetails(frm) {
     });
 
     let pumpOrTankList = frm.doc.items.map(item => item.pump_or_tank);
-    console.log("You great" + pumpOrTankList)
+    // console.log("You great" + pumpOrTankList)
 
     frappe.call({
         method: "petro_station_app.custom_api.api.get_total_qty_and_amount",
@@ -518,7 +518,7 @@ function fetchSalesDetails(frm) {
         },
         error: function (err) {
             // Handle server call error
-            console.log(err);
+            // console.log(err);
             frappe.msgprint(__('Error fetching data. Please try again later.'));
         }
     });
@@ -549,7 +549,7 @@ function CalculateTotal(frm) {
                     // Refresh the items table to reflect the changes
                     let percentaget_discount = ((response.message.additional_discount_amount / response.message.total_payments) * 100).toFixed(2);
                     percentaget_discount = isNaN(percentaget_discount) ? '0%' : percentaget_discount + '%';
-
+                    console.log(response.message)
                     // Set and refresh the specified fieldsq
                     frm.set_value('total_discount', response.message.additional_discount_amount);
                     frm.refresh_field('total_discount');
@@ -571,7 +571,7 @@ function CalculateTotal(frm) {
         },
         error: function (err) {
             // Handle server call error
-            console.log(err);
+            // console.log(err);
             frappe.msgprint(__('Error fetching data. Please try again later.'));
         }
     });
@@ -598,7 +598,7 @@ function getBankingandCash(frm) {
                 for (var key in accounts) {
                     if (accounts.hasOwnProperty(key)) {
                         var account_data = accounts[key];
-                        console.log(account_data)
+                        // console.log(account_data)
                         var new_item = frm.add_child('accounts'); // Create a new child row
 
                         // Set values from response to new item fields
@@ -706,7 +706,7 @@ function populateInvoiceItems(frm) {
             // console.log(r)
             if (r.message && r.message.Invoices) {
                 var invoices = r.message.Invoices;
-                console.log(invoices)
+                // console.log(invoices)
 
                 // Clear existing items before populating (optional)
                 frm.clear_table('invoice_items');
@@ -917,7 +917,7 @@ function populateInvoiceItemsStockEntry(frm) {
         callback: function (response) {
             // console.log(response);
             if (response && response.message) {
-                console.log(pumpOrTankList);
+                // console.log(pumpOrTankList);
                 if (Object.keys(response.message.warehouses).length === 0) {
                     frappe.msgprint(__('No Data Found'));
                 } else {
@@ -938,7 +938,7 @@ function populateInvoiceItemsStockEntry(frm) {
                             item.difference_amount = null;
                         }
                     });
-
+                    // console.log(response.message)
                     // Refresh the items table to reflect the changes
                     let percentaget_discount = ((response.message.additional_discount_amount / response.message.grand_total) * 100).toFixed(2) + '%';
                     // Set and refresh the specified fields
@@ -988,7 +988,7 @@ function fetcheDippingLevels(frm) {
                     posting_time: frm.doc.time,
                 },
                 callback: function (r) {
-                    console.log(r)
+                    // console.log(r)
                     if (r.message) {
                         // Find the existing row in the 'dipping_details' child table
                         let existing_row = frm.doc.dipping_details.find(d => d.item === ItemList[i] && d.tank === TankList[i]);
@@ -1136,7 +1136,7 @@ function submitDraftStockEntries(frm) {
     }
 
     // Log the voucher list for debugging
-    console.log("Voucher List: ", voucherList);
+    // console.log("Voucher List: ", voucherList);
 
     // Call the backend function to submit draft stock entries
     frappe.call({

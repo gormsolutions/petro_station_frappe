@@ -9,18 +9,17 @@
   "naming_series",
   "from_date",
   "to_date",
+  "custom_prepaid",
+  "vivo_card",
   "column_break_kybj",
   "station",
   "transaction_id",
-  "section_break_fipt",
-  "transaction_report_accounts",
   "grand_totals",
+  "custom_station_expenses",
   "section_break_rypd",
+  "transaction_report_accounts",
+  "column_break_jzlh",
   "account_type_items",
-  "section_break_plcu",
-  "column_break_cywm",
-  "vivo_card",
-  "column_break_nene",
   "stock_report_tab",
   "stock_report_items"
  ],
@@ -59,26 +58,10 @@
    "options": "Cost Center"
   },
   {
-   "fieldname": "section_break_fipt",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "transaction_report_accounts",
    "fieldtype": "Table",
    "label": "Transaction Report Accounts",
    "options": "Transactions Report Accounts"
-  },
-  {
-   "fieldname": "section_break_plcu",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_cywm",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_nene",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "grand_totals",
@@ -105,11 +88,6 @@
    "options": "Account Type Items"
   },
   {
-   "fieldname": "vivo_card",
-   "fieldtype": "Currency",
-   "label": "VIVO Card"
-  },
-  {
    "fieldname": "stock_report_tab",
    "fieldtype": "Tab Break",
    "label": "Stock Report"
@@ -119,11 +97,34 @@
    "fieldtype": "Table",
    "label": "Stock Report Items",
    "options": "Stock Report Items"
+  },
+  {
+   "fieldname": "custom_prepaid",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Total Sales"
+  },
+  {
+   "fieldname": "custom_station_expenses",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Branch Expenses"
+  },
+  {
+   "fieldname": "column_break_jzlh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vivo_card",
+   "fieldtype": "Currency",
+   "label": "VIVO CARD"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-12 17:52:39.547524",
+ "modified": "2024-12-31 16:35:28.906171",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",
@@ -151,6 +152,19 @@
    "read": 1,
    "report": 1,
    "role": "Accounts User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "select": 1,
    "share": 1,
    "write": 1
   }

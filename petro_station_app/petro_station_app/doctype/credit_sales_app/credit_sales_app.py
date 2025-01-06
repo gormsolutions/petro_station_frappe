@@ -163,6 +163,30 @@ class CreditSalesApp(Document):
                 fuel_card.save()
                 
     def on_update(self):
+   
+        # Get the logged-in user
+        logged_in_user = frappe.session.user
+
+        # Fetch the series for the logged-in user from Voucher Number Settings
+        voucher_settings = frappe.db.get_value(
+            "Voucher Number Settings",
+            {"user": logged_in_user},
+            "series"
+        )
+
+        if voucher_settings:
+            series = voucher_settings
+
+            # Check if invoice_no is set
+            if self.invoice_no:
+                # Concatenate series and invoice_no
+                station_invoice_number = f"{series}{self.invoice_no}"
+            else:
+                # Use series only
+                station_invoice_number = series
+
+            # Set the new value in the database
+            self.db_set("station_invoice_number", station_invoice_number)
         # Check if customer has a fuel card and the status is "Active"
         if self.has_card == 1 and self.status == "Active":
             try:
@@ -287,3 +311,10 @@ class CreditSalesApp(Document):
                 frappe.msgprint(_("Customer Document {0} created and submitted").format(cust_doc.name))
             except frappe.ValidationError as e:
                 frappe.msgprint(_("Failed to create Customer Document: {0}").format(str(e)))
+
+
+import frappe
+
+
+
+

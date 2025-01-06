@@ -44,7 +44,6 @@ def get_transaction_report_gl(transaction_id, station=None, from_date=None, to_d
     return debit_credit_data
 
 
-
 @frappe.whitelist()
 def get_transaction_report_gl_withoutvivo(transaction_id, station=None, from_date=None, to_date=None):
     # Fetch the Transaction Accounts document
