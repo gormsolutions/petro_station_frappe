@@ -50,66 +50,58 @@ class GasInvoices(Document):
         stock_entry.submit()
         frappe.msgprint(_(success_message))
 
-    # def create_sales_invoice(self):
-    #     existing_sales_invoice = frappe.db.exists("Sales Invoice", {
+           
+
+    # def create_payment_entry(self, sales_invoice):
+    #     mode_of_pay_doc = frappe.get_doc("Mode of Payment", self.mode_of_payment)
+    #     default_account = next((account.default_account for account in mode_of_pay_doc.accounts if account.default_account), None)
+
+    #     if not default_account:
+    #         frappe.msgprint(_("No accounts found for mode of payment {0}".format(self.mode_of_payment)))
+    #         return
+
+    #     existing_payment_entry = frappe.db.exists("Payment Entry", {
+    #         "party_type": "Customer",
+    #         "party": self.customer,
     #         "custom_gas_invice_id": self.name,
     #         "docstatus": 1
     #     })
-    #     if existing_sales_invoice:
-    #         frappe.msgprint(_("Sales Invoice already exists for this transaction"))
+    #     if existing_payment_entry:
+    #         frappe.msgprint(_("Payment Entry already exists for invoice {0}".format(sales_invoice.name)))
     #         return
 
-    #     sales_invoice = frappe.new_doc("Sales Invoice")
-    #     sales_invoice.customer = self.customer
-    #     sales_invoice.due_date = self.due_date
-    #     sales_invoice.allocate_advances_automatically = not self.include_payments
-    #     sales_invoice.cost_center = self.station
-    #     sales_invoice.update_stock = 1
-    #     sales_invoice.set_posting_time = 1
-    #     sales_invoice.posting_date = self.date
-    #     sales_invoice.posting_time = self.time
-    #     sales_invoice.custom_gas_invice_id = self.name
-    #     sales_invoice.custom_employee = self.employee
-        
-    #     promotional_items = []
-        
-    #     for item in self.items:
-    #         # Fetch item details from Item doctype
-    #         custom_on_promotion, custom_promotion_amount = frappe.get_value(
-    #             "Item", 
-    #             item.item_code, 
-    #             ["custom_on_promotion", "custom_promotion_amount"]
-    #         )
-            
-    #         sales_invoice.append("items", {
-    #             "item_code": item.item_code,
-    #             "qty": item.qty,
-    #             "rate": item.rate,
-    #             "warehouse": self.store,
-    #             "amount": item.amount,
-    #             "cost_center": self.station,
-    #         })
-            
-    #         # Check if the item is promotional
-    #         if custom_on_promotion == 1 and custom_promotion_amount:
-    #             promotional_items.append({
-    #                 "item_code": item.item_code,
-    #                 "promotion_amount": custom_promotion_amount
-    #             })
+    #     outstanding_amount = sales_invoice.outstanding_amount
+    #     payment_entry = frappe.new_doc("Payment Entry")
+    #     payment_entry.party_type = "Customer"
+    #     payment_entry.payment_type = "Receive"
+    #     payment_entry.posting_date = self.date
+    #     payment_entry.party = self.customer
+    #     payment_entry.paid_amount = outstanding_amount
+    #     payment_entry.received_amount = outstanding_amount
+    #     payment_entry.target_exchange_rate = 1.0
+    #     payment_entry.paid_to = default_account
+    #     payment_entry.paid_to_account_currency = frappe.db.get_value("Account", default_account, "account_currency")
+    #     payment_entry.mode_of_payment = self.mode_of_payment
+    #     payment_entry.custom_gas_invice_id = self.name
+    #     payment_entry.custom_employee = self.employee
+    #     payment_entry.cost_center = self.station
 
-    #     if sales_invoice.items:
-    #         sales_invoice.insert()
-    #         sales_invoice.submit()
-    #         frappe.msgprint(_("Sales Invoice created and submitted"))
-            
-    #         # Create a Journal Entry for promotional items
-    #         if promotional_items:
-    #             self.create_promotion_journal_entry(promotional_items)
+    #     allocated_amount = min(self.grand_totals, outstanding_amount)
+    #     payment_entry.append("references", {
+    #         "reference_doctype": "Sales Invoice",
+    #         "reference_name": sales_invoice.name,
+    #         "allocated_amount": allocated_amount
+    #     })
 
-    #         if self.include_payments:
-    #             self.create_payment_entry(sales_invoice)
-            
-
+    #     try:
+    #         payment_entry.insert()
+    #         payment_entry.submit()
+    #         frappe.db.commit()
+    #         frappe.msgprint(_("Payments made for invoice {0}".format(sales_invoice.name)))
+    #     except Exception as e:
+    #         frappe.log_error(message=str(e), title="Payment Entry Creation Error")
+    #         frappe.throw(_("Error in creating Payment Entry: {0}".format(str(e))))
+    
     def create_payment_entry(self, sales_invoice):
         mode_of_pay_doc = frappe.get_doc("Mode of Payment", self.mode_of_payment)
         default_account = next((account.default_account for account in mode_of_pay_doc.accounts if account.default_account), None)
@@ -117,25 +109,32 @@ class GasInvoices(Document):
         if not default_account:
             frappe.msgprint(_("No accounts found for mode of payment {0}".format(self.mode_of_payment)))
             return
+        
+        # Fetch the total promotional amount
+        promotional_amount = frappe.db.get_value("Journal Entry", 
+                                             {"promotion_gas_id": self.name}, 
+                                             "total_credit")
 
-        existing_payment_entry = frappe.db.exists("Payment Entry", {
-            "party_type": "Customer",
-            "party": self.customer,
-            "custom_gas_invice_id": self.name,
-            "docstatus": 1
-        })
-        if existing_payment_entry:
-            frappe.msgprint(_("Payment Entry already exists for invoice {0}".format(sales_invoice.name)))
+    # Calculate the remaining balance to be paid
+        remaining_balance = sales_invoice.outstanding_amount - (promotional_amount or 0)
+
+        if remaining_balance <= 0:
+            frappe.msgprint(_("No remaining balance to create a Payment Entry."))
             return
 
-        outstanding_amount = sales_invoice.outstanding_amount
+    # Fetch the Receivable account
+        receivable_account = frappe.db.get_value("Company", self.company, "default_receivable_account")
+        if not receivable_account:
+            frappe.throw(_("No default Receivable account found for the company."))
+
+    # Create a new Payment Entry
         payment_entry = frappe.new_doc("Payment Entry")
         payment_entry.party_type = "Customer"
         payment_entry.payment_type = "Receive"
         payment_entry.posting_date = self.date
         payment_entry.party = self.customer
-        payment_entry.paid_amount = outstanding_amount
-        payment_entry.received_amount = outstanding_amount
+        payment_entry.paid_amount = remaining_balance
+        payment_entry.received_amount = remaining_balance
         payment_entry.target_exchange_rate = 1.0
         payment_entry.paid_to = default_account
         payment_entry.paid_to_account_currency = frappe.db.get_value("Account", default_account, "account_currency")
@@ -144,22 +143,20 @@ class GasInvoices(Document):
         payment_entry.custom_employee = self.employee
         payment_entry.cost_center = self.station
 
-        allocated_amount = min(self.grand_totals, outstanding_amount)
+    # Reference the Sales Invoice in Payment Entry
         payment_entry.append("references", {
-            "reference_doctype": "Sales Invoice",
-            "reference_name": sales_invoice.name,
-            "allocated_amount": allocated_amount
-        })
+        "reference_doctype": "Sales Invoice",
+        "reference_name": sales_invoice.name,
+        "total_amount": sales_invoice.grand_total,
+        "outstanding_amount": sales_invoice.outstanding_amount,
+        "allocated_amount": remaining_balance
+    })
 
-        try:
-            payment_entry.insert()
-            payment_entry.submit()
-            frappe.db.commit()
-            frappe.msgprint(_("Payments made for invoice {0}".format(sales_invoice.name)))
-        except Exception as e:
-            frappe.log_error(message=str(e), title="Payment Entry Creation Error")
-            frappe.throw(_("Error in creating Payment Entry: {0}".format(str(e))))
-    
+    # Save and submit the Payment Entry
+        payment_entry.insert()
+        payment_entry.submit()
+        frappe.msgprint(_("Payment Entry for the remaining balance has been created and submitted."))
+
     def on_update(self):
         # Use a flag to prevent infinite recursion
         if not hasattr(self, "_from_on_update"):
@@ -305,8 +302,6 @@ class GasInvoices(Document):
 
         # Extract the first promotional account and mode of payment account
         promotional_account = promotional_accounts[0].get("account") if promotional_accounts else None
-        mode_of_payment_account = promotional_accounts[0].get("mode_of_payment_account") if promotional_accounts else None
-
         # Throw an error if the promotional account is not set
         if not promotional_account:
             frappe.throw(_("No default promotional account found in Promotional Settings. Please configure it."))
@@ -322,6 +317,10 @@ class GasInvoices(Document):
         total_debit = 0
         total_credit = 0
         
+        # Calculate total promotion amount
+        total_promotion_amount = sum(item.get('promotion_amount') for item in promotional_items)
+
+        
         # Debit Entry for 1310 - Debtors - SE account (Grand Total of the invoice)
         journal_entry.append("accounts", {
             "account": "1310 - Debtors - SE",
@@ -331,14 +330,12 @@ class GasInvoices(Document):
             "party": self.customer,
             "description": f"Invoice for {self.name}",
             "debit_in_account_currency": 0,
-            "credit_in_account_currency": total_amount,
+            "credit_in_account_currency": total_promotion_amount,
             "cost_center": self.station,
         })
         total_debit += total_amount
 
-        # Calculate total promotion amount
-        total_promotion_amount = sum(item.get('promotion_amount') for item in promotional_items)
-
+        
         # Credit Entry for the promotional account
         if total_promotion_amount > 0:
             journal_entry.append("accounts", {
@@ -351,21 +348,6 @@ class GasInvoices(Document):
                 "cost_center": self.station,
             })
             total_credit += total_promotion_amount
-
-        # Credit Entry for the mode of payment account (Grand Total - Promotion Amount)
-        if mode_of_payment_account:
-            journal_entry.append("accounts", {
-                "account": mode_of_payment_account,
-                "description": f"Payment for {self.name}",
-                "debit_in_account_currency": total_amount - total_promotion_amount,
-                "credit_in_account_currency": 0,
-                "cost_center": self.station,
-            })
-            total_credit += total_amount - total_promotion_amount
-
-        # Ensure the Journal Entry has valid debit and credit totals
-        if total_debit != total_credit:
-            frappe.throw(_("The debit and credit totals for the Journal Entry do not match."))
 
         # Save and submit the Journal Entry
         if journal_entry.accounts:
