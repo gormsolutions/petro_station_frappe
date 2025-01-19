@@ -313,7 +313,44 @@ class CreditSalesApp(Document):
                 frappe.msgprint(_("Failed to create Customer Document: {0}").format(str(e)))
 
 
-import frappe
+    def before_save(self):
+        
+        if self.date and self.station:
+            if self.items:
+                for item in self.items:
+                    if item.qty > item.actual_qty:
+                        exceeding_qty = item.qty - item.actual_qty
+                        frappe.throw(
+                            f"NO NO NO '{item.item_code}' qty is going beyond what is in the '{item.warehouse}'. Exceeding by {exceeding_qty:.3f}."
+                        )
+
+                # Check if the warehouse (in self.items) matches pump_or_tank in Station Shift Management Item
+                    existing_doc = frappe.db.sql(
+                    """
+                    SELECT parent 
+                    FROM `tabStation Shift Management item` AS shift_item
+                    JOIN `tabStation Shift Management` AS shift_doc
+                    ON shift_item.parent = shift_doc.name
+                    WHERE 
+                        shift_doc.from_date = %(date)s 
+                        AND shift_doc.employee = %(employee)s 
+                        AND shift_doc.shift = %(shift)s
+                        AND shift_item.pump_or_tank = %(warehouse)s
+                    """,
+                    {
+                        'date': self.date,            # self.date maps to shift_doc.from_date
+                        'employee': self.employee,
+                        'shift': self.shift,
+                        'warehouse': item.warehouse   # item.warehouse is checked against pump_or_tank
+                    }
+                )
+
+                # If no matching record is found
+                    if not existing_doc:
+                        frappe.throw(
+                        f"The warehouse '{item.warehouse}' is not associated with a shift document for {self.shift} on {self.date}."
+                    )
+
 
 
 

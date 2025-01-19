@@ -67,6 +67,7 @@ function get_statement_details(frm) {
             station: frm.doc.station
         },
         callback: function (r) {
+            console.log(r)
             if (r.message) {
                 let data = r.message;
                 let grand_totals = 0;
@@ -142,9 +143,9 @@ function get_statement_details(frm) {
             cost_center: frm.doc.station
         },
         callback: function(r) {
-            console.log(r.message)
+            // console.log(r.message)
             if (r.message) {
-                console.log("Total Sales:", r.message.total_sales);
+                // console.log("Total Sales:", r.message.total_sales);
                 console.log("Total Expenses:", r.message.total_expenses);
                 frm.set_value('custom_station_expenses', r.message.total_expenses);
                 frm.set_value('custom_prepaid', r.message.total_sales);

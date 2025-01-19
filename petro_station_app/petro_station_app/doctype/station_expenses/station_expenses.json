@@ -55,7 +55,10 @@
    "default": "now",
    "fieldname": "date",
    "fieldtype": "Date",
+   "in_filter": 1,
    "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Posting Date"
   },
   {
@@ -79,6 +82,11 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Pump Attendant",
    "options": "Employee",
    "reqd": 1
@@ -87,7 +95,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-28 17:56:35.706646",
+ "modified": "2025-01-07 13:03:26.263448",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Expenses",

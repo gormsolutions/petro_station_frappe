@@ -30,6 +30,11 @@ frappe.ui.form.on('Fuel Sales App', {
             });
         }
        },
+       
+       fetch_attenant_pumps: function(frm) {
+        fetchPumps(frm)
+    },
+    
     additional_discount_amount: function(frm) {
         calculate_and_validate_percentage_discount(frm);
     },
@@ -290,3 +295,141 @@ function create_customer_documents(frm) {
         frappe.msgprint(__('Error fetching existing Customer Documents: {0}', [err.message]));
     });
 }
+
+function fetchPumps(frm) {
+    // Use a flag to track which pump_or_tank values have been processed
+    let warehousesSet = new Set();
+
+    // Call to the backend to fetch pump_or_tank values
+    frappe.call({
+        method: 'petro_station_app.custom_api.fetch_pumps.fetch_pumps.get_pump_or_tank', // Your API method
+        args: {
+            'date': frm.doc.date,
+            'employee': frm.doc.employee,
+            'shift': frm.doc.shift,
+            'station': frm.doc.station
+        },
+        callback: function (response) {
+            if (response.message && response.message.length > 0) {
+                // response.message contains an array of pump_or_tank values
+                let pumpOrTankValues = response.message; // Array of pump_or_tank values
+
+                // Iterate through the pump_or_tank values from the API response
+                pumpOrTankValues.forEach(warehouse => {
+                    // Check if the warehouse has already been processed
+                    if (!warehousesSet.has(warehouse.pump_or_tank)) {
+                        // Mark this warehouse as processed
+                        warehousesSet.add(warehouse.pump_or_tank);
+
+                        // Check if the 'items' table already has a row for this warehouse
+                        let existingItem = frm.doc.items.find(item => item.warehouse === warehouse.pump_or_tank);
+                        
+                        if (!existingItem) {
+                            // If no existing item, add a new row to 'items' table
+                            let item = frm.add_child('items'); // Add a new row to items table
+                            item.pos_profile = ''; // Set pos_profile initially as empty
+                            item.price_list = ''; // Set price_list initially as empty
+                            item.item_code = '';
+                            item.meter_qtys = warehouse.qty_sold_on_meter_reading;
+                            item.warehouse = warehouse.pump_or_tank; // Set the warehouse field to the value from API
+                        } else {
+                            // If the item exists, update the existing row
+                            existingItem.meter_qtys = warehouse.qty_sold_on_meter_reading;
+                        }
+
+                        // Fetch the POS Profile for the current warehouse (pump_or_tank value)
+                        frappe.call({
+                            method: 'frappe.client.get',
+                            args: {
+                                doctype: 'POS Profile',
+                                filters: {
+                                    warehouse: warehouse.pump_or_tank // Filter by warehouse to get the POS Profile
+                                }
+                            },
+                            callback: function (posResponse) {
+                                if (posResponse.message) {
+                                    // Update the POS Profile details if found
+                                    let item = frm.doc.items.find(item => item.warehouse === warehouse.pump_or_tank);
+                                    if (item) {
+                                        item.pos_profile = posResponse.message.name; // Set POS Profile Name
+                                        item.price_list = posResponse.message.selling_price_list; // Set the price list
+                                        item.item_code = posResponse.message.custom_fuel;
+                                    }
+
+                                    // Fetch the item price from the 'Item Price' doctype
+                                    frappe.call({
+                                        method: 'frappe.client.get',
+                                        args: {
+                                            doctype: 'Item Price',
+                                            filters: {
+                                                item_code: item.item_code,
+                                                price_list: frm.doc.price_list
+                                            },
+                                            fieldname: 'price_list_rate' // Get the price from the price list
+                                        },
+                                        callback: function (priceResponse) {
+                                            if (priceResponse.message) {
+                                                // Set the price (rate) fetched from the Item Price
+                                                let item = frm.doc.items.find(item => item.warehouse === warehouse.pump_or_tank);
+                                                if (item) {
+                                                    item.rate = priceResponse.message.price_list_rate;
+                                                }
+                                                // Refresh the table to reflect changes
+                                                frm.refresh_field('items');
+                                            }
+                                        }
+                                    });
+
+                                    // Fetch total qty sold for this warehouse
+                                    frappe.call({
+                                        method: 'petro_station_app.custom_api.fetch_pumps.fetch_pumps.get_total_qty',
+                                        args: {
+                                            'from_date': frm.doc.date,
+                                            'employee': frm.doc.employee,
+                                            'shift': frm.doc.shift,
+                                            'station': frm.doc.station,
+                                            'pump_or_tank_list': JSON.stringify([warehouse.pump_or_tank])
+                                        },
+                                        callback: function (qtyResponse) {
+                                            console.log('qtyResponse.message:', qtyResponse.message);
+                                            // Convert the qtyResponse.message to a number and set the quantity
+                                            let qtySold = Number(qtyResponse.message);
+
+                                            let item = frm.doc.items.find(item => item.warehouse === warehouse.pump_or_tank);
+                                            if (item) {
+                                                // Set the total quantity and calculate actual quantity
+                                                item.qty_sold = qtySold;
+
+                                                // If qtySold is 0 or falsy, set actual_qty to qty_sold_on_meter_reading
+                                                if (!qtySold) { // Handles 0, null, undefined, or other falsy values
+                                                    console.log('Setting actual_qty to:', warehouse.qty_sold_on_meter_reading);
+                                                    item.actual_qty = warehouse.qty_sold_on_meter_reading; // Set when qty is falsy
+                                                } else {
+                                                    console.log('Calculating actual_qty with deduction');
+                                                    item.actual_qty = warehouse.qty_sold_on_meter_reading - qtySold;
+                                                }
+
+                                                // Set item.qty with actual_qty
+                                                item.qty = item.actual_qty;
+
+                                                // Calculate item.amount as rate * qty
+                                                item.amount = item.rate * item.qty;
+
+                                                // Refresh the table to reflect changes
+                                                frm.refresh_field('items');
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            } else {
+                // If no response or empty response
+                frappe.msgprint(__('No pump or tank locations found for the selected criteria.'));
+            }
+        }
+    });
+}
+

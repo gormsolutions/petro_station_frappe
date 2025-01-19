@@ -22,6 +22,7 @@
   "due_date",
   "percentge_discount",
   "employee",
+  "fetch_attenant_pumps",
   "section_break_egou",
   "items",
   "section_break_acbi",
@@ -292,12 +293,17 @@
    "fieldname": "invoice_no",
    "fieldtype": "Data",
    "label": "Invoice No"
+  },
+  {
+   "fieldname": "fetch_attenant_pumps",
+   "fieldtype": "Button",
+   "label": "Fetch Attenant Pumps"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-20 07:44:55.864026",
+ "modified": "2025-01-07 12:33:15.461514",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Fuel Sales App",

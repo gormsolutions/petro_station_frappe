@@ -62,26 +62,29 @@ class StationShiftManagement(Document):
 
 
     def before_save(self):
-        # Get roles of the logged-in user
-        roles = frappe.get_roles()
+        if self.from_date and self.station:
+            # Check if a document already exists for the same date, employee, and shift, excluding the current document
+            existing_doc = frappe.db.exists(
+            'Station Shift Management',
+            {
+                'station': self.station,
+                'from_date': self.from_date,
+                'employee': self.employee,
+                'shift': self.shift,
+                'name': ['!=', self.name]  # Exclude the current document
+            }
+        )
 
-        # Proceed only if the logged-in user does not have "Management Role"
-        if "Management Role" not in roles:
-            if self.from_date and self.station:
-                # Check if a document already exists for the same date and employee
-                existing_doc = frappe.db.exists(
-                    'Station Shift Management',
-                    {
-                        'from_date': self.from_date,
-                        'employee': self.employee
-                    }
+            # Debug message for checking the existing document
+            # frappe.msgprint(f"Validating shift for employee {self.employee} on {self.from_date}.")
+
+            # If a document exists, raise an exception
+            if existing_doc:
+                frappe.throw(
+                    f"A shift management document already exists for station {self.station} on {self.from_date} for the same shift and employee."
                 )
 
-                # If a document exists and it's not the current document
-                if existing_doc and existing_doc != self.name:
-                    frappe.throw(
-                        f"A shift management document already exists for station {self.station} on {self.from_date}."
-                    )
+
 
     def take_dipping_before(self):
        # Check if a Stock Reconciliation document exists for the same date and station
@@ -158,7 +161,7 @@ class StationShiftManagement(Document):
  
    
    
-    def on_update(self):
-        self.before_save()
+    # def on_update(self):
+    #     self.before_save()
       
        

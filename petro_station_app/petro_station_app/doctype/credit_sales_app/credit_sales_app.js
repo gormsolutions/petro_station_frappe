@@ -9,7 +9,7 @@
 frappe.ui.form.on('Credit Sales App', {
     refresh: function (frm) {
         // Populate Fuel Customers Items if needed
-           populateFuelCustomersItems(frm);
+        populateFuelCustomersItems(frm);
         if (frm.doc.docstatus === 1) {
             frm.add_custom_button(__('Post Expense'), function () {
                 frappe.call({
@@ -26,7 +26,7 @@ frappe.ui.form.on('Credit Sales App', {
                     }
                 });
             });
-       
+
         }
     },
     before_load: function (frm) {
@@ -36,8 +36,18 @@ frappe.ui.form.on('Credit Sales App', {
             frm.set_value('date', now);
         }
     },
-    
-    validate: function(frm) {
+
+    shift: function (frm) {
+        fetchPumps(frm)
+    },
+    employee: function (frm) {
+        fetchPumps(frm)
+    },
+    date: function (frm) {
+        fetchPumps(frm)
+    },
+
+    validate: function (frm) {
         if (frm.doc.has_fuel_card) {
             if (!frm.doc.card_number) {
                 frappe.msgprint(__(`Please select the Valid Card Number for ${frm.doc.customer_name}.`));
@@ -46,21 +56,21 @@ frappe.ui.form.on('Credit Sales App', {
         }
 
     },
-    customer: function(frm) {
+    customer: function (frm) {
         // Clear the card field initially
         frm.set_value('pick_the_card', '');
-    
+
         // Always hide the pick_the_card field initially
         frm.toggle_display('pick_the_card', false);
-    
+
         // Get the selected customer
         var cust = frm.doc.customer;
-    
+
         if (cust) {
             // Show loading indicator
             frm.set_df_property('pick_the_card', 'read_only', true); // Disable the field during loading
             frm.toggle_display('pick_the_card', false); // Hide the field
-    
+
             // Call the server to get the list of cards
             frappe.call({
                 method: 'frappe.client.get_list',
@@ -72,13 +82,13 @@ frappe.ui.form.on('Credit Sales App', {
                     },
                     limit_page_length: 1 // Limit the results to 1 if you only need to check for existence
                 },
-                callback: function(response) {
+                callback: function (response) {
                     // Hide loading indicator
                     frm.set_df_property('pick_the_card', 'read_only', false); // Re-enable the field
-    
+
                     if (response.message && response.message.length > 0) {
                         // If cards are found, set the query to filter the pick_the_card field
-                        frm.set_query('pick_the_card', function() {
+                        frm.set_query('pick_the_card', function () {
                             return {
                                 filters: {
                                     customer: cust,
@@ -86,13 +96,13 @@ frappe.ui.form.on('Credit Sales App', {
                                 }
                             };
                         });
-    
+
                         // Show the pick_the_card field if cards exist
                         frm.toggle_display('pick_the_card', true);
                     } else {
                         // If no cards are found, clear the pick_the_card field
                         frm.set_value('pick_the_card', '');
-                        
+
                         // Hide the pick_the_card field (it should already be hidden)
                         frm.toggle_display('pick_the_card', false);
                     }
@@ -106,15 +116,15 @@ frappe.ui.form.on('Credit Sales App', {
     },
     create_reciept: function (frm) {
         create_customer_documents(frm);
-        
+
         // postStockReconciliation(frm) 
 
     },
     // before_submit: function (frm) {
     //     create_customer_documents(frm);
-    
+
     // }
-    
+
 
 });
 
@@ -142,7 +152,7 @@ frappe.ui.form.on('Fuel Sales Items', {
             frappe.model.set_value(cdt, cdn, 'qty', calculated_qty);
         }
     },
-    });
+});
 
 
 function calculateTotalsTransfers(frm) {
@@ -172,7 +182,7 @@ frappe.ui.form.on('Fuel Customers Items', {
 
         calculateCustomerTotals(frm);
     },
-    item_code: function(frm, cdt, cdn) {
+    item_code: function (frm, cdt, cdn) {
         var child_doc = locals[cdt][cdn];
         if (child_doc.item_code) {
             frappe.call({
@@ -181,7 +191,7 @@ frappe.ui.form.on('Fuel Customers Items', {
                     item_code: child_doc.item_code,
                     price_list: frm.doc.price_list
                 },
-                callback: function(r) {
+                callback: function (r) {
                     if (r.message) {
                         frappe.model.set_value(cdt, cdn, 'rate', r.message);
                     }
@@ -257,12 +267,12 @@ function create_customer_documents(frm) {
         // Check if the combined grand totals exceed the Credit Sales App grand totals
         if (combined_grand_totals > frm.doc.grand_totals) {
             let exceeded_amount = combined_grand_totals - frm.doc.grand_totals;
-            frappe.msgprint(__('The total of all Cash Refund ({0}) exceeds the Cash Refund grand total by {1}', 
+            frappe.msgprint(__('The total of all Cash Refund ({0}) exceeds the Cash Refund grand total by {1}',
                 [combined_grand_totals.toFixed(1), exceeded_amount.toFixed(1)]));
             return;
         } else if (combined_grand_totals < frm.doc.grand_totals) {
             let exceeded_amount = combined_grand_totals - frm.doc.grand_totals;
-            frappe.msgprint(__('The total of all Cash Refund ({0}) is less than the Cash Refund grand total by {1}', 
+            frappe.msgprint(__('The total of all Cash Refund ({0}) is less than the Cash Refund grand total by {1}',
                 [combined_grand_totals.toFixed(1), exceeded_amount.toFixed(1)]));
 
             // Proceed with the function only if the exceeded amount is -0.0
@@ -275,7 +285,7 @@ function create_customer_documents(frm) {
 
         // If validation passes, proceed to create new Customer Documents
         create_new_customer_documents(grouped_items, frm);
-        
+
     }).catch(err => {
         frappe.msgprint(__('Error fetching existing Customer Documents: {0}', [err.message]));
     });
@@ -413,7 +423,7 @@ function populateFuelCustomersItems(frm) {
         // Ensure fuel_sales_items is defined
         if (frm.doc.items && frm.doc.items.length > 0) {
             frm.doc.items.forEach(function (item) {
-              
+
                 // Create a new item entry for Fuel Customers Items 
                 let fuel_item = frm.add_child('fuel_items');
                 fuel_item.price_list = item.price_list;
@@ -438,6 +448,120 @@ function populateFuelCustomersItems(frm) {
             console.error("No items found in Fuel Sales Items.");
         }
     }
+}
+
+function fetchPumps(frm) {
+    // Clear the items table
+    frm.doc.items = [];
+    frm.refresh_field('items'); // Refresh the table to reflect changes
+
+    // Call to the backend to fetch pump_or_tank values
+    frappe.call({
+        method: 'petro_station_app.custom_api.fetch_pumps.fetch_pumps.get_pump_or_tank', // Your API method
+        args: {
+            'date': frm.doc.date,
+            'employee': frm.doc.employee,
+            'shift': frm.doc.shift,
+            'station': frm.doc.station
+        },
+        callback: function (response) {
+            if (response.message && response.message.length > 0) {
+                // response.message contains an array of pump_or_tank values
+                let pumpOrTankValues = response.message; // Array of pump_or_tank values
+
+                // Use a flag to track whether the warehouse has been set already
+                let warehousesSet = new Set();
+
+                // Iterate through the pump_or_tank values from the API response
+                pumpOrTankValues.forEach(warehouse => {
+                    // Check if the warehouse has already been processed
+                    if (!warehousesSet.has(warehouse.pump_or_tank)) {
+                        // Mark this warehouse as processed
+                        warehousesSet.add(warehouse.pump_or_tank);
+
+                        // Fetch the POS Profile for the current warehouse (pump_or_tank value)
+                        frappe.call({
+                            method: 'frappe.client.get',
+                            args: {
+                                doctype: 'POS Profile',
+                                filters: {
+                                    warehouse: warehouse.pump_or_tank // Filter by warehouse to get the POS Profile
+                                }
+                            },
+                            callback: function (posResponse) {
+                                if (posResponse.message) {
+                                    // Add items to the 'items' child table and set values once for the warehouse
+                                    let item = frm.add_child('items'); // Add a new row to items table
+                                    // Set pos_profile, price_list, and warehouse fields in the item
+                                    item.pos_profile = posResponse.message.name; // Set POS Profile Name
+                                    item.price_list = posResponse.message.selling_price_list; // Set the price list
+                                    item.item_code = posResponse.message.custom_fuel;
+                                    item.meter_qtys = warehouse.qty_sold_on_meter_reading;
+                                    item.warehouse = warehouse.pump_or_tank; // Set the warehouse field to the value from API
+
+                                    // Fetch the item price from the 'Item Price' doctype
+                                    frappe.call({
+                                        method: 'frappe.client.get',
+                                        args: {
+                                            doctype: 'Item Price',
+                                            filters: {
+                                                item_code: item.item_code,
+                                                price_list: frm.doc.price_list
+                                            },
+                                            fieldname: 'price_list_rate' // Get the price from the price list
+                                        },
+                                        callback: function (priceResponse) {
+                                            if (priceResponse.message) {
+                                                // Set the price (rate) fetched from the Item Price
+                                                item.rate = priceResponse.message.price_list_rate;
+
+                                                // Refresh the table to reflect changes
+                                                frm.refresh_field('items');
+                                            }
+                                        }
+                                    });
+
+                                    frappe.call({
+                                        method: 'petro_station_app.custom_api.fetch_pumps.fetch_pumps.get_total_qty',
+                                        args: {
+                                            'from_date': frm.doc.date,
+                                            'employee': frm.doc.employee,
+                                            'shift': frm.doc.shift,
+                                            'station': frm.doc.station,
+                                            'pump_or_tank_list': JSON.stringify([warehouse.pump_or_tank])
+                                        },
+                                        callback: function (qtyResponse) {
+                                            console.log('qtyResponse.message:', qtyResponse.message);
+                                            // Convert the qtyResponse.message to a number and set the quantity
+                                            let qtySold = Number(qtyResponse.message);
+                                            
+                                            // Set the total quantity and calculate actual quantity
+                                            item.qty_sold = qtySold;
+
+                                            // If qtySold is 0 or falsy, set actual_qty to qty_sold_on_meter_reading
+                                            if (!qtySold) { // Handles 0, null, undefined, or other falsy values
+                                                console.log('Setting actual_qty to:', warehouse.qty_sold_on_meter_reading);
+                                                item.actual_qty = warehouse.qty_sold_on_meter_reading; // Set when qty is falsy
+                                            } else {
+                                                console.log('Calculating actual_qty with deduction');
+                                                item.actual_qty = warehouse.qty_sold_on_meter_reading - qtySold;
+                                            }
+
+                                            // Refresh the table to reflect changes
+                                            frm.refresh_field('items');
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            } else {
+                // If no response or empty response
+                frappe.msgprint(__('No pump or tank locations found for the selected criteria.'));
+            }
+        }
+    });
 }
 
 

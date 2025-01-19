@@ -360,7 +360,8 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Employee",
-   "options": "Employee"
+   "options": "Employee",
+   "reqd": 1
   },
   {
    "fetch_from": "employee.employee_name",
@@ -424,7 +425,8 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Shift",
-   "options": "\nNight\nDay"
+   "options": "\nNight\nDay",
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
@@ -471,7 +473,7 @@
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2025-01-03 19:33:33.149741",
+ "modified": "2025-01-10 11:10:46.731613",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Shift Management",
@@ -552,5 +554,8 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "from_date"
+ "title_field": "from_date",
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }

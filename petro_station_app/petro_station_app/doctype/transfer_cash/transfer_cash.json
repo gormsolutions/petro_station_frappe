@@ -27,7 +27,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fetch_from": "station.custom_cash_account",
    "fieldname": "account_paid_from",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -124,7 +123,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-19 14:28:12.826793",
+ "modified": "2025-01-08 13:41:32.282766",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transfer Cash",
