@@ -34,6 +34,19 @@ frappe.pages['view-details'].on_page_load = function (wrapper) {
         fieldname: 'to_date'
     });
 
+    // Add button to fetch transactions
+    const fetchButton = page.add_button(__('Fetch Transactions'), function() {
+        fetchDetails(); // Call the function when the button is clicked
+    });
+
+    // Prefill account_name if available in the route parameters
+    const route = frappe.get_route();
+    const accountNameParam = route && route[1]?.account_name;
+
+    if (accountNameParam) {
+        accountField.set_value(accountNameParam);
+    }
+
     // Create a container to display results
     const resultContainer = $('<div>').appendTo(page.body);
 
@@ -45,8 +58,8 @@ frappe.pages['view-details'].on_page_load = function (wrapper) {
         maximumFractionDigits: 0
     });
 
-    // Add a button to fetch and display data
-    page.add_button('Fetch Details', async () => {
+    // Function to fetch and display data
+    function fetchDetails() {
         // Clear the container before displaying new results
         resultContainer.empty();
 
@@ -149,5 +162,11 @@ frappe.pages['view-details'].on_page_load = function (wrapper) {
                 console.error('Error fetching transactions:', err);
             }
         });
-    });
+    }
+
+    // Trigger data fetch when any field value changes
+    accountField.$input.on('change', fetchDetails);
+    stationField.$input.on('change', fetchDetails);
+    fromDateField.$input.on('change', fetchDetails);
+    toDateField.$input.on('change', fetchDetails);
 };

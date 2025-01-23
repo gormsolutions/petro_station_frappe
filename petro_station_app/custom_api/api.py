@@ -651,3 +651,4 @@ def get_gl_account_transactions(station, from_date=None, to_date=None):
         "from_date": from_date,
         "to_date": to_date
     }
+

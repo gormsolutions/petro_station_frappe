@@ -67,7 +67,7 @@ function get_statement_details(frm) {
             station: frm.doc.station
         },
         callback: function (r) {
-            console.log(r)
+            // console.log(r)
             if (r.message) {
                 let data = r.message;
                 let grand_totals = 0;
@@ -162,7 +162,7 @@ function get_statement_details(frm) {
         },
         callback: function (r) {
             if (r.message) {
-                console.log(r);
+                // console.log(r);
                 const data_purchase_invoice = r.message['Purchase Invoice'];
                 const data_sales_invoice = r.message['Sales Invoice'];
                 const child_table_field = 'stock_report_items'; // Replace with your child table fieldname

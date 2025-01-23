@@ -48,7 +48,7 @@ def fetch_transactions(account_name, station=None, from_date=None, to_date=None)
 
         # If both from_date and to_date are provided, fetch transactions between the exact dates
         if from_date and to_date:
-            filters["posting_date"] = ["between", [from_date, to_date]]
+            filters["posting_date"] = ["between", [from_date, to_date]] 
 
         # If only from_date is provided, fetch transactions on that exact date
         elif from_date:
@@ -80,9 +80,13 @@ def fetch_transactions(account_name, station=None, from_date=None, to_date=None)
                     transaction["employee_name"] = frappe.db.get_value("Employee", custom_employee, "employee_name")
                 else:
                     transaction["employee_name"] = None
+                    
+                
 
         return transactions
 
     except Exception as e:
         frappe.log_error(message=f"Error in fetch_transactions: {e}", title="Fetch Transactions Error")
         return []
+
+

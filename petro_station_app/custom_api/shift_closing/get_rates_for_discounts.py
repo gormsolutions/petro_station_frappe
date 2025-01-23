@@ -60,8 +60,8 @@ def get_grouped_sales_invoices_with_outstanding(cost_center=None, employee=None,
         # Log filter criteria
         frappe.logger().info(f"Fetching sales invoices for cost center: {cost_center}, employee: {employee}, and posting date: {posting_date}")
 
-        # Build filters
-        filters = {"docstatus": 1, "outstanding_amount": [">", 0]}
+        # Build filters "outstanding_amount": [">", 0]
+        filters = {"docstatus": 1}
         if cost_center:
             filters["cost_center"] = cost_center
         if posting_date:

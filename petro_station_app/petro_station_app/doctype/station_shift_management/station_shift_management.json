@@ -309,11 +309,10 @@
    "options": "Recieve Stock"
   },
   {
-   "default": "23:30:00",
+   "default": "00:00:00",
    "fieldname": "time",
    "fieldtype": "Time",
-   "label": "Time",
-   "read_only": 1
+   "label": "Time"
   },
   {
    "fieldname": "get_dipping_levels",
@@ -393,6 +392,7 @@
    "label": "Meter based Grand Total Amount"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "dipping_totals",
    "fieldtype": "Table",
    "label": "Dipping Totals",
@@ -473,7 +473,7 @@
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2025-01-10 11:10:46.731613",
+ "modified": "2025-01-13 18:07:29.018711",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Shift Management",

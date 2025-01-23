@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"CzJXFywxTE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">LUBS DASHBOARD</span>\",\"col\":12}},{\"id\":\"AGghi3u8-U\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubs Invoces\",\"col\":3}},{\"id\":\"svQFIPBrQg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubs Opening Stock\",\"col\":3}},{\"id\":\"9YsLyJaV03\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricants Stock Received\",\"col\":3}},{\"id\":\"OecF2h7NwE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricant Stock Balance\",\"col\":3}}]",
+ "content": "[{\"id\":\"CzJXFywxTE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">LUBS DASHBOARD</span>\",\"col\":12}},{\"id\":\"AGghi3u8-U\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubs Invoces\",\"col\":3}},{\"id\":\"o5w7lF6mO3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"svQFIPBrQg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubs Opening Stock\",\"col\":3}},{\"id\":\"9YsLyJaV03\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricants Stock Received\",\"col\":3}},{\"id\":\"OecF2h7NwE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricant Stock Balance\",\"col\":3}}]",
  "creation": "2024-11-09 12:06:36.318902",
  "custom_blocks": [],
  "docstatus": 0,
@@ -12,7 +12,7 @@
  "is_hidden": 0,
  "label": "LUBS DASHBOARD",
  "links": [],
- "modified": "2024-11-20 13:45:44.248755",
+ "modified": "2025-01-10 17:50:40.984454",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "LUBS DASHBOARD",
@@ -29,6 +29,14 @@
    "doc_view": "List",
    "label": "Lubs Opening Stock",
    "link_to": "Stock Reconciliation",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "List",
+   "label": "Material Request",
+   "link_to": "Material Request",
    "stats_filter": "[]",
    "type": "DocType"
   },

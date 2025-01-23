@@ -124,7 +124,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-08 16:40:39.902305",
+ "modified": "2025-01-13 18:58:59.380433",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",
@@ -199,5 +199,8 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }

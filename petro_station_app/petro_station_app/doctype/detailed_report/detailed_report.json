@@ -1,0 +1,79 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-15 20:30:59.097070",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "from_date",
+  "account_name",
+  "column_break_rrfc",
+  "to_date",
+  "cost_center",
+  "section_break_gjrd",
+  "html_field"
+ ],
+ "fields": [
+  {
+   "fieldname": "account_name",
+   "fieldtype": "Link",
+   "label": "account name ",
+   "options": "Account"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "cost center ",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "from date ",
+   "options": "Account"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "to date ",
+   "options": "Account"
+  },
+  {
+   "fieldname": "column_break_rrfc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_gjrd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "html_field",
+   "fieldtype": "HTML",
+   "label": "html field"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-15 20:48:56.872216",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Detailed Report",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

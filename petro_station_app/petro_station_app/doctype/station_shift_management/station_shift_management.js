@@ -536,13 +536,13 @@ function CalculateTotal(frm) {
             station: frm.doc.station,
             status: frm.doc.status,
             from_date: frm.doc.from_date,
-            to_date: frm.doc.to_date,
+            // to_date: frm.doc.to_date,
             employee: frm.doc.employee,
             pump_or_tank_list: pumpOrTankList // Pass the list of pump_or_tank values
         },
         callback: function (response) {
             if (response && response.message) {
-                // console.log(response.message);
+                console.log(response.message);
                 if (Object.keys(response.message).length === 0) {
                     frappe.msgprint(__('No Data Found'));
                 } else {
