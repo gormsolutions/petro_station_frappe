@@ -7,11 +7,12 @@ frappe.ui.form.on('Station Shift Management', {
         frappe.call({
             method: 'petro_station_app.custom_api.api.get_details_tanks',
             args: {
-                station: frm.doc.station,
+                station: frm.doc.station, 
             },
             callback: function (r) {
                 if (r.message) {
                     var items = r.message; // Assign the returned items
+                    console.log(items)
 
                     if (items && Array.isArray(items)) {
                         // Clear existing items before populating (optional)

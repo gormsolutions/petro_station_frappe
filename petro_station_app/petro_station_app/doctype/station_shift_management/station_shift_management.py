@@ -22,7 +22,7 @@ class StationShiftManagement(Document):
                 f"Meter Based Grand Total Amount ({self.meter_based_grand_total_amount}) must be within {tolerance} of Total Sales ({self.total_sales}). Difference: {difference}."
             )
 
-        self.take_dipping_before()
+        # self.take_dipping_before()
  
         # Fetch all transit warehouses
         transit_warehouses = frappe.get_all(

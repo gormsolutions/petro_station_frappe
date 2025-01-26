@@ -39,12 +39,15 @@ import frappe
 #         print(f"An error occurred: {e}")
 #         return []
 
-
 @frappe.whitelist()
 def fetch_transactions(account_name, station=None, from_date=None, to_date=None):
     try:
         # Prepare filters
-        filters = {"account": account_name, "cost_center": station}
+        filters = {
+            "account": account_name,
+            "cost_center": station,
+            "is_cancelled": 0,  # Exclude cancelled entries
+        }
 
         # If both from_date and to_date are provided, fetch transactions between the exact dates
         if from_date and to_date:
@@ -80,13 +83,9 @@ def fetch_transactions(account_name, station=None, from_date=None, to_date=None)
                     transaction["employee_name"] = frappe.db.get_value("Employee", custom_employee, "employee_name")
                 else:
                     transaction["employee_name"] = None
-                    
-                
 
         return transactions
 
     except Exception as e:
         frappe.log_error(message=f"Error in fetch_transactions: {e}", title="Fetch Transactions Error")
         return []
-
-

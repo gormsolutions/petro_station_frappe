@@ -25,7 +25,9 @@
   "uom",
   "milage",
   "opening",
-  "closing"
+  "closing",
+  "tank_stock_qty",
+  "fuel_tank"
  ],
  "fields": [
   {
@@ -159,12 +161,23 @@
    "fieldtype": "Float",
    "in_standard_filter": 1,
    "label": "Actual Qty "
+  },
+  {
+   "fieldname": "tank_stock_qty",
+   "fieldtype": "Float",
+   "label": "Tank Stock Qty"
+  },
+  {
+   "fieldname": "fuel_tank",
+   "fieldtype": "Link",
+   "label": "Fuel Tank",
+   "options": "Warehouse"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-08 11:16:48.685863",
+ "modified": "2025-01-23 01:11:18.649151",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Fuel Sales Items",

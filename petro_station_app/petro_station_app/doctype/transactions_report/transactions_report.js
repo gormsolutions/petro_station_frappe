@@ -56,7 +56,7 @@ frappe.ui.form.on('Transactions Report', {
     }
 });
 
-function get_statement_details(frm) {
+function get_statement_details(frm) {  
     // Fetch data excluding VIVO
     frappe.call({
         method: 'petro_station_app.custom_api.statement.transaction_report.get_transaction_report_gl_withoutvivo',
@@ -134,7 +134,7 @@ function get_statement_details(frm) {
         }
     });
 
-    //  Fetch total sales from Sales Invoices
+    //  Fetch total sales from Sales Invoices 
     frappe.call({
         method: 'petro_station_app.custom_api.statement.transaction_report.get_daily_totals',
         args: {
@@ -143,12 +143,23 @@ function get_statement_details(frm) {
             cost_center: frm.doc.station
         },
         callback: function(r) {
-            // console.log(r.message)
+            console.log(r.message)
             if (r.message) {
+                // console.log("Payload:", r.message);
                 // console.log("Total Sales:", r.message.total_sales);
-                console.log("Total Expenses:", r.message.total_expenses);
+                // console.log("Total Expenses:", r.message.total_expenses);
+                
+                // If you want to log the details as well:
+                // console.log("Sales Details:", r.message.sales_details);
+                // console.log("Expense Details:", r.message.expense_details);
+                
+                // For the specific account '1193 - Lubs Elgon Cash - SE' lubs_elgon_cash
+                // console.log("Lubs Elgon Cash - SE Total:", r.message.lubs_cash_total);
+                // console.log("Lubs Elgon Cash - SE Details:", r.message.lubs_cash_details);
+                let total_sale = r.message.total_sales - r.message.lubs_cash_total
                 frm.set_value('custom_station_expenses', r.message.total_expenses);
-                frm.set_value('custom_prepaid', r.message.total_sales);
+                frm.set_value('custom_prepaid', total_sale);
+                frm.set_value('lubs_elgon_cash', r.message.lubs_cash_total);
             }
         }
     });
@@ -197,7 +208,7 @@ function get_statement_details(frm) {
                 });
     
                 frm.refresh_field(child_table_field);
-                frappe.msgprint(__('Stock entries have been fetched and populated.'));
+                // frappe.msgprint(__('Stock entries have been fetched and populated.'));
             }
         }
     });

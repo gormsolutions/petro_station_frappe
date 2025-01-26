@@ -16,6 +16,7 @@
   "transaction_id",
   "grand_totals",
   "custom_station_expenses",
+  "lubs_elgon_cash",
   "section_break_rypd",
   "transaction_report_accounts",
   "column_break_jzlh",
@@ -120,11 +121,16 @@
    "fieldname": "vivo_card",
    "fieldtype": "Currency",
    "label": "VIVO CARD"
+  },
+  {
+   "fieldname": "lubs_elgon_cash",
+   "fieldtype": "Currency",
+   "label": "Lubs Elgon Cash"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-13 18:58:59.380433",
+ "modified": "2025-01-21 18:27:09.240055",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",

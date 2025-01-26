@@ -71,7 +71,7 @@ frappe.pages['view-details'].on_page_load = function (wrapper) {
 
         // Validate the required fields
         if (!accountName) {
-            frappe.msgprint(__('Please enter an account name'));
+            frappe.msgprint(__('Please enter an account name')); 
             return;
         }
 

@@ -44,7 +44,7 @@
   {
    "fieldname": "reference_no",
    "fieldtype": "Data",
-   "label": "Cheque/Reference No"
+   "label": "Transaction Id"
   },
   {
    "fieldname": "column_break_nfuc",
@@ -123,7 +123,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-08 13:41:32.282766",
+ "modified": "2025-01-22 18:18:59.497204",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transfer Cash",

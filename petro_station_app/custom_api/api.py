@@ -266,7 +266,7 @@ def get_details_tanks(station):
             "warehouse_type": ["in", ["Transit"]]
         },
         fields=["name","custom_tank_item"]
-    )
+    ) 
     return from_warehouse
 
 
