@@ -35,6 +35,7 @@ def get_sales_invoice_details_and_payments(customer, from_date, to_date):
             si.custom_fuel_sales_app_id AS sales_app_id,
             si.custom_credit_sales_app AS credit_sales_id,
             si.posting_date,
+            si.custom_invoice_no,
             si.cost_center, 
             sii.item_code, 
             sii.custom_vehicle_plates, 
@@ -54,10 +55,11 @@ def get_sales_invoice_details_and_payments(customer, from_date, to_date):
     for invoice in invoices:
         total_amount = flt(invoice.amount)
         grand_total_amount += total_amount  # Add to grand total
-        running_balance += total_amount  # Update running balance
+        running_balance += total_amount  # Update running balance 
         
         invoice_data = {
             "invoice_name": invoice.invoice_name,
+            "invoice_no": invoice.custom_invoice_no,
             "cost_center":invoice.cost_center,
             "sales_app_id": invoice.sales_app_id,
             "credit_sales_id": invoice.credit_sales_id,

@@ -318,6 +318,10 @@ class CreditSalesApp(Document):
         if self.date and self.station:
             if self.items:
                 for item in self.items:
+                    pos_profile = frappe.get_doc('POS Profile', item.pos_profile)
+                    if pos_profile.custom_fuel != item.item_code:
+                        frappe.throw(_(f"{item.item_code} Selected in Fuel Sales Item should match with the selected '{item.pos_profile}' Pump => {pos_profile.custom_fuel}"))
+                        
                     if item.qty > item.actual_qty:
                         exceeding_qty = item.qty - item.actual_qty
                         frappe.throw(

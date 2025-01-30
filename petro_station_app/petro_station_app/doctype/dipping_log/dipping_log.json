@@ -131,11 +131,10 @@
    "reqd": 1
   }
  ],
- "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-20 14:47:26.502480",
+ "modified": "2025-01-28 17:18:16.341591",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Dipping Log",
@@ -151,6 +150,7 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "select": 1,
    "share": 1,
    "submit": 1,
    "write": 1
@@ -181,6 +181,18 @@
    "select": 1,
    "share": 1,
    "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Station managers",
+   "share": 1,
    "write": 1
   }
  ],

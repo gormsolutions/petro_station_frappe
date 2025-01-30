@@ -125,12 +125,12 @@
   {
    "fieldname": "lubs_elgon_cash",
    "fieldtype": "Currency",
-   "label": "Lubs Elgon Cash"
+   "label": "Lubs Cash"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-21 18:27:09.240055",
+ "modified": "2025-01-30 12:20:49.953117",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",
