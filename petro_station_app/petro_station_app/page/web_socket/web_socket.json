@@ -1,0 +1,19 @@
+{
+ "content": null,
+ "creation": "2025-01-31 16:37:57.568412",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2025-01-31 16:38:28.953963",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "web-socket",
+ "owner": "Administrator",
+ "page_name": "web-socket",
+ "roles": [],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Items From Realtime"
+}

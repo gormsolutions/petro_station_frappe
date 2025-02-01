@@ -33,7 +33,7 @@
   }
  ],
  "links": [],
- "modified": "2024-05-15 11:10:32.394091",
+ "modified": "2025-01-31 18:30:22.882049",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Vehicle Plates",
@@ -49,6 +49,7 @@
    "read": 1,
    "report": 1,
    "role": "Accounts User",
+   "select": 1,
    "share": 1,
    "write": 1
   },

@@ -1,17 +1,22 @@
 from frappe.model.document import Document
 import frappe
 from frappe.utils import add_days, today
+from frappe import _
+
 
 class StationShiftManagement(Document):
     def on_submit(self):
+        
         if not self.overal_shift_closing_items:
+            
                 # Throw an error if the overal_shift_closing_items is not there
             frappe.throw(
                 f"Get Overall Shift Details before submiting the Shift."
             )
         # Define the tolerance limit
         tolerance = 1000
-
+        
+        
         # Calculate the difference
         difference = abs(self.meter_based_grand_total_amount - self.total_sales)
 
@@ -21,6 +26,8 @@ class StationShiftManagement(Document):
             frappe.throw(
                 f"Meter Based Grand Total Amount ({self.meter_based_grand_total_amount}) must be within {tolerance} of Total Sales ({self.total_sales}). Difference: {difference}."
             )
+        
+        self.create_next_shift()
 
         # self.take_dipping_before()
  
@@ -59,7 +66,8 @@ class StationShiftManagement(Document):
             # If drafts are found, raise an error
             if stock_entry_details_drafts:
                 frappe.throw(f"You still haven't Recieved some draft stock entries for station {self.station}. Please complete them before proceeding.")
-
+        
+        
 
     def before_save(self):
         if self.from_date and self.station:
@@ -160,8 +168,100 @@ class StationShiftManagement(Document):
 
  
    
-   
+ 
     # def on_update(self):
-    #     self.before_save()
-      
-       
+    #     self.create_next_shift()
+   
+    def create_next_shift(self):
+        try:
+            # Determine the next shift and date
+            next_shift = "Night" if self.shift == "Day" else "Day"
+            next_date = self.from_date if self.shift == "Day" else add_days(self.from_date, 1)
+
+            # Debug: Log the current from_date
+            frappe.log_error(f"Current from_date: {self.from_date}", "Shift Debug")
+
+            # Ensure items are present to process
+            if not self.items:
+                frappe.throw(_("No items found to map for the next shift."))
+
+            # Group rows by employee_for_next_shift
+            employee_groups = {}
+            for row in self.items:
+                if not row.employee_for_next_shift:
+                    frappe.throw(_("The employee for the next shift is mandatory for pump or tank {0}. Please set the employee for the next shift.")
+                             .format(row.pump_or_tank))
+                if row.employee_for_next_shift not in employee_groups:
+                    employee_groups[row.employee_for_next_shift] = []
+                employee_groups[row.employee_for_next_shift].append(row)
+
+            # Process each unique employee
+            for employee, rows in employee_groups.items():
+                # Check if a shift already exists for this employee, date, and shift
+                existing_shift = frappe.db.get_value(
+                    "Station Shift Management",
+                    {"from_date": next_date, "shift": next_shift, "employee": employee},
+                    "name"
+                )
+
+                if existing_shift:
+                    # Fetch the existing document
+                    next_shift_doc = frappe.get_doc("Station Shift Management", existing_shift)
+                else:
+                    # Create a new document if not found
+                    next_shift_doc = frappe.new_doc("Station Shift Management")
+                    next_shift_doc.update({
+                        "from_date": next_date,
+                        "shift": next_shift,
+                        "station": self.station,
+                        "price_list": self.price_list,
+                        "employee": employee,  # Set the employee for this shift
+                    })
+
+                # Process rows for this employee
+                for row in rows:
+                    # Check if there's already an entry for the employee and pump/tank in the next shift
+                    existing_item = next(
+                        (item for item in next_shift_doc.items if item.pump_or_tank == row.pump_or_tank),
+                        None
+                    )
+
+                    if existing_item:
+                        # Update existing item's opening meter reading
+                        existing_item.opening_meter_reading = frappe.db.get_value(
+                            "Station Shift Management Item",  # Child table
+                            {
+                                "parent": self.name,
+                                "pump_or_tank": row.pump_or_tank,
+                                "employee_for_next_shift": row.employee_for_next_shift
+                            },
+                            "closing_meter_reading"
+                        )
+                    else:
+                        # Map Closing Meter Reading rows to Opening Meter Reading rows
+                        next_shift_doc.append("items", {
+                            "pump_or_tank": row.pump_or_tank,
+                            "opening_meter_reading": row.closing_meter_reading,
+                        })
+
+                # Debug: Log the details of the next shift being created or updated
+                frappe.log_error(
+                    f"Processed next shift document for employee: {employee}, date: {next_date}", "Shift Debug"
+                )
+
+                # Save or update the shift document
+                if existing_shift:
+                    next_shift_doc.save()
+                else:
+                    next_shift_doc.insert()
+
+            frappe.msgprint(_("Next shifts created or updated successfully for all employees."))
+
+        except Exception as e:
+            # Log the error and throw a generic error message
+            frappe.log_error(frappe.get_traceback(), "Shift Creation Error")
+            frappe.throw(_("An unexpected error occurred while creating the next shift."))
+
+        
+        
+    

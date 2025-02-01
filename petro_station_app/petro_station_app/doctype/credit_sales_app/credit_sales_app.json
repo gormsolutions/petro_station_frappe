@@ -71,6 +71,7 @@
   {
    "fieldname": "customer",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Customer",
    "options": "Customer",
    "reqd": 1
@@ -426,7 +427,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-21 15:46:31.230323",
+ "modified": "2025-01-30 18:24:01.702098",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Credit Sales App",

@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "pump_or_tank",
+  "employee_for_next_shift",
   "opening_meter_reading",
   "closing_meter_reading",
   "qty_sold_on_meter_reading",
@@ -15,6 +16,7 @@
   "sales_based_on_invoices",
   "difference_amount",
   "pump_rate",
+  "employee_name",
   "current_reading_value"
  ],
  "fields": [
@@ -91,12 +93,26 @@
    "fieldtype": "Float",
    "label": "Most Recent Meter Reading",
    "precision": "3"
+  },
+  {
+   "fieldname": "employee_for_next_shift",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee For Next Shift",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "employee_for_next_shift.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-08 10:15:55.691073",
+ "modified": "2025-02-01 17:04:53.213503",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Shift Management item",
