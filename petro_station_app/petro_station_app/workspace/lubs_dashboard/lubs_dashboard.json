@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"CzJXFywxTE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">LUBS DASHBOARD</span>\",\"col\":12}},{\"id\":\"AGghi3u8-U\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubs Invoces\",\"col\":3}},{\"id\":\"o5w7lF6mO3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"svQFIPBrQg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubs Opening Stock\",\"col\":3}},{\"id\":\"9YsLyJaV03\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricants Stock Received\",\"col\":3}},{\"id\":\"OecF2h7NwE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricant Stock Balance\",\"col\":3}}]",
+ "content": "[{\"id\":\"CzJXFywxTE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">LUBS DASHBOARD</span>\",\"col\":12}},{\"id\":\"o5w7lF6mO3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"9YsLyJaV03\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricants Stock Received\",\"col\":3}},{\"id\":\"OecF2h7NwE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricant Stock Balance\",\"col\":3}},{\"id\":\"sQ-sGU4s3b\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}}]",
  "creation": "2024-11-09 12:06:36.318902",
  "custom_blocks": [],
  "docstatus": 0,
@@ -12,7 +12,7 @@
  "is_hidden": 0,
  "label": "LUBS DASHBOARD",
  "links": [],
- "modified": "2025-01-10 17:50:40.984454",
+ "modified": "2025-02-18 17:10:51.849574",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "LUBS DASHBOARD",
@@ -25,27 +25,11 @@
  "sequence_id": 41.0,
  "shortcuts": [
   {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Lubs Opening Stock",
-   "link_to": "Stock Reconciliation",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
    "color": "Cyan",
    "doc_view": "List",
    "label": "Material Request",
    "link_to": "Material Request",
    "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Lubs Invoces",
-   "link_to": "Lubs Invoces",
-   "stats_filter": "[[\"Lubs Sales Items\",\"warehouse\",\"=\",\"Lubricant Stock\",false]]",
    "type": "DocType"
   },
   {
@@ -62,6 +46,14 @@
    "label": "Lubricant Stock Balance",
    "link_to": "Stock Balance",
    "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Invoice",
+   "link_to": "Sales Invoice",
+   "stats_filter": "[[\"Sales Invoice Item\",\"item_group\",\"=\",\"Lubricants\",false]]",
+   "type": "DocType"
   }
  ],
  "title": "LUBS DASHBOARD"

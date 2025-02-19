@@ -22,7 +22,17 @@
   "column_break_jzlh",
   "account_type_items",
   "stock_report_tab",
-  "stock_report_items"
+  "stock_report_items",
+  "other_stock_report_items",
+  "employee_shift_details_tab",
+  "shift_totals",
+  "credit_customers",
+  "cash_transfers",
+  "expenditures",
+  "available_stocks_tab",
+  "user",
+  "item_group",
+  "stock_items"
  ],
  "fields": [
   {
@@ -126,11 +136,69 @@
    "fieldname": "lubs_elgon_cash",
    "fieldtype": "Currency",
    "label": "Lubs Cash"
+  },
+  {
+   "fieldname": "other_stock_report_items",
+   "fieldtype": "Table",
+   "label": "other Stock Report Items",
+   "options": "other Stock Report Items"
+  },
+  {
+   "fieldname": "employee_shift_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Employee Shift Details"
+  },
+  {
+   "fieldname": "credit_customers",
+   "fieldtype": "Table",
+   "label": "Credit Customers",
+   "options": "Credits Customer Item"
+  },
+  {
+   "fieldname": "cash_transfers",
+   "fieldtype": "Table",
+   "label": "Cash Transfers",
+   "options": "Cash Transfers"
+  },
+  {
+   "fieldname": "expenditures",
+   "fieldtype": "Table",
+   "label": "Expenditures",
+   "options": "Expenditures"
+  },
+  {
+   "fieldname": "shift_totals",
+   "fieldtype": "Table",
+   "label": "Shift Totals Details",
+   "options": "Employee Totals Item"
+  },
+  {
+   "fieldname": "available_stocks_tab",
+   "fieldtype": "Tab Break",
+   "label": "Available Stocks"
+  },
+  {
+   "fieldname": "stock_items",
+   "fieldtype": "Table",
+   "label": "Stock Items",
+   "options": "Bin Stock Items"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "item_group",
+   "fieldtype": "Select",
+   "label": "Item Group",
+   "options": "\nLubs\nCilynders\nFuel"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-30 12:20:49.953117",
+ "modified": "2025-02-18 13:19:10.783474",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",

@@ -279,7 +279,7 @@ def get_cash_transfers_with_totals(cost_center=None, employee=None, posting_date
         cash_transfers = frappe.get_all(
             "Transfer Cash",
             filters=filters,
-            fields=["name", "posting_date", "employee", "account_paid_from","paid_amount","account_paid_to", "reference_date", "station"]
+            fields=["name", "posting_date", "employee","reference_no", "account_paid_from","paid_amount","account_paid_to", "reference_date", "station"]
         )
 
 
@@ -306,6 +306,7 @@ def get_cash_transfers_with_totals(cost_center=None, employee=None, posting_date
                     "Paid From": cash["account_paid_from"],
                     "Paid Amount": cash["paid_amount"],
                     "Cost Center": cash["station"],
+                    "reference no": cash["reference_no"],
                 
                 }
 
@@ -439,7 +440,7 @@ def get_expense_totals(cost_center=None, employee=None, posting_date=None):
                 "Items": []
             }
 
-            # Fetch associated items
+            # Fetch associated items 
             items = frappe.get_all(
                 "Expense Claim Items",
                 filters={"parent": expense["name"]},

@@ -44,7 +44,8 @@
   {
    "fieldname": "reference_no",
    "fieldtype": "Data",
-   "label": "Transaction Id"
+   "label": "Transaction Id",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_nfuc",
@@ -123,7 +124,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-22 18:18:59.497204",
+ "modified": "2025-02-08 20:34:35.249480",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transfer Cash",

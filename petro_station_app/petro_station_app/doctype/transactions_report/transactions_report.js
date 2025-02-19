@@ -143,18 +143,8 @@ function get_statement_details(frm) {
             cost_center: frm.doc.station
         },
         callback: function(r) {
-            console.log(r.message)
+            // console.log(r.message)
             if (r.message) {
-                // console.log("Payload:", r.message);
-                // console.log("Total Sales:", r.message.total_sales);
-                // console.log("Total Expenses:", r.message.total_expenses);
-                
-                // If you want to log the details as well:
-                // console.log("Sales Details:", r.message.sales_details);
-                // console.log("Expense Details:", r.message.expense_details);
-                
-                // For the specific account '1193 - Lubs Elgon Cash - SE' lubs_elgon_cash
-                // console.log("Lubs Elgon Cash - SE Total:", r.message.lubs_cash_total);
                 // console.log("Lubs Elgon Cash - SE Details:", r.message.lubs_cash_details);
                 let total_sale = r.message.total_sales - r.message.lubs_cash_total
                 frm.set_value('custom_station_expenses', r.message.total_expenses);
@@ -177,6 +167,55 @@ function get_statement_details(frm) {
                 const data_purchase_invoice = r.message['Purchase Invoice'];
                 const data_sales_invoice = r.message['Sales Invoice'];
                 const child_table_field = 'stock_report_items'; // Replace with your child table fieldname
+                frm.clear_table(child_table_field);
+    
+                // Loop through the Purchase Invoice data and populate the child table
+                data_purchase_invoice.forEach(purchase_entry => {
+                    let child = frm.add_child(child_table_field);
+    
+                    // Populate child table with purchase entry data
+                    frappe.model.set_value(child.doctype, child.name, {
+                        qty_in: purchase_entry.qty_in || 0,  // Purchase quantity
+                        buying_price: purchase_entry.buying_price || 0, // Purchase price
+                        item: purchase_entry.item_code,
+                        buying_amount: purchase_entry.total_buying_amount || 0, // Total buying amount
+                        purchase_voucher_no: purchase_entry.voucher_no || ''
+                    });
+                });
+    
+                // Loop through the Sales Invoice data and populate the child table
+                data_sales_invoice.forEach(sales_entry => {
+                    let child = frm.add_child(child_table_field);
+    
+                    // Populate child table with sales entry data
+                    frappe.model.set_value(child.doctype, child.name, {
+                        qty_out: sales_entry.qty_out || 0,  // Sales quantity
+                        selling_price: sales_entry.selling_price || 0, // Sales price
+                        item: sales_entry.item_code,
+                        selling_amount: sales_entry.total_selling_amount || 0, // Total selling amount
+                        sales_voucher_no: sales_entry.voucher_no || ''
+                    });
+                });
+    
+                frm.refresh_field(child_table_field);
+                // frappe.msgprint(__('Stock entries have been fetched and populated.'));
+            }
+        }
+    });
+
+    frappe.call({
+        method: "petro_station_app.custom_api.transaction_report.stock_report.fetch_stock_entry_ledger_data_no_fuel", // Update with the actual path
+        args: {
+            from_date: frm.doc.from_date,
+            to_date: frm.doc.to_date,
+            cost_center: frm.doc.station
+        },
+        callback: function (r) {
+            if (r.message) {
+                // console.log(r);
+                const data_purchase_invoice = r.message['Purchase Invoice'];
+                const data_sales_invoice = r.message['Sales Invoice'];
+                const child_table_field = 'other_stock_report_items'; // Replace with your child table fieldname
                 frm.clear_table(child_table_field);
     
                 // Loop through the Purchase Invoice data and populate the child table

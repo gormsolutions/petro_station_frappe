@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Fuel App",
  "links": [],
- "modified": "2025-01-30 18:05:34.621521",
+ "modified": "2025-02-17 15:55:11.775242",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Fuel App",
@@ -74,13 +74,6 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "View Details",
-   "link_to": "view-details",
-   "type": "Page"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "transfer fuel",
    "link_to": "Stock Entry",
    "stats_filter": "[]",
@@ -128,6 +121,14 @@
    "doc_view": "List",
    "label": "Change Price",
    "link_to": "Item Price",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "View Details",
+   "link_to": "Detailed Report",
    "stats_filter": "[]",
    "type": "DocType"
   },

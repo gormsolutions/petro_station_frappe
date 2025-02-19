@@ -64,9 +64,15 @@
 # import frappe
 from frappe.model.document import Document
 import frappe
+from frappe.utils import nowdate
 
 class DippingLog(Document):
     def validate(self):
+        if self.dipping_date > nowdate():
+            frappe.throw(
+                f"A DippingLog is not allowed for future dates beyond {nowdate()}."
+            )
+
         # Check if a DippingLog entry already exists for the same tank, branch, and date (only for new documents)
         if self.is_new():
             existing_log = frappe.db.exists({
@@ -80,7 +86,7 @@ class DippingLog(Document):
                 frappe.throw(f"A DippingLog entry already exists for tank {self.tank}, branch {self.branch} on {self.dipping_date}.")
 
         # Ensure the gain or loss is within the allowed range
-        if self.dipping_difference is not None and (self.dipping_difference < -150 or self.dipping_difference > 150):
+        if self.dipping_difference is not None and (self.dipping_difference < -1000 or self.dipping_difference > 500):
             frappe.throw("The dipping Level difference should be between (Gain) Of -150 and (Loss) of 150.")
     
     def on_submit(self):
@@ -110,10 +116,30 @@ class DippingLog(Document):
         # Display success message
         frappe.msgprint("Stock Reconciliation has been successfully created.")
     
+    # def get_existing_qty(self):
+    #     # Get the current stock quantity in the warehouse
+    #     existing_qty = frappe.db.get_value("Bin", {"item_code": self.item_code, "warehouse": self.tank}, "actual_qty")
+    #     return existing_qty or 0
+    
     def get_existing_qty(self):
-        # Get the current stock quantity in the warehouse
-        existing_qty = frappe.db.get_value("Bin", {"item_code": self.item_code, "warehouse": self.tank}, "actual_qty")
-        return existing_qty or 0
+        # Query the latest Stock Ledger Entry for this item and warehouse
+        qty = frappe.db.sql("""
+            SELECT actual_qty
+            FROM `tabStock Ledger Entry`
+            WHERE item_code = %(item_code)s
+            AND warehouse = %(warehouse)s
+            ORDER BY posting_date DESC, posting_time DESC, name DESC
+            LIMIT 1
+        """, {
+            "item_code": self.item_code,
+            "warehouse": self.tank
+        }, as_dict=True)
+
+        # If an entry is found, return its actual_qty; otherwise, return 0
+        if qty:
+            return qty[0].actual_qty or 0
+        return 0
+
     
     def get_item_valuation_rate(self):
         # Fetch the item's valuation rate

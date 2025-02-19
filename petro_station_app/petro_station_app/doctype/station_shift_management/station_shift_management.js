@@ -189,7 +189,7 @@ frappe.ui.form.on('Station Shift Management', {
         populateExpenditureTable344(frm);
         populateCashTransferTable(frm);
         getBankingandCash(frm);
-        fetcheDippingLevels(frm);
+        // fetcheDippingLevels(frm);
         CalculateTotal(frm);
     },
 
@@ -404,16 +404,28 @@ function calculateQtySold(frm, cdt, cdn) {
     // Get the specific child table row being edited
     let row = locals[cdt][cdn];
 
-    // Calculate the quantity sold on meter reading for the current row difference_amount
-    row.qty_sold_on_meter_reading = row.closing_meter_reading - row.opening_meter_reading;
+    // Ensure closing_meter_reading and opening_meter_reading have values
+    if (row.closing_meter_reading != null && row.opening_meter_reading != null) {
+        // Calculate the quantity sold on meter reading for the current row
+        row.qty_sold_on_meter_reading = row.closing_meter_reading - row.opening_meter_reading;
+    } else {
+        // Default to opening_meter_reading if either value is missing
+        row.qty_sold_on_meter_reading = 0;
+    }
+
+    // Calculate sales based on meter reading
     row.sales_based_on_meter_reading = row.pump_rate * row.qty_sold_on_meter_reading;
+
+    // Calculate the difference amount
     row.difference_amount = row.sales_based_on_meter_reading - row.sales_based_on_invoices;
+
     // Refresh the field in the current row
     frm.refresh_field('items');
 
     // Optionally, refresh only the specific row
     frm.refresh_field('qty_sold_on_meter_reading', row.name);
 }
+
 
 function updateTheCurentReading(frm, cdt, cdn) {
     // Get the specific child table row being edited petro_station_app.custom_api.api.get_system_reading
@@ -828,6 +840,7 @@ function populateCashTransferTable(frm) {
                     new_item.account_banked_to = transfer['Paid To'];
                     new_item.account_paid_from = transfer['Paid From'];
                     new_item.amount_banked = transfer['Paid Amount'];
+                    new_item.transaction_id = transfer['reference no'];
                     // Add other relevant fields based on your data structure
 
                     frm.refresh_field('cash_transfers'); // Refresh the child table view after each item
@@ -876,6 +889,7 @@ function populateExpenditureTable344(frm) {
                         new_item.actual_date = expense['Posting Date'];
                         new_item.account_paid_from = item['Amount'];
                         new_item.description = item['Description'];
+                        new_item.claim_type = item['Claim Type'];
                         // Add other relevant fields based on your data structure
 
                         frm.refresh_field('expenditures'); // Refresh the child table view after each item

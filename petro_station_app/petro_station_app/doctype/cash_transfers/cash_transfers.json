@@ -7,10 +7,12 @@
  "engine": "InnoDB",
  "field_order": [
   "transfer_id",
+  "transaction_id",
   "account_paid_from",
   "account_banked_to",
   "amount_banked",
-  "actual_date"
+  "actual_date",
+  "employee"
  ],
  "fields": [
   {
@@ -46,12 +48,26 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Amount Banked"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Transfer Cash"
+  },
+  {
+   "fieldname": "transaction_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Transaction Id",
+   "options": "Transfer Cash"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-07 12:18:09.767594",
+ "modified": "2025-02-09 15:53:27.240693",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Cash Transfers",

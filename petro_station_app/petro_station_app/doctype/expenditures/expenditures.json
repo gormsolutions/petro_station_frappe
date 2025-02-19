@@ -6,7 +6,9 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "employee",
   "expense_id",
+  "claim_type",
   "description",
   "account_paid_from",
   "actual_date"
@@ -38,12 +40,24 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Description"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Data",
+   "label": "Employee"
+  },
+  {
+   "fieldname": "claim_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Claim Type",
+   "options": "Expense Claim Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-07 12:20:41.521356",
+ "modified": "2025-02-09 15:47:16.309375",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Expenditures",
