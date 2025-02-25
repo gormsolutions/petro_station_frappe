@@ -32,7 +32,15 @@
   "available_stocks_tab",
   "user",
   "item_group",
-  "stock_items"
+  "stock_items",
+  "detailed_daily_totals_tab",
+  "purchases",
+  "gl_entries",
+  "journal_entries",
+  "sales_data",
+  "payment_entries",
+  "total_qty_sold",
+  "dipping_logs"
  ],
  "fields": [
   {
@@ -194,11 +202,58 @@
    "fieldtype": "Select",
    "label": "Item Group",
    "options": "\nLubs\nCilynders\nFuel"
+  },
+  {
+   "fieldname": "detailed_daily_totals_tab",
+   "fieldtype": "Tab Break",
+   "label": "Detailed Daily Totals"
+  },
+  {
+   "fieldname": "gl_entries",
+   "fieldtype": "Table",
+   "label": "Cash Account",
+   "options": "GL Entries Item"
+  },
+  {
+   "fieldname": "journal_entries",
+   "fieldtype": "Table",
+   "label": "Expenses Sumary",
+   "options": "Expenses Items"
+  },
+  {
+   "fieldname": "sales_data",
+   "fieldtype": "Table",
+   "label": "Creditors Summary",
+   "options": "Sales Data"
+  },
+  {
+   "fieldname": "payment_entries",
+   "fieldtype": "Table",
+   "label": "Payments Summary ",
+   "options": "Payment Entries"
+  },
+  {
+   "fieldname": "total_qty_sold",
+   "fieldtype": "Table",
+   "label": "Qty Sold",
+   "options": "Total Qty Sold"
+  },
+  {
+   "fieldname": "dipping_logs",
+   "fieldtype": "Table",
+   "label": "Dipping Logs",
+   "options": "Dipping Logs Items"
+  },
+  {
+   "fieldname": "purchases",
+   "fieldtype": "Table",
+   "label": "Purchases",
+   "options": "purchase data Item"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-18 13:19:10.783474",
+ "modified": "2025-02-19 15:46:22.478724",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",

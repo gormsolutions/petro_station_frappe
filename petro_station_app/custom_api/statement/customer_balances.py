@@ -13,7 +13,7 @@ def get_party_outstandings_with_items_and_company(from_date=None, to_date=None, 
     #     frappe.throw("Both 'from_date' and 'to_date' are required.")
 
     # Prepare filters
-    conditions = "gle.docstatus = 1"
+    conditions = "gle.docstatus = 1 AND gle.is_cancelled = 0"
     filters = []
 
     # Add date range filter

@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"CzJXFywxTE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">LUBS DASHBOARD</span>\",\"col\":12}},{\"id\":\"o5w7lF6mO3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"9YsLyJaV03\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricants Stock Received\",\"col\":3}},{\"id\":\"OecF2h7NwE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricant Stock Balance\",\"col\":3}},{\"id\":\"sQ-sGU4s3b\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}}]",
+ "content": "[{\"id\":\"CzJXFywxTE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">LUBS DASHBOARD</span>\",\"col\":12}},{\"id\":\"o5w7lF6mO3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"5xTmpocYuG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Register\",\"col\":3}},{\"id\":\"9YsLyJaV03\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricants Stock Received\",\"col\":3}},{\"id\":\"OecF2h7NwE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricant Stock Balance\",\"col\":3}},{\"id\":\"sQ-sGU4s3b\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}}]",
  "creation": "2024-11-09 12:06:36.318902",
  "custom_blocks": [],
  "docstatus": 0,
@@ -12,7 +12,7 @@
  "is_hidden": 0,
  "label": "LUBS DASHBOARD",
  "links": [],
- "modified": "2025-02-18 17:10:51.849574",
+ "modified": "2025-02-21 15:37:27.046441",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "LUBS DASHBOARD",
@@ -24,6 +24,13 @@
  "roles": [],
  "sequence_id": 41.0,
  "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Register",
+   "link_to": "Sales Register sss",
+   "type": "Report"
+  },
   {
    "color": "Cyan",
    "doc_view": "List",

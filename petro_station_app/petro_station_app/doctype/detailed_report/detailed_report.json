@@ -54,7 +54,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-15 20:48:56.872216",
+ "modified": "2025-02-24 10:57:14.983485",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Detailed Report",
@@ -69,6 +69,19 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "select": 1,
    "share": 1,
    "write": 1
   }

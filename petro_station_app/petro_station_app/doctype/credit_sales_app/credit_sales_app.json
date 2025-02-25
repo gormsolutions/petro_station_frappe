@@ -160,8 +160,7 @@
   {
    "fieldname": "additional_discount_amount",
    "fieldtype": "Currency",
-   "label": "Additional Discount Amount",
-   "read_only": 1
+   "label": "Additional Discount Amount"
   },
   {
    "fieldname": "column_break_bfdf",
@@ -427,7 +426,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-30 18:24:01.702098",
+ "modified": "2025-02-21 09:56:04.534551",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Credit Sales App",

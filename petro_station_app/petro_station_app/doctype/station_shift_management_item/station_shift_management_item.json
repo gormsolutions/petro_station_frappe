@@ -25,6 +25,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Pump or Tank",
+   "link_filters": "[[\"Warehouse\",\"warehouse_type\",\"=\",\"Pump\"]]",
    "options": "Warehouse"
   },
   {
@@ -112,7 +113,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-01 17:04:53.213503",
+ "modified": "2025-02-24 11:02:42.711578",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Shift Management item",

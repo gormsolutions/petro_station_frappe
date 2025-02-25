@@ -55,7 +55,7 @@ def get_customers(customer=None, from_date=None, to_date=None):
                 si.customer = %s 
                 AND si.posting_date BETWEEN %s AND %s 
                 AND si.docstatus = 1
-        """, (customer, from_date, to_date), as_dict=True)c
+        """, (customer, from_date, to_date), as_dict=True)
 
         for invoice in customer_statement:
             total_amount = flt(invoice.amount)

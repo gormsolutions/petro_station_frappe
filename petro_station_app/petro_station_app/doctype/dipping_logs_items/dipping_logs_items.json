@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-02-19 13:47:21.589406",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tank",
+  "total_activity_qty",
+  "current_dipping_level",
+  "total_dipping_difference"
+ ],
+ "fields": [
+  {
+   "fieldname": "tank",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tank",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "total_activity_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Actual Qty",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "current_dipping_level",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Current Dipping Level",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "total_dipping_difference",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Dipping Difference"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-02-19 13:50:17.178567",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Dipping Logs Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
