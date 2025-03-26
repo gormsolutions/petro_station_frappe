@@ -57,8 +57,6 @@ class CreditSalesApp(Document):
                 fuel_card.customers_balance += overall_total
                 fuel_card.save()
 
-
-
         # Filter fuel items from the item list
         fuel_items = [item for item in self.items if frappe.get_value("Item", item.item_code, "item_group") == "Fuel"]
 

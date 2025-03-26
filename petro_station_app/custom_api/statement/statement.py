@@ -4,23 +4,32 @@ from frappe.utils import flt
 @frappe.whitelist()
 def get_sales_invoice_details_and_payments(customer, from_date, to_date):
     sales_invoice_data = []
+    refund_invoice_data = []
     total_paid_amount = 0
     grand_total_amount = 0  # Variable to hold the grand total of all amounts
+    grand_total_amount_refund = 0
     running_balance = 0      # Variable to hold the running balance
     balance_brought_forward = 0  # Variable to hold the balance brought forward
 
     # Calculate Balance Brought Forward (balance before the 'from_date')
     previous_balance = frappe.db.sql("""
-        SELECT 
-            SUM(gle.debit - gle.credit) AS balance
-        FROM 
-            `tabGL Entry` gle
-        WHERE 
-            gle.party_type = 'Customer'
-            AND gle.party = %s
-            AND gle.posting_date < %s
-            AND gle.docstatus = 1
+    SELECT 
+        SUM(gle.debit - gle.credit) AS balance
+    FROM 
+        `tabGL Entry` gle
+    WHERE 
+        gle.party_type = 'Customer'
+        AND gle.party = %s
+        AND gle.posting_date < %s
+        AND gle.is_cancelled = 0
+        AND NOT EXISTS (
+            SELECT 1 FROM `tabJournal Entry` je
+            WHERE je.name = gle.voucher_no
+            AND je.custom_cash_refund_id IS NOT NULL
+            AND je.custom_cash_refund_id != ''
+        )
     """, (customer, from_date), as_dict=True)
+
     
     if previous_balance and previous_balance[0].balance:
         balance_brought_forward = flt(previous_balance[0].balance)
@@ -48,7 +57,7 @@ def get_sales_invoice_details_and_payments(customer, from_date, to_date):
             `tabSales Invoice Item` sii ON sii.parent = si.name
         WHERE 
             si.customer = %s 
-            AND si.posting_date BETWEEN %s AND %s 
+            AND si.posting_date BETWEEN %s AND %s
             AND si.docstatus = 1
     """, (customer, from_date, to_date), as_dict=True)
 
@@ -73,6 +82,7 @@ def get_sales_invoice_details_and_payments(customer, from_date, to_date):
         }
         
         sales_invoice_data.append(invoice_data)
+        
 
     # Step 2: Fetch Payment Entries within the specified date range for the same customer
     payments = frappe.db.sql("""
@@ -101,25 +111,32 @@ def get_sales_invoice_details_and_payments(customer, from_date, to_date):
             "paid_amount": payment.paid_amount
         })
 
-    # Step 3: Fetch GL Entries for the customer where voucher type is Journal Entry
+    # Step 3: Fetch GL Entries for the customer where voucher type is Journal Entry and custom_cash_refund_id is not set
     gl_entries = frappe.db.sql("""
-        SELECT
-            gle.name AS gl_entry_name,
-            gle.posting_date,
-            gle.cost_center,
-            gle.debit,
-            gle.voucher_no,
-            gle.credit,
-            gle.remarks
-        FROM
-            `tabGL Entry` gle
-        WHERE
-            gle.party_type = 'Customer'
-            AND gle.party = %s
-            AND gle.voucher_type = 'Journal Entry'
-            AND gle.posting_date BETWEEN %s AND %s
-            AND gle.docstatus = 1
+    SELECT
+        gle.name AS gl_entry_name,
+        gle.posting_date,
+        gle.cost_center,
+        gle.debit,
+        gle.voucher_no,
+        gle.credit,
+        gle.remarks
+    FROM
+        `tabGL Entry` gle
+    WHERE
+        gle.party_type = 'Customer'
+        AND gle.party = %s
+        AND gle.voucher_type = 'Journal Entry'
+        AND gle.posting_date BETWEEN %s AND %s
+        AND gle.is_cancelled = 0
+        AND NOT EXISTS (
+            SELECT 1 FROM `tabJournal Entry` je
+            WHERE je.name = gle.voucher_no
+            AND je.custom_cash_refund_id IS NOT NULL
+            AND je.custom_cash_refund_id != ''
+        )
     """, (customer, from_date, to_date), as_dict=True)
+
 
     filtered_gl_entries = []
     for gl_entry in gl_entries:
@@ -140,9 +157,58 @@ def get_sales_invoice_details_and_payments(customer, from_date, to_date):
 
     # Calculate outstanding amount
     outstanding_amount = grand_total_amount - total_paid_amount
+    
+    # Step 4: Fetch Cash Refund Entries for the customer for the specified customer and date range
+    
+    
+    cash_refund = frappe.db.sql("""
+        SELECT 
+            cr.name AS invoice_name,
+            cr.date,
+            cr.invoice_no,
+            cr.station, 
+            sii.item_code, 
+            sii.number_plate, 
+            sii.qty, 
+            sii.rate, 
+            sii.amount
+        FROM 
+            `tabCash Refund` cr
+        JOIN 
+            `tabFuel Sales Items` sii ON sii.parent = cr.name
+        WHERE 
+            cr.customer = %s 
+            AND cr.date BETWEEN %s AND %s 
+            AND cr.docstatus = 1
+    """, (customer, from_date, to_date), as_dict=True)
 
+    for cash_invoice in cash_refund:
+        total_amount = flt(cash_invoice.amount)
+        grand_total_amount_refund += total_amount  # Add to grand total
+        running_balance += total_amount  # Update running balance 
+        
+        cash_refund_data = {
+            "invoice_name": cash_invoice.invoice_name,
+            "invoice_no": cash_invoice.invoice_no,
+            "cost_center":cash_invoice.station,
+            "posting_date": cash_invoice.date,  # Add posting date to the invoice data
+            "item_code": cash_invoice.item_code,
+            "custom_vehicle_plates": cash_invoice.number_plate,
+            "qty": flt(cash_invoice.qty),
+            "rate": flt(cash_invoice.rate),
+            # "amount": flt(cash_invoice.amount),
+            "amount": total_amount,
+            "running_balance": running_balance  # Include running balance for each invoice
+        }
+        
+        refund_invoice_data.append(cash_refund_data)
+    
+    
+    
+    
     return {
         "sales_invoice_data": sales_invoice_data,
+        "refund_invoice_data": refund_invoice_data,
         "balance_brought_forward": balance_brought_forward,  # Include the balance brought forward
         "grand_total_amount": grand_total_amount,  # Return grand total of all amounts
         "total_paid_amount": total_paid_amount,

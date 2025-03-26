@@ -363,7 +363,7 @@ def get_daily_totals(from_date=None, to_date=None, cost_center=None):
         "GL Entry",
         filters={
             "posting_date": ["between", [from_date, to_date]],
-            "docstatus": 1,
+            "is_cancelled": 0,  # Ensure cancelled entries are excluded
             "account": ["not in", [
                 "1193 - Lubs Elgon Cash - SE", 
                 "1196 - Lubs Annex Cash - SE", 
@@ -395,9 +395,9 @@ def get_daily_totals(from_date=None, to_date=None, cost_center=None):
             "GL Entry",
             filters={
                 "posting_date": ["between", [from_date, to_date]],
-                "docstatus": 1,
+                "is_cancelled": 0,  # Ensure cancelled entries are excluded
                 "account": account,
-                "voucher_subtype": ["!=", "Internal Transfer"],
+                # "voucher_subtype": ["!=", "Internal Transfer"],
                 **({"cost_center": cost_center} if cost_center else {}),
             },
             fields=["name", "debit", "credit", "account", "posting_date", "cost_center", "voucher_no"]

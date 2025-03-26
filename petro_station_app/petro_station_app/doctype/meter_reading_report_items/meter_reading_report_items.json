@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-03-13 17:16:32.027210",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "pump_or_tank",
+  "opening_meter_reading",
+  "closing_meter_reading"
+ ],
+ "fields": [
+  {
+   "fieldname": "pump_or_tank",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tank"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Date"
+  },
+  {
+   "fieldname": "closing_meter_reading",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Clossing Meter Reading"
+  },
+  {
+   "fieldname": "opening_meter_reading",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Opening Meter Reading"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-03-13 19:57:01.524990",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Meter Reading Report Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

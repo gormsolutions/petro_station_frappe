@@ -13,6 +13,8 @@
   "station",
   "price_list",
   "mode_of_payment",
+  "invoice_no",
+  "order_no",
   "column_break_ynuv",
   "include_payments",
   "date",
@@ -122,8 +124,7 @@
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Staff",
-   "options": "Employee",
-   "reqd": 1
+   "options": "Employee"
   },
   {
    "allow_in_quick_entry": 1,
@@ -229,12 +230,22 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "invoice_no",
+   "fieldtype": "Data",
+   "label": "Invoice No"
+  },
+  {
+   "fieldname": "order_no",
+   "fieldtype": "Data",
+   "label": "Order No"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-18 11:00:54.644786",
+ "modified": "2025-03-23 17:11:51.683302",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Lubs Invoces",

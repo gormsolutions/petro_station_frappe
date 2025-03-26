@@ -11,10 +11,13 @@
   "item_code",
   "qty",
   "rate",
+  "number_plate",
   "column_break_tifc",
   "amount",
   "warehouse",
-  "uom"
+  "uom",
+  "order_number",
+  "milage"
  ],
  "fields": [
   {
@@ -72,12 +75,31 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "UOM"
+  },
+  {
+   "fieldname": "number_plate",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Vehicle's Plates"
+  },
+  {
+   "fieldname": "order_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Order Number"
+  },
+  {
+   "fieldname": "milage",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Milage",
+   "precision": "3"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-09 01:42:49.110282",
+ "modified": "2025-03-21 12:13:38.863152",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Lubs Sales Items",

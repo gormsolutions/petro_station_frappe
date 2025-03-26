@@ -9,7 +9,8 @@
   "credit_account",
   "company",
   "commission_account",
-  "debit_cash_account"
+  "debit_cash_account",
+  "user"
  ],
  "fields": [
   {
@@ -47,11 +48,17 @@
    "fieldtype": "Link",
    "label": "Debit Cash Account",
    "options": "Account"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-09 19:26:21.343880",
+ "modified": "2025-02-27 18:26:49.709160",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Cash Refund Settings",

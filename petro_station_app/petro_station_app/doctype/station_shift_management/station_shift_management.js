@@ -857,7 +857,6 @@ function populateCashTransferTable(frm) {
     });
 }
 
-
 function populateExpenditureTable344(frm) {
     frappe.call({
         method: 'petro_station_app.custom_api.invoice.get_expense_totals',
@@ -905,7 +904,6 @@ function populateExpenditureTable344(frm) {
         }
     });
 }
-
 
 function populateInvoiceItemsStockEntry(frm) {
     // Clear specific fields in existing items
@@ -982,7 +980,6 @@ function populateInvoiceItemsStockEntry(frm) {
         }
     });
 }
-
 // new updates in sept 19/9/2024 --- 4:00am
 
 function fetcheDippingLevels(frm) {
@@ -1083,7 +1080,6 @@ function postStockReconciliation(frm) {
     });
 }
 
-
 function fetchStockTransfersDraft(frm) {
     frappe.call({
         method: 'petro_station_app.custom_api.stock_dipping_levels.stock_trafers_draft.get_material_transfer_entries', // Make sure this path is correct
@@ -1178,9 +1174,6 @@ function submitDraftStockEntries(frm) {
         }
     });
 }
-
-
-
 function calculateAmountOnDipping(frm, cdt, cdn) {
 
     // Get the specific child table row being edited

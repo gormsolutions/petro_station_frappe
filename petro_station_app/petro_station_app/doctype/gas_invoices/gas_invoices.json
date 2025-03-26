@@ -252,14 +252,14 @@
    "fieldname": "store_for_empties",
    "fieldtype": "Link",
    "label": "Store For Empties",
-   "link_filters": "[[\"Warehouse\",\"name\",\"in\",[\"Empty Cylinders Gulu Depot - SE\",\"Empty Cylinders Jinja Depot - SE\",\"Empty Cylinder Mbale Store - SE\"]]]",
+   "link_filters": "[[\"Warehouse\",\"name\",\"in\",[\"Empty Cylinders Gulu Depot - SE\",\"Empty Cylinders Jinja Depot - SE\",\"Empty Cylinder Mbale Store - SE\",\"Field Stock Empty Cylinders - SE\"]]]",
    "options": "Warehouse"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-23 17:03:35.877308",
+ "modified": "2025-03-02 11:08:04.221912",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Gas Invoices",

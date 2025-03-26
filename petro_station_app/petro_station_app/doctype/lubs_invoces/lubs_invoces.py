@@ -27,6 +27,7 @@ class LubsInvoces(Document):
         sales_invoice.update_stock = 1
         sales_invoice.set_posting_time = 1
         sales_invoice.posting_date = self.date
+        sales_invoice.custom_invoice_no = self.invoice_no
         sales_invoice.posting_time = self.time
         sales_invoice.custom_sales_id = self.name
         sales_invoice.taxes_and_charges = self.sales_taxes_and_charges
@@ -38,6 +39,7 @@ class LubsInvoces(Document):
                 "qty": item.qty,
                 "rate": item.rate,
                 "warehouse": self.store,
+                "custom_vehicle_plates":item.number_plate,
                 "amount": item.amount,
                 "cost_center": self.station,
             })

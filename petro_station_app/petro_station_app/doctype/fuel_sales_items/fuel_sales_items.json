@@ -52,7 +52,6 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Qty",
-   "precision": "3",
    "reqd": 1
   },
   {
@@ -178,7 +177,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-12 15:45:22.748917",
+ "modified": "2025-03-03 11:06:27.944957",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Fuel Sales Items",

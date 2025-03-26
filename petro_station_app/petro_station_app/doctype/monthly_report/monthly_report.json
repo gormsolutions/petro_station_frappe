@@ -1,0 +1,237 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "PSA-MRPT-.YYYY.-.#####",
+ "creation": "2025-03-13 17:08:01.844525",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_8pb1",
+  "from_date",
+  "amended_from",
+  "column_break_blez",
+  "to_date",
+  "station",
+  "section_break_xjvp",
+  "station_manager",
+  "average_rate_items_tab",
+  "dipping_totals_tanks_items",
+  "section_break_cnnm",
+  "end_date_previous_month",
+  "column_break_clgf",
+  "end_date_current_month",
+  "section_break_bvlz",
+  "meter_reading_report_items",
+  "section_break_gqep",
+  "grand_totals_expenditure",
+  "expenditure",
+  "tab_2_tab",
+  "user",
+  "daily_sales_items",
+  "purchases_tab",
+  "total_amount_spent",
+  "items"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_8pb1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "station",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Station",
+   "options": "Cost Center",
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "From Date",
+   "options": "Cost Center",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To Date",
+   "options": "Cost Center",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_blez",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Monthly Report",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_cnnm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "end_date_previous_month",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "End Date Previous Month",
+   "options": "Cost Center",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_clgf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_date_current_month",
+   "fieldtype": "Date",
+   "label": "Start Date Current Month",
+   "options": "Cost Center",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_gqep",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "expenditure",
+   "fieldtype": "Table",
+   "label": "Expenditure",
+   "options": "Monthly Report Expense Item"
+  },
+  {
+   "fieldname": "section_break_bvlz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "meter_reading_report_items",
+   "fieldtype": "Table",
+   "label": "Meter Reading Report Items",
+   "options": "Meter Reading Report Items"
+  },
+  {
+   "fieldname": "section_break_xjvp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "dipping_totals_tanks_items",
+   "fieldtype": "Table",
+   "label": "Dipping Totals Tanks Items",
+   "options": "Dipping Totals Tanks Items"
+  },
+  {
+   "fieldname": "grand_totals_expenditure",
+   "fieldtype": "Currency",
+   "label": "Grand Totals Expenditure",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tab_2_tab",
+   "fieldtype": "Tab Break",
+   "label": "Item Wise"
+  },
+  {
+   "fieldname": "daily_sales_items",
+   "fieldtype": "Table",
+   "label": "Daily sales Items",
+   "options": "Daily sales Items"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "average_rate_items_tab",
+   "fieldtype": "Table",
+   "label": "Average Rate Items",
+   "options": "Average Rate Items"
+  },
+  {
+   "fieldname": "station_manager",
+   "fieldtype": "Link",
+   "label": "Station Manager",
+   "options": "User"
+  },
+  {
+   "fieldname": "purchases_tab",
+   "fieldtype": "Tab Break",
+   "label": "Purchases"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Purchase Items",
+   "options": "purchase report items"
+  },
+  {
+   "fieldname": "total_amount_spent",
+   "fieldtype": "Currency",
+   "label": "Total Amount Spent",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-03-23 12:48:39.412309",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Monthly Report",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

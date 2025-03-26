@@ -28,7 +28,9 @@
   "shift_totals",
   "credit_customers",
   "cash_transfers",
+  "description_filter",
   "expenditures",
+  "total_expenses",
   "available_stocks_tab",
   "user",
   "item_group",
@@ -171,6 +173,7 @@
   {
    "fieldname": "expenditures",
    "fieldtype": "Table",
+   "in_filter": 1,
    "label": "Expenditures",
    "options": "Expenditures"
   },
@@ -249,11 +252,22 @@
    "fieldtype": "Table",
    "label": "Purchases",
    "options": "purchase data Item"
+  },
+  {
+   "fieldname": "total_expenses",
+   "fieldtype": "Currency",
+   "label": "Total Expenses",
+   "read_only": 1
+  },
+  {
+   "fieldname": "description_filter",
+   "fieldtype": "Data",
+   "label": "Search by Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-19 15:46:22.478724",
+ "modified": "2025-03-10 18:39:04.478401",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",

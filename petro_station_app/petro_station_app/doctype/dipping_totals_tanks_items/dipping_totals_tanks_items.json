@@ -1,0 +1,38 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-03-13 17:20:49.464425",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tank",
+  "dipping_difference"
+ ],
+ "fields": [
+  {
+   "fieldname": "tank",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tank"
+  },
+  {
+   "fieldname": "dipping_difference",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Tank Difference"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-03-13 17:22:14.865466",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Dipping Totals Tanks Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
