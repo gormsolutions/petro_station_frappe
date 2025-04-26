@@ -93,10 +93,10 @@ async function fetchMeterReadings(frm) {
 
                     let processedPumps = new Set(); // Set to track processed pumps
                     let previousMonthData = {}; // Store previous month's closing readings
+                    let totalSalesExpected = 0; // Variable to store the sum of all sales_expected
 
                     // Process the data for the previous month
                     for (let reading of data) {
-                        // If reading is from the previous month, store the closing meter reading for each pump
                         if (reading.from_date === frm.doc.end_date_previous_month) {
                             for (let item of reading.items) {
                                 previousMonthData[item.pump_or_tank] = item.closing_meter_reading;
@@ -106,32 +106,35 @@ async function fetchMeterReadings(frm) {
 
                     // Now process the data for the current month
                     for (let reading of data) {
-                        // If reading is from the current month, create rows
                         if (reading.from_date === frm.doc.end_date_current_month) {
                             for (let item of reading.items) {
-                                // Check if the pump has already been processed (to avoid duplicates)
                                 if (processedPumps.has(item.pump_or_tank)) {
                                     continue;
                                 }
 
                                 let row = frm.add_child("meter_reading_report_items");
 
-                                // Set pump_or_tank for the current row
                                 row.pump_or_tank = item.pump_or_tank;
-                                console.log(row.pump_or_tank)
-                                // Set opening meter reading from the previous month's closing reading
-                                if (previousMonthData[item.pump_or_tank] !== undefined) {
-                                    row.opening_meter_reading = previousMonthData[item.pump_or_tank];
-                                }
 
-                                // Set the current month's closing reading
-                                row.closing_meter_reading = item.closing_meter_reading;
+                                let opening = previousMonthData[item.pump_or_tank] || 0;
+                                let closing = item.closing_meter_reading || 0;
 
-                                // Mark this pump as processed
+                                row.opening_meter_reading = opening;
+                                row.closing_meter_reading = closing;
+
+                                // Calculate and set the sales_expected
+                                row.sales_expected = closing - opening;
+                                
+                                // Add the difference to the total
+                                totalSalesExpected += row.sales_expected;
+
                                 processedPumps.add(item.pump_or_tank);
                             }
                         }
                     }
+
+                    // Set the total sales_expected in the totals field
+                    frm.set_value('totals_sales_expected', totalSalesExpected);
 
                     frm.refresh_field("meter_reading_report_items");
                 }

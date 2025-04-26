@@ -1,5 +1,5 @@
-import frappe
-from frappe import _
+import frappe # type: ignore
+from frappe import _ # type: ignore
 
 @frappe.whitelist()
 def get_daily_sales_stock_balance(date):

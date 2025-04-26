@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"CzJXFywxTE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">LUBS DASHBOARD</span>\",\"col\":12}},{\"id\":\"o5w7lF6mO3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"xfQfPH7P5I\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubs Invoces\",\"col\":3}},{\"id\":\"5xTmpocYuG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Register\",\"col\":3}},{\"id\":\"9YsLyJaV03\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricants Stock Received\",\"col\":3}},{\"id\":\"OecF2h7NwE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricant Stock Balance\",\"col\":3}},{\"id\":\"sQ-sGU4s3b\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"kW39DLhfE1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"purchase invoice\",\"col\":3}},{\"id\":\"ijQfuZeZJB\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfers\",\"col\":3}},{\"id\":\"A-WtkX760t\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"lubs Annex stock transfers\",\"col\":3}}]",
+ "content": "[{\"id\":\"CzJXFywxTE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">LUBS DASHBOARD</span>\",\"col\":12}},{\"id\":\"o5w7lF6mO3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"xfQfPH7P5I\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubs Invoces\",\"col\":3}},{\"id\":\"5xTmpocYuG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Register\",\"col\":3}},{\"id\":\"9YsLyJaV03\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricants Stock Received\",\"col\":3}},{\"id\":\"OecF2h7NwE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lubricant Stock Balance\",\"col\":3}},{\"id\":\"sQ-sGU4s3b\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"kW39DLhfE1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"purchase invoice\",\"col\":3}},{\"id\":\"ijQfuZeZJB\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfers\",\"col\":3}},{\"id\":\"A-WtkX760t\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"lubs Annex stock transfers\",\"col\":3}},{\"id\":\"xMjME34Rvb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Transfer Report\",\"col\":3}},{\"id\":\"wsMXBJBRBi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item-wise Sales\",\"col\":3}}]",
  "creation": "2024-11-09 12:06:36.318902",
  "custom_blocks": [],
  "docstatus": 0,
@@ -12,7 +12,7 @@
  "is_hidden": 0,
  "label": "LUBS DASHBOARD",
  "links": [],
- "modified": "2025-03-21 12:05:17.531395",
+ "modified": "2025-04-04 19:26:52.202049",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "LUBS DASHBOARD",
@@ -24,6 +24,20 @@
  "roles": [],
  "sequence_id": 41.0,
  "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Stock Transfer Report",
+   "type": "URL",
+   "url": "http://147.79.101.23/app/stock-entry/view/report/Stock%20Transfer%20Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Item-wise Sales",
+   "type": "URL",
+   "url": "http://147.79.101.23/app/query-report/Item-wise%20Sales?from_date=2025-03-01&to_date=2025-04-04&company=Shell+Elgon&warehouse=Lubs+Elgon+Ann"
+  },
   {
    "color": "Grey",
    "doc_view": "List",

@@ -23,6 +23,7 @@
   "invoice_vourcher",
   "sales_invoice_no",
   "sales_app_id",
+  "ref_no",
   "payment_date",
   "payment_entry",
   "station_pe",
@@ -212,12 +213,21 @@
    "options": "Sales Invoice",
    "print_hide": 1,
    "report_hide": 1
+  },
+  {
+   "fieldname": "ref_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Ref No",
+   "options": "Fuel Sales App",
+   "print_hide": 1,
+   "report_hide": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-08 15:57:33.653383",
+ "modified": "2025-04-21 12:34:17.513616",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Invoice Table Statement",

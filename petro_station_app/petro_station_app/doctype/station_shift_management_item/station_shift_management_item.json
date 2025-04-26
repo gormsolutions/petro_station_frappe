@@ -29,6 +29,7 @@
    "options": "Warehouse"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "opening_meter_reading",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -36,6 +37,7 @@
    "precision": "3"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "closing_meter_reading",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -43,6 +45,7 @@
    "precision": "3"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "qty_sold_on_meter_reading",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -60,6 +63,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "sales_based_on_meter_reading",
    "fieldtype": "Currency",
    "in_list_view": 1,
@@ -68,6 +72,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "sales_based_on_invoices",
    "fieldtype": "Currency",
    "in_list_view": 1,
@@ -76,6 +81,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "difference_amount",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -84,12 +90,14 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "pump_rate",
    "fieldtype": "Currency",
    "label": "Pump Rate",
    "precision": "3"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "current_reading_value",
    "fieldtype": "Float",
    "label": "Most Recent Meter Reading",
@@ -113,7 +121,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-24 11:02:42.711578",
+ "modified": "2025-04-06 16:09:50.417957",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Shift Management item",

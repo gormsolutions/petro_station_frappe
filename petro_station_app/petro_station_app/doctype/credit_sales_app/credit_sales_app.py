@@ -9,8 +9,8 @@ from frappe import _  # type: ignore
 class CreditSalesApp(Document):
     def on_submit(self):
         # Group items by posting_date and then create Customer Documents
-        grouped_items = self.group_items_by_posting_date()
-        self.create_new_customer_documents(grouped_items)
+        # grouped_items = self.group_items_by_posting_date()
+        # self.create_new_customer_documents(grouped_items)
         
               
         # Check if customer has a fuel card and the status is "Active"

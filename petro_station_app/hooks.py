@@ -13,6 +13,9 @@ app_license = "mit"
 # app_include_css = "/assets/petro_station_app/css/petro_station_app.css"
 # app_include_js = "/assets/petro_station_app/js/petro_station_app.js"
 
+app_include_css = "/assets/petro_station_app/css/cogs.css"
+# app_include_js  = "/assets/petro_station_app/js/cogs_report.js"
+
 # include js, css files in header of web template
 # web_include_css = "/assets/petro_station_app/css/petro_station_app.css"
 # web_include_js = "/assets/petro_station_app/js/petro_station_app.js"

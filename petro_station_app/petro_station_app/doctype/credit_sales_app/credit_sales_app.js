@@ -7,7 +7,12 @@
 // 	},
 // });
 frappe.ui.form.on('Credit Sales App', {
-    refresh: function (frm) {
+   refresh: function (frm) {
+
+    if (frm.doc.docstatus === 0 && frm.doc.items && frm.doc.items.length > 0) {
+        updateActualQtyOnly(frm);
+    }
+
         // Populate Fuel Customers Items if needed
         populateFuelCustomersItems(frm);
         if (frm.doc.docstatus === 1) {
@@ -54,7 +59,12 @@ frappe.ui.form.on('Credit Sales App', {
                 frappe.validated = false; // Prevent form submission
             }
         }
+        // validate_previous_day_shifts(frm);
 
+    },
+    before_submit: function(frm) {
+        // Calling the function on submission
+        validate_previous_day_shifts(frm);
     },
     customer: function (frm) {
         // Clear the card field initially
@@ -127,9 +137,6 @@ frappe.ui.form.on('Credit Sales App', {
 
 
 });
-
-
-
 
 frappe.ui.form.on('Expense Claim Items', {
     amount: function (frm, cdt, cdn) {
@@ -560,6 +567,80 @@ function fetchPumps(frm) {
                 // If no response or empty response
                 frappe.msgprint(__('No pump or tank locations found for the selected criteria.'));
             }
+        }
+    });
+}
+
+function updateActualQtyOnly(frm) {
+    frm.doc.items.forEach(item => {
+        if (item.warehouse && item.meter_qtys) {
+            frappe.call({
+                method: 'petro_station_app.custom_api.fetch_pumps.fetch_pumps.get_total_qty',
+                args: {
+                    'from_date': frm.doc.date,
+                    'employee': frm.doc.employee,
+                    'shift': frm.doc.shift,
+                    'station': frm.doc.station,
+                    'pump_or_tank_list': JSON.stringify([item.warehouse])
+                },
+                callback: function (qtyResponse) {
+                    let qtySold = Number(qtyResponse.message);
+                    item.qty_sold = qtySold;
+
+                    if (!qtySold) {
+                        item.actual_qty = item.meter_qtys;
+                    } else {
+                        item.actual_qty = item.meter_qtys - qtySold;
+                    }
+
+                    frm.refresh_field('items');
+                }
+            });
+        }
+    });
+}
+
+
+
+function validate_previous_day_shifts(frm) {
+    frappe.call({
+        method: 'petro_station_app.custom_api.Create_shifts.create_shift.validate_previous_day_shifts',
+        args: {
+            station: frm.doc.station,
+            posting_date: frm.doc.date
+        },
+        callback: function(r) {
+            // console.log('Response from server:', r);
+
+            if (r.message) {
+                if (!r.message.status) {
+                    // Display the validation message with HTML rendered properly
+                    frappe.msgprint({
+                        title: __('Previous Day\'s Closure Validation'),
+                        indicator: 'red',
+                        message: r.message.message,
+                        unsafe: true  // Allow HTML to be rendered in the message
+                    });
+                    frappe.validated = false;  // Block the save action
+                } else {
+                    // If validation passes, display a success message
+                    // frappe.msgprint({
+                    //     title: __('Validation Passed'),
+                    //     indicator: 'green',
+                    //     message: __('All pumps are correctly submitted.')
+                    // });
+                    frappe.validated = true;  // Allow save action
+                }
+            }
+        },
+        error: function(err) {
+            // Handle errors during the server call
+            frappe.msgprint({
+                title: __('Validation Error'),
+                indicator: 'red',
+                message: err.message || __('An error occurred while validating shifts.')
+            });
+            frappe.validated = false;  // Stop the save action
         }
     });
 }

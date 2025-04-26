@@ -90,6 +90,7 @@ def get_sales_invoice_details_and_payments(customer, from_date, to_date):
             pe.name AS payment_entry_name, 
             pe.posting_date,
             pe.cost_center, 
+            pe.reference_no,
             pe.paid_amount
         FROM 
             `tabPayment Entry` pe
@@ -108,7 +109,8 @@ def get_sales_invoice_details_and_payments(customer, from_date, to_date):
             "payment_entry_name": payment.payment_entry_name,
             "cost_center": payment.cost_center,
             "posting_date": payment.posting_date,  # Include posting date for payments
-            "paid_amount": payment.paid_amount
+            "paid_amount": payment.paid_amount,
+            "reference_no": payment.reference_no
         })
 
     # Step 3: Fetch GL Entries for the customer where voucher type is Journal Entry and custom_cash_refund_id is not set

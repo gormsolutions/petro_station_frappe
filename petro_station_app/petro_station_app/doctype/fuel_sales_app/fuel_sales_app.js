@@ -9,6 +9,15 @@
 // });
 // Custom Script for Fuel Sales App
 frappe.ui.form.on('Fuel Sales App', {
+
+    // validate: function(frm) {
+    //     validate_previous_day_shifts(frm);
+    // },
+
+    before_submit: function(frm) {
+        // Calling the function on submission
+        validate_previous_day_shifts(frm);
+    },
     
     refresh: function(frm) {
         if (frm.doc.docstatus === 1) {
@@ -49,6 +58,35 @@ frappe.ui.form.on('Fuel Sales App', {
     },
 
 });
+
+
+function validate_previous_day_shifts(frm) {
+    frappe.call({
+        method: 'petro_station_app.custom_api.Create_shifts.create_shift.validate_previous_day_shifts',
+        args: {
+            station: frm.doc.station,
+            posting_date: frm.doc.date
+        },
+        callback: function(r) {
+            if (r.message && !r.message.status) {
+                frappe.msgprint(r.message.message);
+                frappe.validated = false;  // block the save
+            }
+        },
+        error: function(err) {
+            // Handle thrown server-side errors like frappe.throw
+            frappe.msgprint({
+                title: __('Validation Error'),
+                indicator: 'red',
+                message: err.message || __('An error occurred while validating shifts.')
+            });
+            frappe.validated = false;  // stop the save as well
+        }
+    });
+}
+
+
+
 
 
 frappe.ui.form.on('Expense Claim Items', {

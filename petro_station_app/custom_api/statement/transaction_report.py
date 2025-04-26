@@ -1,5 +1,5 @@
-import frappe
-from frappe.utils import flt
+import frappe # type: ignore
+from frappe.utils import flt # type: ignore
 
 @frappe.whitelist()
 def get_transaction_report_gl(transaction_id, station=None, from_date=None, to_date=None):
@@ -135,8 +135,8 @@ def get_transaction_report_gl_withvivo(transaction_id, station=None, from_date=N
     return debit_credit_data
 
 
-import frappe
-from frappe.utils import flt, today
+import frappe # type: ignore
+from frappe.utils import flt, today # type: ignore
 
 
 # @frappe.whitelist()

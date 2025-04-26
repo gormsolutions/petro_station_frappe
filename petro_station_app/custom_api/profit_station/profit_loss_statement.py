@@ -104,6 +104,7 @@ def get_grouped_profit_and_loss_with_details(from_date, to_date, cost_center=Non
     filters = {
         "posting_date": ["between", [from_date, to_date]],
         "voucher_subtype": ["!=", "Internal Transfer"],  # Exclude 'Internal Transfer'
+        "is_cancelled": 0
     }
     if cost_center:
         filters["cost_center"] = cost_center
