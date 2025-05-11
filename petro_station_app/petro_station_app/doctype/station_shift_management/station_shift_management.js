@@ -191,6 +191,7 @@ frappe.ui.form.on('Station Shift Management', {
         getBankingandCash(frm);
         // fetcheDippingLevels(frm);
         CalculateTotal(frm);
+        calculateamountSales(frm);
     },
 
     get_bankings_and_cash: function (frm) {
@@ -369,6 +370,7 @@ frappe.ui.form.on('Station Shift Management', {
 
     get_calculations: function (frm) {
         CalculateTotal(frm);
+        calculateamountSales(frm);
     },
 
     before_load: function (frm) {
@@ -394,6 +396,21 @@ frappe.ui.form.on('Station Shift Management item', {
         calculateQtySold(frm, cdt, cdn);
     }
 });
+frappe.ui.form.on('Invoice Items', {
+    amount: function (frm, cdt, cdn) {
+        calculateamountSales(frm, cdt, cdn);
+    },
+});
+
+function calculateamountSales(frm) {
+    var total_amount = 0;
+    frm.doc.invoice_items.forEach(function (item) {
+        total_amount += item.amount;
+    });
+    frm.set_value('todays_credit_sales', total_amount);
+    refresh_field('invoice_items');
+}
+
 frappe.ui.form.on('Dipping Items', {
     dipping_qty: function (frm, cdt, cdn) {
         calculateAmountOnDipping(frm, cdt, cdn);

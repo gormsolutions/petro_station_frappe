@@ -14,7 +14,8 @@
   "column_break_tifc",
   "amount",
   "warehouse",
-  "uom"
+  "uom",
+  "discount_amount"
  ],
  "fields": [
   {
@@ -72,12 +73,18 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "UOM"
+  },
+  {
+   "fieldname": "discount_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Discount Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-03 15:39:40.549517",
+ "modified": "2025-05-02 16:55:55.073315",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Gas Sales Items",

@@ -10,7 +10,9 @@
   "party_type",
   "party",
   "claim_type",
-  "user"
+  "user",
+  "cost_center",
+  "account_paid_from"
  ],
  "fields": [
   {
@@ -44,11 +46,23 @@
    "label": "User",
    "options": "User",
    "unique": 1
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "account_paid_from",
+   "fieldtype": "Link",
+   "label": "Account Paid From",
+   "options": "Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-04 09:24:43.231810",
+ "modified": "2025-05-05 16:23:03.832242",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Expense Settings",

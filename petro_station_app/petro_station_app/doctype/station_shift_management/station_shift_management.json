@@ -36,6 +36,7 @@
   "section_break_uqtj",
   "get_calculations",
   "total_sales",
+  "todays_credit_sales",
   "total_cash_sales",
   "column_break_ihxx",
   "total_discount",
@@ -480,13 +481,20 @@
    "in_standard_filter": 1,
    "label": "Station Point",
    "options": "Cost Center"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "todays_credit_sales",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Shift Credit Sales"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2025-04-20 16:16:03.551282",
+ "modified": "2025-05-07 17:17:25.486051",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Shift Management",

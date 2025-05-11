@@ -180,7 +180,7 @@ class StationShiftManagement(Document):
             next_date = self.from_date if self.shift == "Day" else add_days(self.from_date, 1)
 
             # Debug: Log the current from_date
-            frappe.log_error(f"Current from_date: {self.from_date}", "Shift Debug")
+            # frappe.log_error(f"Current from_date: {self.from_date}", "Shift Debug")
 
             # Ensure items are present to process
             if not self.items:
@@ -208,10 +208,10 @@ class StationShiftManagement(Document):
                 if existing_shift_data:
                 # Only update if the existing shift is still a draft (docstatus == 0)
                     if existing_shift_data.docstatus != 0:
-                        frappe.log_error(
-                            f"Existing shift for employee {employee} on {next_date} is not a draft (docstatus {existing_shift_data.docstatus}). Skipping update.",
-                            "Shift Debug"
-                        )
+                        # frappe.log_error(
+                        #     f"Existing shift for employee {employee} on {next_date} is not a draft (docstatus {existing_shift_data.docstatus}). Skipping update.",
+                        #     "Shift Debug"
+                        # )
                         continue
                     else:
                         next_shift_doc = frappe.get_doc("Station Shift Management", existing_shift_data.name)
@@ -254,10 +254,10 @@ class StationShiftManagement(Document):
                         })
 
                 # Debug: Log the details of the next shift being created or updated
-                frappe.log_error(
-                    f"Processed next shift document for employee: {employee}, date: {next_date}",
-                    "Shift Debug"
-                )
+                # frappe.log_error(
+                #     f"Processed next shift document for employee: {employee}, date: {next_date}",
+                #     "Shift Debug"
+                # )
 
                 # Save or insert the shift document. They remain as drafts.
                 if existing_shift_data:

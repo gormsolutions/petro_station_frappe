@@ -213,7 +213,7 @@ def fetch_stock_entry_ledger_data_no_fuel(from_date=None, to_date=None, cost_cen
                 )
 
                 # Debugging - Log the is_empty_item value
-                frappe.log_error(f"Checking EMPTY Items: {is_empty_item}", "Fetch Stock Entry Ledger Data")
+                # frappe.log_error(f"Checking EMPTY Items: {is_empty_item}", "Fetch Stock Entry Ledger Data")
 
                 if is_empty_item and "EMPTY" in entry.item_code:
                     continue  # Skip this specific item, process the rest

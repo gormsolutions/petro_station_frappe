@@ -235,10 +235,11 @@ class GasInvoices(Document):
             "custom_gas_invice_id": self.name,
             "docstatus": 1
         })
+        
         if existing_sales_invoice:
             frappe.msgprint(_("Sales Invoice already exists for this transaction"))
             return
-
+        
         sales_invoice = frappe.new_doc("Sales Invoice")
         sales_invoice.customer = self.customer
         sales_invoice.due_date = self.due_date
@@ -250,7 +251,7 @@ class GasInvoices(Document):
         sales_invoice.posting_time = self.time
         sales_invoice.custom_gas_invice_id = self.name
         sales_invoice.custom_employee = self.employee
-        
+                
         promotional_items = []
         total_amount = 0
         
@@ -261,13 +262,16 @@ class GasInvoices(Document):
                 item.item_code, 
                 ["custom_on_promotion", "custom_promotion_amount"]
             )
+            # Calculate the discounted rate
+            discounted_rate = item.rate - (item.discount_amount or 0)
             
             sales_invoice.append("items", {
                 "item_code": item.item_code,
                 "qty": item.qty,
-                "rate": item.rate,
+                "rate": discounted_rate,
                 "warehouse": self.store,
-                "amount": item.amount,
+                # "amount": item.amount,
+                # "custom_gas_discount": item.discount_amount,
                 "cost_center": self.station,
             })
             
@@ -291,7 +295,8 @@ class GasInvoices(Document):
 
             if self.include_payments:
                 self.create_payment_entry(sales_invoice)
-
+    
+                
     def create_promotion_journal_entry(self, promotional_items, total_amount, sales_invoice_name):
         # Fetch default promotional account and mode of payment account from Promotional Settings
         promotional_accounts = frappe.get_all(

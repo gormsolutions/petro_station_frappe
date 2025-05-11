@@ -31,7 +31,11 @@
   "daily_sales_items",
   "purchases_tab",
   "total_amount_spent",
-  "items"
+  "items",
+  "settings_tab",
+  "company",
+  "stock_warehouse",
+  "stock_cost_cneter"
  ],
  "fields": [
   {
@@ -186,12 +190,36 @@
    "fieldtype": "Float",
    "label": "Total Sales Expected",
    "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "settings_tab",
+   "fieldtype": "Tab Break",
+   "label": "Settings"
+  },
+  {
+   "fieldname": "stock_warehouse",
+   "fieldtype": "Link",
+   "label": "Stock Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "stock_cost_cneter",
+   "fieldtype": "Link",
+   "label": "Stock Cost Cneter",
+   "options": "Cost Center"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-04 15:56:38.413223",
+ "modified": "2025-04-28 16:31:49.110294",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Monthly Report",
