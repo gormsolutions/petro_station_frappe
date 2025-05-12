@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='petro_station_frappe',
+    name='petro_station_app',  # ✅ MUST match your app folder
     version='0.0.1',
     description='Petro Station App for Frappe',
     author='GORM SOLUTIONS',
