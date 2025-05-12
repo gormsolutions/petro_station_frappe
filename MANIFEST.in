@@ -1,0 +1,4 @@
+include README.md
+include setup.py
+recursive-include petro_station_frappe *.html *.js *.css *.py *.json *.md
+recursive-include petro_station_frappe/config *.py
