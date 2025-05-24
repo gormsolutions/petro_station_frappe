@@ -2,6 +2,50 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Dipping Log", {
+       onload: function(frm) {
+        if (!frm.doc.current_dipping_level) {
+            frappe.prompt([
+                {
+                    fieldname: 'current_dipping_level',
+                    fieldtype: 'Float',
+                    label: __('Current Dipping Level'),
+                    reqd: 1
+                }
+            ], function(values){
+                frm.set_value('current_dipping_level', values.current_dipping_level);
+            }, __('Enter Current Dipping Level'));
+        }
+    },
+    tank: function(frm) {
+        frappe.call({
+            method: 'petro_station_app.custom_api.dipping_levels.get_warehouse_from_tank',
+            args: {
+                tank: frm.doc.tank
+            },
+            callback: function(response) {
+                console.log(response)
+                if (response.message && response.message.length > 0) {
+                    
+                    // Assuming only one item is returned in the response
+                    let warehouseDetails = response.message[0];
+                    
+                    frm.set_value('current_acty_qty', warehouseDetails.actual_qty);
+                    frm.set_value('item_code', warehouseDetails.item_code);
+
+                    // Calculate dipping_difference
+                    let dippingDifference = frm.doc.current_dipping_level - frm.doc.current_acty_qty;
+                    frm.set_value('dipping_difference', dippingDifference);
+                } else {
+                    frappe.msgprint('No warehouse details found for the selected tank.');
+                }
+            }
+        });
+    },
+    current_dipping_level: function(frm) {
+        // Recalculate dipping_difference
+        let dippingDifference = frm.doc.current_dipping_level - frm.doc.current_acty_qty;
+        frm.set_value('dipping_difference', dippingDifference);
+    },
     before_load: function(frm) {
         // Set the dipping_date to the day before today when creating a new document
         if (frm.is_new()) {
@@ -48,3 +92,4 @@ frappe.ui.form.on("Dipping Log", {
     //     });
     // }
 });
+

@@ -3,17 +3,17 @@ import frappe
 from frappe import _
 
 @frappe.whitelist()
-def get_pump_or_tank(employee, date=None, shift=None, station=None):
+def get_pump_or_tank(employee=None, date=None, shift=None, station=None):
     try:
         # Check if any of the parameters are None and handle accordingly
-        if not employee:
-            frappe.throw(_("Employee is required"))
+        # if not employee:
+        #     frappe.throw(_("Employee is required"))
         if not date:
             frappe.throw(_("Date is required"))
-        if not shift:
-            frappe.throw(_("Shift is required"))
-        if not station:
-            frappe.throw(_("Station is required"))
+        # if not shift:
+        #     frappe.throw(_("Shift is required"))
+        # if not station:
+        #     frappe.throw(_("Station is required"))
         
         # Sanitize inputs by stripping leading/trailing spaces (after checking they're not None)
         employee = employee.strip() if employee else None
@@ -47,7 +47,37 @@ def get_pump_or_tank(employee, date=None, shift=None, station=None):
             },
             as_dict=True
         )
+        
+        
+        # fetch mobile warehouse
+        mobliewarehouses_or_tank_values = frappe.db.sql(
+            """
+            SELECT DISTINCT 
+                shift_item.mw_plate_number,
+                shift_item.difference_on_opening_and_closing_quantit
+            FROM 
+                `tabMobile Warehouse Items` AS shift_item
+            JOIN 
+                `tabStation Shift Management` AS shift_doc
+            ON 
+                shift_item.parent = shift_doc.name
+            WHERE 
+                shift_doc.from_date = %(date)s
+                AND shift_doc.station = %(station)s
+                AND shift_doc.employee = %(employee)s
+                AND shift_doc.shift = %(shift)s
+            """,
+            {
+                'date': date,  # Date has already been stripped
+                'employee': employee,  # Employee has already been stripped
+                'shift': shift,  # Shift has already been stripped
+                'station': station  # Station has already been stripped
+            },
+            as_dict=True
+        )
 
+        
+        
         # Validate and return the results
         return [
             {
@@ -55,6 +85,12 @@ def get_pump_or_tank(employee, date=None, shift=None, station=None):
                 "qty_sold_on_meter_reading": row.get("qty_sold_on_meter_reading")
             }
             for row in pump_or_tank_values
+        ] + [
+            {
+                "pump_or_tank": row.get("mw_plate_number"),
+                "qty_sold_on_meter_reading": row.get("difference_on_opening_and_closing_quantit")
+            }
+            for row in mobliewarehouses_or_tank_values
         ]
 
     except json.JSONDecodeError as e:

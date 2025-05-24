@@ -1,35 +1,167 @@
 import frappe
 from frappe import _
 
+# @frappe.whitelist() 
+# def get_sales_invoices_with_totals(cost_center=None, employee=None, posting_date=None,end_date=None):
+#     try:
+#         # Log filter criteria
+#         frappe.logger().info(f"Fetching sales invoices for cost center: {cost_center} and posting date: {posting_date}")
+
+#         # Check if cost_center or posting_date is None
+#         filters = {"docstatus": 1}
+#         if cost_center:
+#             filters["cost_center"] = cost_center
+#         if posting_date:
+#             filters["posting_date"] = posting_date
+        
+#         if employee:
+#             filters["custom_employee"] = employee
+            
+
+#         # Fetch sales invoices with specified fields 
+#         sales_invoices = frappe.get_all(
+#             "Sales Invoice",
+#             filters=filters,
+#             fields=["name", "posting_date", "status","custom_credit_sales_app","custom_invoice_no","customer_name","custom_fuel_sales_app_id","customer","grand_total", "additional_discount_account", "outstanding_amount", "cost_center"]
+#         )
+
+#         # Log fetched sales invoices
+#         frappe.logger().info(f"Fetched {len(sales_invoices)} sales invoices")
+
+#         if not sales_invoices:
+#             frappe.logger().info("No sales invoices found with the given filters")
+#             return {
+#                 "Invoices": [],
+#                 "Total Grand Total": 0,
+#                 "Total Outstanding Amount": 0,
+#                 "Total Additional Discount": 0,
+#                 "Total Quantity": 0
+#             }
+
+#         # Initialize totals
+#         total_grand_total = 0
+#         total_outstanding_amount = 0
+#         total_additional_discount = 0
+#         total_qty = 0
+
+#         # Dictionary to store aggregated invoice details
+#         invoices_dict = {}
+
+#         # Iterate over the fetched sales invoices
+#         for invoice in sales_invoices:
+#             # Check if invoice already exists in invoices_dict based on name
+#             if invoice["name"] not in invoices_dict:
+#                 # Initialize invoice details
+#                 invoice_details = {
+#                     "Invoice Name": invoice["name"],
+#                     "Invoice No": invoice["custom_invoice_no"],
+#                     "credit No": invoice["custom_credit_sales_app"],
+#                     "sales No": invoice["custom_fuel_sales_app_id"],
+#                     "Posting Date": invoice["posting_date"],
+#                     "Status": invoice["status"],
+#                     "Customer Name": invoice["customer_name"],
+#                     "Customer": invoice["customer"],
+#                     "Total Amount": invoice["grand_total"],
+#                     "Additional Discount Account (UGX)": invoice["additional_discount_account"],
+#                     "Outstanding Amount (UGX)": invoice["outstanding_amount"],
+#                     "Cost Center": invoice["cost_center"],
+#                     "Items": []
+#                 }
+
+#                 # Add invoice details to invoices_dict
+#                 invoices_dict[invoice["name"]] = invoice_details
+
+#             # Fetch items for each invoice
+#             items = frappe.get_all(
+#                 "Sales Invoice Item",
+#                 filters={"parent": invoice["name"]},
+#                 fields=["item_code", "item_name", "qty", "rate", "amount", "discount_amount", "cost_center"]
+#             )
+
+#             # Log fetched items
+#             frappe.logger().info(f"Fetched {len(items)} items for invoice {invoice['name']}")
+
+#             # Dictionary to aggregate items by item code and cost center
+#             aggregated_items = {}
+
+#             # Aggregate items by item code and cost center
+#             for item in items:
+#                 key = (item["item_code"], item["cost_center"])
+#                 if key not in aggregated_items:
+#                     aggregated_items[key] = {
+#                         "Item Code": item["item_code"],
+#                         "Item Name": item["item_name"],
+#                         "Quantity": item["qty"],
+#                         "Rate": item["rate"],
+#                         "Amount": item["amount"],
+#                         "Discount Amount": item.get("discount_amount", 0),  # Handle missing key gracefully
+#                         "Cost Center": item["cost_center"]
+#                     }
+#                 else:
+#                     # If item exists, accumulate quantities and amounts
+#                     aggregated_items[key]["Quantity"] += item["qty"]
+#                     aggregated_items[key]["Amount"] += item["amount"]
+
+#             # Append aggregated items to invoice details
+#             invoices_dict[invoice["name"]]["Items"].extend(list(aggregated_items.values()))
+
+#             # Calculate totals for the invoice
+#             for agg_item in aggregated_items.values():
+#                 total_qty += agg_item["Quantity"]
+#                 total_additional_discount += agg_item.get("discount_amount", 0)  # Handle missing key gracefully
+
+#             # Add invoice amounts to totals
+#             total_grand_total += invoice["grand_total"]
+#             total_outstanding_amount += invoice["outstanding_amount"]
+
+#         # Convert invoices_dict to a list of values
+#         invoices_list = list(invoices_dict.values())
+
+#         # Add totals to the response
+#         result = {
+#             "Invoices": invoices_list,
+#             "Total Grand Total": total_grand_total,
+#             "Total Outstanding Amount": total_outstanding_amount,
+#             "Total Additional Discount": total_additional_discount,
+#             "Total Quantity": total_qty
+#         }
+
+#         # Log final result
+#         frappe.logger().info(f"Final result: {result}")
+#         # Return the list of invoices with items and totals
+#         return result
+
+#     except Exception as e:
+#         frappe.throw(_("An error occurred while fetching sales invoices: {}").format(str(e)))
+
 @frappe.whitelist()
-def get_sales_invoices_with_totals(cost_center=None, employee=None, posting_date=None):
+def get_sales_invoices_with_totals(cost_center=None, employee=None, posting_date=None, end_date=None):
     try:
         # Log filter criteria
-        frappe.logger().info(f"Fetching sales invoices for cost center: {cost_center} and posting date: {posting_date}")
+        frappe.logger().info(f"Fetching sales invoices for cost center: {cost_center}, employee: {employee}, from: {posting_date}, to: {end_date}")
 
-        # Check if cost_center or posting_date is None
         filters = {"docstatus": 1}
         if cost_center:
             filters["cost_center"] = cost_center
-        if posting_date:
-            filters["posting_date"] = posting_date
-        
         if employee:
             filters["custom_employee"] = employee
-            
+        if posting_date and end_date:
+            filters["posting_date"] = ["between", [posting_date, end_date]]
+        elif posting_date:
+            filters["posting_date"] = posting_date
 
-        # Fetch sales invoices with specified fields
+        # Fetch sales invoices
         sales_invoices = frappe.get_all(
             "Sales Invoice",
             filters=filters,
-            fields=["name", "posting_date", "custom_credit_sales_app","custom_invoice_no","customer_name","custom_fuel_sales_app_id","customer","grand_total", "additional_discount_account", "outstanding_amount", "cost_center"]
+            fields=["name", "posting_date", "status", "custom_credit_sales_app", "custom_invoice_no",
+                    "customer_name", "custom_fuel_sales_app_id", "customer", "grand_total",
+                    "additional_discount_account", "outstanding_amount", "cost_center"]
         )
 
-        # Log fetched sales invoices
         frappe.logger().info(f"Fetched {len(sales_invoices)} sales invoices")
 
         if not sales_invoices:
-            frappe.logger().info("No sales invoices found with the given filters")
             return {
                 "Invoices": [],
                 "Total Grand Total": 0,
@@ -38,26 +170,21 @@ def get_sales_invoices_with_totals(cost_center=None, employee=None, posting_date
                 "Total Quantity": 0
             }
 
-        # Initialize totals
         total_grand_total = 0
         total_outstanding_amount = 0
         total_additional_discount = 0
         total_qty = 0
-
-        # Dictionary to store aggregated invoice details
         invoices_dict = {}
 
-        # Iterate over the fetched sales invoices
         for invoice in sales_invoices:
-            # Check if invoice already exists in invoices_dict based on name
             if invoice["name"] not in invoices_dict:
-                # Initialize invoice details
                 invoice_details = {
                     "Invoice Name": invoice["name"],
                     "Invoice No": invoice["custom_invoice_no"],
                     "credit No": invoice["custom_credit_sales_app"],
                     "sales No": invoice["custom_fuel_sales_app_id"],
                     "Posting Date": invoice["posting_date"],
+                    "Status": invoice["status"],
                     "Customer Name": invoice["customer_name"],
                     "Customer": invoice["customer"],
                     "Total Amount": invoice["grand_total"],
@@ -66,24 +193,17 @@ def get_sales_invoices_with_totals(cost_center=None, employee=None, posting_date
                     "Cost Center": invoice["cost_center"],
                     "Items": []
                 }
-
-                # Add invoice details to invoices_dict
                 invoices_dict[invoice["name"]] = invoice_details
 
-            # Fetch items for each invoice
             items = frappe.get_all(
                 "Sales Invoice Item",
                 filters={"parent": invoice["name"]},
                 fields=["item_code", "item_name", "qty", "rate", "amount", "discount_amount", "cost_center"]
             )
 
-            # Log fetched items
             frappe.logger().info(f"Fetched {len(items)} items for invoice {invoice['name']}")
 
-            # Dictionary to aggregate items by item code and cost center
             aggregated_items = {}
-
-            # Aggregate items by item code and cost center
             for item in items:
                 key = (item["item_code"], item["cost_center"])
                 if key not in aggregated_items:
@@ -93,67 +213,189 @@ def get_sales_invoices_with_totals(cost_center=None, employee=None, posting_date
                         "Quantity": item["qty"],
                         "Rate": item["rate"],
                         "Amount": item["amount"],
-                        "Discount Amount": item.get("discount_amount", 0),  # Handle missing key gracefully
+                        "Discount Amount": item.get("discount_amount", 0),
                         "Cost Center": item["cost_center"]
                     }
                 else:
-                    # If item exists, accumulate quantities and amounts
                     aggregated_items[key]["Quantity"] += item["qty"]
                     aggregated_items[key]["Amount"] += item["amount"]
 
-            # Append aggregated items to invoice details
             invoices_dict[invoice["name"]]["Items"].extend(list(aggregated_items.values()))
 
-            # Calculate totals for the invoice
             for agg_item in aggregated_items.values():
                 total_qty += agg_item["Quantity"]
-                total_additional_discount += agg_item.get("discount_amount", 0)  # Handle missing key gracefully
+                total_additional_discount += agg_item.get("discount_amount", 0)
 
-            # Add invoice amounts to totals
             total_grand_total += invoice["grand_total"]
             total_outstanding_amount += invoice["outstanding_amount"]
 
-        # Convert invoices_dict to a list of values
-        invoices_list = list(invoices_dict.values())
-
-        # Add totals to the response
         result = {
-            "Invoices": invoices_list,
+            "Invoices": list(invoices_dict.values()),
             "Total Grand Total": total_grand_total,
             "Total Outstanding Amount": total_outstanding_amount,
             "Total Additional Discount": total_additional_discount,
             "Total Quantity": total_qty
         }
 
-        # Log final result
         frappe.logger().info(f"Final result: {result}")
-        # Return the list of invoices with items and totals
         return result
 
     except Exception as e:
         frappe.throw(_("An error occurred while fetching sales invoices: {}").format(str(e)))
 
+# @frappe.whitelist()
+# def get_sales_invoices_with_outstanding(cost_center=None, employee=None, posting_date=None, end_date=None):
+#     try:
+#         # Log filter criteria
+#         frappe.logger().info(f"Fetching sales invoices for cost center: {cost_center} and posting date: {posting_date}")
+
+#         # Check if cost_center or posting_date is None
+#         filters = {"docstatus": 1, "outstanding_amount": [">", 0]}
+#         if cost_center:
+#             filters["cost_center"] = cost_center
+#         if posting_date:
+#             filters["posting_date"] = posting_date
+        
+#         if employee:
+#             filters["custom_employee"] = employee
+
+#         # Fetch sales invoices with specified fields
+#         sales_invoices = frappe.get_all(
+#             "Sales Invoice",
+#             filters=filters,
+#             fields=["name", "posting_date", "custom_invoice_no","customer_name", "customer", "grand_total", "additional_discount_account", "outstanding_amount", "cost_center"]
+#         )
+
+#         # Log fetched sales invoices
+#         frappe.logger().info(f"Fetched {len(sales_invoices)} sales invoices")
+
+#         if not sales_invoices:
+#             frappe.logger().info("No sales invoices found with the given filters")
+#             return {
+#                 "Invoices": [],
+#                 "Total Grand Total": 0,
+#                 "Total Outstanding Amount": 0,
+#                 "Total Additional Discount": 0,
+#                 "Total Quantity": 0
+#             }
+
+#         # Initialize totals
+#         total_grand_total = 0
+#         total_outstanding_amount = 0
+#         total_additional_discount = 0
+#         total_qty = 0
+
+#         # Dictionary to store aggregated invoice details
+#         invoices_dict = {}
+
+#         # Iterate over the fetched sales invoices
+#         for invoice in sales_invoices:
+#             # Check if invoice already exists in invoices_dict based on name
+#             if invoice["name"] not in invoices_dict:
+#                 # Initialize invoice details
+#                 invoice_details = {
+#                     "Invoice Name": invoice["name"],
+#                     "Invoice No": invoice["custom_invoice_no"],
+#                     "Posting Date": invoice["posting_date"],
+#                     "Customer Name": invoice["customer_name"],
+#                     "Customer": invoice["customer"],
+#                     "Total Amount": invoice["grand_total"],
+#                     "Additional Discount Account (UGX)": invoice["additional_discount_account"],
+#                     "Outstanding Amount (UGX)": invoice["outstanding_amount"],
+#                     "Cost Center": invoice["cost_center"],
+#                     "Items": []
+#                 }
+
+#                 # Add invoice details to invoices_dict
+#                 invoices_dict[invoice["name"]] = invoice_details
+
+#             # Fetch items for each invoice
+#             items = frappe.get_all(
+#                 "Sales Invoice Item",
+#                 filters={"parent": invoice["name"]},
+#                 fields=["item_code", "item_name", "qty", "rate", "amount", "discount_amount", "cost_center"]
+#             )
+
+#             # Log fetched items
+#             frappe.logger().info(f"Fetched {len(items)} items for invoice {invoice['name']}")
+
+#             # Dictionary to aggregate items by item code and cost center
+#             aggregated_items = {}
+
+#             # Aggregate items by item code and cost center
+#             for item in items:
+#                 key = (item["item_code"], item["cost_center"])
+#                 if key not in aggregated_items:
+#                     aggregated_items[key] = {
+#                         "Item Code": item["item_code"],
+#                         "Item Name": item["item_name"],
+#                         "Quantity": item["qty"],
+#                         "Rate": item["rate"],
+#                         "Amount": item["amount"],
+#                         "Discount Amount": item.get("discount_amount", 0),  # Handle missing key gracefully
+#                         "Cost Center": item["cost_center"]
+#                     }
+#                 else:
+#                     # If item exists, accumulate quantities and amounts
+#                     aggregated_items[key]["Quantity"] += item["qty"]
+#                     aggregated_items[key]["Amount"] += item["amount"]
+
+#             # Append aggregated items to invoice details
+#             invoices_dict[invoice["name"]]["Items"].extend(list(aggregated_items.values()))
+
+#             # Calculate totals for the invoice
+#             for agg_item in aggregated_items.values():
+#                 total_qty += agg_item["Quantity"]
+#                 total_additional_discount += agg_item.get("discount_amount", 0)  # Handle missing key gracefully
+
+#             # Add invoice amounts to totals
+#             total_grand_total += invoice["grand_total"]
+#             total_outstanding_amount += invoice["outstanding_amount"]
+
+#         # Convert invoices_dict to a list of values
+#         invoices_list = list(invoices_dict.values())
+
+#         # Add totals to the response
+#         result = {
+#             "Invoices": invoices_list,
+#             "Total Grand Total": total_grand_total,
+#             "Total Outstanding Amount": total_outstanding_amount,
+#             "Total Additional Discount": total_additional_discount,
+#             "Total Quantity": total_qty
+#         }
+
+#         # Log final result
+#         frappe.logger().info(f"Final result: {result}")
+#         # Return the list of invoices with items and totals
+#         return result
+
+#     except Exception as e:
+#         frappe.throw(_("An error occurred while fetching sales invoices: {}").format(str(e)))
+
 @frappe.whitelist()
-def get_sales_invoices_with_outstanding(cost_center=None, employee=None, posting_date=None):
+def get_sales_invoices_with_outstanding(cost_center=None, employee=None, posting_date=None, end_date=None):
     try:
         # Log filter criteria
-        frappe.logger().info(f"Fetching sales invoices for cost center: {cost_center} and posting date: {posting_date}")
+        frappe.logger().info(f"Fetching sales invoices for cost center: {cost_center}, posting date: {posting_date}, and end date: {end_date}")
 
-        # Check if cost_center or posting_date is None
+        # Build filters
         filters = {"docstatus": 1, "outstanding_amount": [">", 0]}
         if cost_center:
             filters["cost_center"] = cost_center
-        if posting_date:
-            filters["posting_date"] = posting_date
-        
         if employee:
             filters["custom_employee"] = employee
+        if posting_date and end_date:
+            filters["posting_date"] = ["between", [posting_date, end_date]]
+        elif posting_date:
+            filters["posting_date"] = [">=", posting_date]
+        elif end_date:
+            filters["posting_date"] = ["<=", end_date]
 
         # Fetch sales invoices with specified fields
         sales_invoices = frappe.get_all(
             "Sales Invoice",
             filters=filters,
-            fields=["name", "posting_date", "custom_invoice_no","customer_name", "customer", "grand_total", "additional_discount_account", "outstanding_amount", "cost_center"]
+            fields=["name", "posting_date", "custom_invoice_no", "customer_name", "customer", "grand_total", "additional_discount_account", "outstanding_amount", "cost_center"]
         )
 
         # Log fetched sales invoices
@@ -222,30 +464,28 @@ def get_sales_invoices_with_outstanding(cost_center=None, employee=None, posting
                         "Quantity": item["qty"],
                         "Rate": item["rate"],
                         "Amount": item["amount"],
-                        "Discount Amount": item.get("discount_amount", 0),  # Handle missing key gracefully
+                        "Discount Amount": item.get("discount_amount", 0),
                         "Cost Center": item["cost_center"]
                     }
                 else:
-                    # If item exists, accumulate quantities and amounts
                     aggregated_items[key]["Quantity"] += item["qty"]
                     aggregated_items[key]["Amount"] += item["amount"]
 
             # Append aggregated items to invoice details
             invoices_dict[invoice["name"]]["Items"].extend(list(aggregated_items.values()))
 
-            # Calculate totals for the invoice
+            # Update totals
             for agg_item in aggregated_items.values():
                 total_qty += agg_item["Quantity"]
-                total_additional_discount += agg_item.get("discount_amount", 0)  # Handle missing key gracefully
+                total_additional_discount += agg_item.get("discount_amount", 0)
 
-            # Add invoice amounts to totals
             total_grand_total += invoice["grand_total"]
             total_outstanding_amount += invoice["outstanding_amount"]
 
-        # Convert invoices_dict to a list of values
+        # Convert dict to list
         invoices_list = list(invoices_dict.values())
 
-        # Add totals to the response
+        # Final result
         result = {
             "Invoices": invoices_list,
             "Total Grand Total": total_grand_total,
@@ -254,9 +494,7 @@ def get_sales_invoices_with_outstanding(cost_center=None, employee=None, posting
             "Total Quantity": total_qty
         }
 
-        # Log final result
         frappe.logger().info(f"Final result: {result}")
-        # Return the list of invoices with items and totals
         return result
 
     except Exception as e:

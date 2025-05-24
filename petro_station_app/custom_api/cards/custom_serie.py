@@ -1,33 +1,33 @@
-# Custom Script for Doctype - MMDD-YYYY-9999-0000 in custom_series field
 import frappe
-from datetime import datetime
+from frappe.model.meta import get_meta
 
-# Initialize global counters (decreasing and increasing)
-last_part_9999 = 9999
-last_part_0000 = 0
+@frappe.whitelist()
+def add_all_fields_to_delivery_note_document():
+    target_doc = frappe.get_doc("DocType", "Delivery Note Document")
+    source_meta = get_meta("Delivery Note")
 
-def custom_naming(doc, method):
-    global last_part_9999, last_part_0000
+    existing_fields = {df.fieldname for df in target_doc.fields}
 
-    # Get the current date in MMDD-YYYY format
-    today = datetime.today().strftime('%m%d-%Y')
+    added_fields = 0
 
-    # Increment 0000 part
-    if last_part_0000 < 9999:
-        last_part_0000 += 1
-    else:
-        # Reset 0000 and decrease 9999 part if 0000 reaches 9999
-        last_part_0000 = 0
-        if last_part_9999 > 0:
-            last_part_9999 -= 1
-        else:
-            frappe.throw("Series has reached its minimum limit.")
+    for df in source_meta.fields:
+        # Skip custom fields
+        if df.get("custom_field"):
+            continue
+        
+        # Avoid duplicate fields
+        if df.fieldname in existing_fields:
+            continue
+        
+        new_df = df.as_dict()
+        # Remove system properties that cause errors during insertion
+        for key in ["idx", "parent", "parentfield", "parenttype", "modified", "modified_by", 
+                    "creation", "owner", "docstatus", "doctype", "name"]:
+            new_df.pop(key, None)
 
-    # Set the generated series in the custom_series field
-    doc.custom_series = f"{today}-{str(last_part_9999).zfill(4)}-{str(last_part_0000).zfill(4)}"
-    
-@frappe.whitelist()   
-def fetch_card_details(customer,custom_number):
-    fuel_card = frappe.get_doc("Fuel Card", {"customer": customer, "custom_serie": custom_number})
-    return fuel_card
+        target_doc.append("fields", new_df)
+        added_fields += 1
 
+    target_doc.save()
+    frappe.db.commit()
+    return f"{added_fields} fields (including child tables) copied from Delivery Note to Delivery Note Document."

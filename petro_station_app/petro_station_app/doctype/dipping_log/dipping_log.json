@@ -14,6 +14,8 @@
   "current_acty_qty",
   "current_dipping_level",
   "dipping_difference",
+  "location",
+  "branch_station",
   "column_break_djzw",
   "naming_series",
   "dipping_date",
@@ -49,13 +51,13 @@
   {
    "fieldname": "current_acty_qty",
    "fieldtype": "Float",
-   "label": "Current Actual Qty",
+   "label": "System's Actual Qty",
    "read_only": 1
   },
   {
    "fieldname": "current_dipping_level",
    "fieldtype": "Float",
-   "label": "Curent Dipping Level",
+   "label": "Physical Dipping Level",
    "reqd": 1
   },
   {
@@ -100,7 +102,7 @@
    "fieldtype": "Link",
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Branch",
+   "label": "Station",
    "options": "Cost Center",
    "reqd": 1
   },
@@ -133,12 +135,26 @@
    "label": "Dipping Time",
    "read_only": 1,
    "reqd": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "label": "Location",
+   "options": "Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "branch_station",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-25 09:32:56.995914",
+ "modified": "2025-05-16 03:36:20.274976",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Dipping Log",

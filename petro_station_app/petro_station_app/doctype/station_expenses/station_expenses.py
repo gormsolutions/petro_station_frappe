@@ -23,9 +23,10 @@ class StationExpenses(Document):
         # Create new Journal Entry
         journal_entry = frappe.new_doc('Journal Entry')
         journal_entry.voucher_type = 'Journal Entry'
-        journal_entry.company = 'Shell Elgon'
+        journal_entry.company = 'AL-IHSAN OIL & GAS NIGERIA LIMITED'
         journal_entry.posting_date = self.date
         journal_entry.custom_employee = self.employee
+        journal_entry.custom_station = self.station
         journal_entry.custom_station_expense_id = self.name
         
         for item in self.items:
@@ -36,13 +37,15 @@ class StationExpenses(Document):
             
             # Debit Entry
             journal_entry.append('accounts', {
-                'account': "2110 - Creditors - SE",
+                'account': "2105 - Trade Payables - AO&GN",
                 'party_type': item.party_type,
                 'party': item.party,
                 'description': item.description,
                 'debit_in_account_currency': item.amount,
                 'credit_in_account_currency': 0,
-                'cost_center': self.station
+                'cost_center': self.station,
+                'location': self.location,
+                'branch': self.branch
             })
             
             # Credit Entry
@@ -50,18 +53,22 @@ class StationExpenses(Document):
                 'account': methods,
                 'debit_in_account_currency': 0,
                 'credit_in_account_currency': item.amount,
-                'cost_center': self.station
+                'cost_center': self.station,
+                'location': self.location,
+                'branch': self.branch
             })
             
             # Additional Debit Entry
             journal_entry.append('accounts', {
-                'account': "2110 - Creditors - SE",
+                'account': "2105 - Trade Payables - AO&GN",
                 'party_type': item.party_type,
                 'description': item.description,
                 'party': item.party,
                 'debit_in_account_currency': 0,
                 'credit_in_account_currency': item.amount,
-                'cost_center': self.station
+                'cost_center': self.station,
+                'location': self.location,
+                'branch': self.branch
             })
             
             # Additional Credit Entry
@@ -69,7 +76,9 @@ class StationExpenses(Document):
                 'account': claim_account,
                 'debit_in_account_currency': item.amount,
                 'credit_in_account_currency': 0,
-                'cost_center': self.station
+                'cost_center': self.station,
+                'location': self.location,
+                'branch': self.branch
             })
         
         # Save the Journal Entry

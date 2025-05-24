@@ -1,10 +1,31 @@
 // Copyright (c) 2024, Mututa Paul and contributors
 // For license information, please see license.txt  
 // /home/byoosi/fahaab/apps/petro_station_app/petro_station_app/petro_station_app/doctype/purchase_management/purchase_management.py
-frappe.ui.form.on('Purchase Management', {
+frappe.ui.form.on('Purchase Management', { 
     refresh: function(frm) {
         // Call the function to toggle the usd_exchange_rate field visibility
         toggle_usd_exchange_rate(frm);
+
+                // Only show the button if the document is not submitted
+        if (!frm.is_new() || frm.doc.docstatus === 0) {
+            frm.add_custom_button(__('Purchase Order'), function () {
+                erpnext.utils.map_current_doc({
+                    method: "petro_station_app.custom_api.sales_order.fetch_purchase_order.map_purchase_order_to_purchase_management",
+                    source_doctype: "Purchase Order",
+                    target: frm,
+                    setters: {
+                        supplier: frm.doc.supplier,
+                    },
+                    get_query_filters: {
+                        docstatus: 1,
+                        status: ["not in", ["Closed", "On Hold"]],
+                        per_billed: ["<", 99.99],
+                        company: frm.doc.company,
+                    }
+                });
+            }, __("Get Items From"));
+        }
+
     },
     currency: function(frm) {
         // Call the function to toggle the usd_exchange_rate field visibility

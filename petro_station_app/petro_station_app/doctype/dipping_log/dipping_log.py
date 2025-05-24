@@ -35,6 +35,9 @@ class DippingLog(Document):
             "doctype": "Stock Reconciliation",
             "posting_date": self.dipping_date,
             "posting_time": self.dipping_time,
+            "purpose": "Stock Reconciliation",
+            "loaction": self.location,
+            "branch": self.branch_station,
             "set_posting_time": 1,
             "cost_center": self.branch,  # Assuming 'branch' represents the company
             "custom_dipping_log_id": self.name,

@@ -171,13 +171,15 @@
    "fieldname": "fuel_tank",
    "fieldtype": "Link",
    "label": "Fuel Tank",
-   "options": "Warehouse"
+   "options": "Warehouse",
+   "read_only": 1,
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-03 11:06:27.944957",
+ "modified": "2025-05-23 11:44:08.738319",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Fuel Sales Items",

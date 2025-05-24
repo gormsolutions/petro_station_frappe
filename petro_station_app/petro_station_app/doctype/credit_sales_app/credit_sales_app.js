@@ -9,6 +9,26 @@
 frappe.ui.form.on('Credit Sales App', {
    refresh: function (frm) {
 
+        // Only show the button if the document is not submitted
+          if (!frm.is_new() || frm.doc.docstatus === 0) {
+            frm.add_custom_button(__('Sales Order'), function () {
+                erpnext.utils.map_current_doc({
+                    method: "petro_station_app.custom_api.sales_order.fetch_sales_order.map_sales_order_to_fuel_sales",
+                    source_doctype: "Sales Order",
+                    target: frm,
+                    setters: {
+                        customer: frm.doc.customer,
+                    },
+                    get_query_filters: {
+                        docstatus: 1,
+                        status: ["not in", ["Closed", "On Hold"]],
+                        per_billed: ["<", 99.99],
+                        company: frm.doc.company,
+                    }
+                });
+            }, __("Get Items From"));
+        }
+
     if (frm.doc.docstatus === 0 && frm.doc.items && frm.doc.items.length > 0) {
         updateActualQtyOnly(frm);
     }
@@ -59,12 +79,98 @@ frappe.ui.form.on('Credit Sales App', {
                 frappe.validated = false; // Prevent form submission
             }
         }
+
+
+         (frm.doc.items || []).forEach(row => {
+            if (row.qty > row.tank_stock_qty) {
+                let needed_qty = row.qty - row.tank_stock_qty;
+                console.log(`Adjusting: ${row.item_code} | Ordered: ${row.qty}, Tank Stock: ${row.tank_stock_qty}, Needed from Transit: ${needed_qty}`);
+
+                // Step 1: Update existing row's qty to tank_stock_qty
+                row.qty = row.tank_stock_qty;
+                row.amount = row.tank_stock_qty * row.rate;
+
+                // Step 2: Fetch Warehouse doc to access custom_warehouse_items
+                frappe.call({
+                    method: "frappe.client.get",
+                    args: {
+                        doctype: "Warehouse",
+                        name: row.warehouse
+                    },
+                    callback: function(res) {
+                        const warehouse_doc = res.message;
+                        if (!warehouse_doc) {
+                            console.error(`Warehouse not found: ${row.warehouse}`);
+                            return;
+                        }
+
+                        console.log(`Warehouse fetched: ${row.warehouse}`, warehouse_doc);
+
+                        if (warehouse_doc.custom_warehouse_items && warehouse_doc.custom_warehouse_items.length > 0) {
+                            // Step 3: Find the transit_warehouse from child table
+                            let transit_row = warehouse_doc.custom_warehouse_items.find(d => d.transit_warehouse);
+                            let transit_warehouse = transit_row ? transit_row.transit_warehouse : null;
+
+                            if (!transit_warehouse) {
+                                console.error(`No transit warehouse found in custom_warehouse_items of ${row.warehouse}`);
+                                return;
+                            }
+
+                            // Step 4: Check stock in transit warehouse
+                            frappe.call({
+                                method: "frappe.client.get_value",
+                                args: {
+                                    doctype: "Bin",
+                                    filters: {
+                                        item_code: row.item_code,
+                                        warehouse: transit_warehouse
+                                    },
+                                    fieldname: "actual_qty"
+                                },
+                                callback: function(r2) {
+                                    if (r2.message) {
+                                        let actual_qty = r2.message.actual_qty || 0;
+                                        console.log(`Transit stock for ${row.item_code} in ${transit_warehouse}: ${actual_qty}`);
+
+                                        if (actual_qty >= needed_qty) {
+                                            // Step 5: Add new row for remaining qty
+                                            let new_row = frm.add_child("items");
+                                            new_row.pos_profile = row.pos_profile;
+                                            new_row.item_code = row.item_code;
+                                            new_row.qty = needed_qty;
+                                            new_row.rate = row.rate;
+                                            new_row.amount = row.rate * needed_qty;
+                                            new_row.tank_stock_qty = actual_qty;
+                                            new_row.price_list = row.price_list;
+                                            new_row.fuel_tank = transit_warehouse;
+
+                                            console.log(`Created new row with ${needed_qty} from transit`);
+                                            frm.refresh_field("items");
+                                        } else {
+                                            console.error(`Not enough in transit (${actual_qty} < ${needed_qty}) for ${row.item_code}`);
+                                            frappe.msgprint(`Not enough stock in Transit warehouse (${transit_warehouse}) for ${row.item_code}`);
+                                        }
+                                    } else {
+                                        console.error(`No Bin found for ${row.item_code} in ${transit_warehouse}`);
+                                    }
+                                }
+                            });
+                        } else {
+                            console.error(`No custom_warehouse_items in warehouse: ${row.warehouse}`);
+                        }
+                    }
+                });
+            }
+        });
+
+
+
         // validate_previous_day_shifts(frm);
 
     },
     before_submit: function(frm) {
         // Calling the function on submission
-        validate_previous_day_shifts(frm);
+    //    validate_previous_day_shifts(frm);
     },
     customer: function (frm) {
         // Clear the card field initially
@@ -207,7 +313,6 @@ frappe.ui.form.on('Fuel Customers Items', {
         }
     }
 });
-
 
 function calculateCustomerTotals(frm) {
     var total_qty = 0;
@@ -359,7 +464,6 @@ function create_new_customer_documents(grouped_items, frm) {
         });
     }
 }
-
 
 // Function to create new Customer Documents
 function create_new_customer_documents(grouped_items, frm) {
@@ -565,7 +669,7 @@ function fetchPumps(frm) {
                 });
             } else {
                 // If no response or empty response
-                frappe.msgprint(__('No pump or tank locations found for the selected criteria.'));
+                // frappe.msgprint(__('No pump or tank locations found for the selected criteria.'));
             }
         }
     });
@@ -599,8 +703,6 @@ function updateActualQtyOnly(frm) {
         }
     });
 }
-
-
 
 function validate_previous_day_shifts(frm) {
     frappe.call({
@@ -644,6 +746,19 @@ function validate_previous_day_shifts(frm) {
         }
     });
 }
+
+// Function to create new field Documents
+// function create_new_fied(frm) {
+//     for (let posting_date in grouped_items) {
+//         let invoice_no = grouped_items[posting_date][0].invoice_no; // Fetching invoice_no from the first item
+//         // Create a new Customer Document
+//         let parentDoc = frappe.model.get_new_doc('Fuel Sales App');
+//         // Add fuel items to the new customer document and calculate totals
+//         forEach(item => {
+//             let fuel_item = frappe.model.add_child(parentDoc, 'Fuel Sales Items', 'items');
+ 
+//     }
+// }
 
 
 

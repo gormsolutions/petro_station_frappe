@@ -12,7 +12,7 @@ frappe.ui.form.on('Station Shift Management', {
             callback: function (r) {
                 if (r.message) {
                     var items = r.message; // Assign the returned items
-                    console.log(items)
+                    // console.log(items)
 
                     if (items && Array.isArray(items)) {
                         // Clear existing items before populating (optional)
@@ -190,6 +190,7 @@ frappe.ui.form.on('Station Shift Management', {
         populateCashTransferTable(frm);
         getBankingandCash(frm);
         // fetcheDippingLevels(frm);
+        fetchSalesDetailsMobileWarehouse(frm)
         CalculateTotal(frm);
         calculateamountSales(frm);
     },
@@ -205,6 +206,7 @@ frappe.ui.form.on('Station Shift Management', {
     },
     get_invoice_details: function (frm) {
         populateInvoiceItems(frm);
+         calculateamountSales(frm);
     },
 
     get_outstandings: function (frm) {
@@ -369,6 +371,11 @@ frappe.ui.form.on('Station Shift Management', {
 
 
     get_calculations: function (frm) {
+        // CalculateTotal(frm);
+        calculateamountSales(frm);
+    },
+    calcuate_qty: function (frm) {
+
         CalculateTotal(frm);
         calculateamountSales(frm);
     },
@@ -404,10 +411,13 @@ frappe.ui.form.on('Invoice Items', {
 
 function calculateamountSales(frm) {
     var total_amount = 0;
+    var total_qty = 0;
     frm.doc.invoice_items.forEach(function (item) {
         total_amount += item.amount;
+        total_qty += item.quantity;
     });
     frm.set_value('todays_credit_sales', total_amount);
+    frm.set_value('total_qty', total_qty);
     refresh_field('invoice_items');
 }
 
@@ -501,7 +511,7 @@ function fetchSalesDetails(frm) {
             pump_or_tank_list: pumpOrTankList // Pass the list of pump_or_tank values
         },
         callback: function (response) {
-            console.log(response.message);
+            // console.log(response.message);
             if (response && response.message) {
                 // console.log(response.message);
                 if (Object.keys(response.message.warehouses).length === 0) {
@@ -572,14 +582,14 @@ function CalculateTotal(frm) {
         },
         callback: function (response) {
             if (response && response.message) {
-                console.log(response.message);
+                // console.log(response.message);
                 if (Object.keys(response.message).length === 0) {
                     frappe.msgprint(__('No Data Found'));
                 } else {
                     // Refresh the items table to reflect the changes
                     let percentaget_discount = ((response.message.additional_discount_amount / response.message.total_payments) * 100).toFixed(2);
                     percentaget_discount = isNaN(percentaget_discount) ? '0%' : percentaget_discount + '%';
-                    console.log(response.message)
+                    // console.log(response.message)
                     // Set and refresh the specified fieldsq
                     frm.set_value('total_discount', response.message.additional_discount_amount);
                     frm.refresh_field('total_discount');
@@ -614,12 +624,14 @@ function getBankingandCash(frm) {
         args: {
             station: frm.doc.station,
             from_date: frm.doc.from_date,
+            end_date: frm.doc.end_date,
             employee: frm.doc.employee,
         },
         callback: function (r) {
             if (r.message) {
                 var accounts = r.message; // Assign the returned accounts 
-                // console.log(accounts)
+            
+                console.log(accounts)
 
                 // Clear existing items before populating (optional)
                 frm.clear_table('accounts');
@@ -631,8 +643,9 @@ function getBankingandCash(frm) {
                         // console.log(account_data)
                         var new_item = frm.add_child('accounts'); // Create a new child row
 
-                        // Set values from response to new item fields
+                        // Set values from response to new item fields mode_of_payment
                         new_item.account = account_data.account;
+                        new_item.mode_of_payment = account_data.mode_of_payment;
                         new_item.amount_recived = account_data.total_debits;
                         new_item.amount_spent = account_data.total_credits;
                         new_item.available_amount = account_data.total_debits - account_data.total_credits;
@@ -730,6 +743,7 @@ function populateInvoiceItems(frm) {
         args: {
             cost_center: frm.doc.station,
             posting_date: frm.doc.from_date,
+            end_date: frm.doc.end_date,
             employee: frm.doc.employee,
         },
         callback: function (r) {
@@ -753,8 +767,9 @@ function populateInvoiceItems(frm) {
 
                         // Set values from item to new item fields     new_item.invoice_id = invoice['Invoice Name'];
                         new_item.date = invoice['Posting Date'];
+                        new_item.status_invoice = item['Status'];
                         new_item.customer_name = invoice['Customer Name'];
-                        new_item.invoice_no = invoice['Invoice No'];
+                        new_item.invoice_no = invoice['Status'];
                         new_item.invoice_id = invoice['Invoice Name'];
                         new_item.credit_id = invoice['credit No'];
                         new_item.sales_id = invoice['sales No'];
@@ -762,7 +777,7 @@ function populateInvoiceItems(frm) {
                         new_item.item_code = item['Item Code'];
                         new_item.quantity = item['Quantity'];
                         new_item.rate = item['Rate'];
-                        new_item.amount = item['Amount'];
+                       
                         // Add other relevant fields based on your data structure
 
                         frm.refresh_field('invoice_items'); // Refresh the child table view after each item
@@ -779,12 +794,99 @@ function populateInvoiceItems(frm) {
     });
 }
 
+// fetching Invices for mobile warehouse
+
+function fetchSalesDetailsMobileWarehouse(frm) {
+    // Clear specific fields in existing items
+    frm.doc.mobile_warehouse_items.forEach(item => {
+        item.qty_based_on_sales = null;
+        item.sales_based_on_invoices = null;
+        item.pump_rate = null;
+        item.sales_based_on_meter_reading = null;
+        item.difference_amount = null;
+    });
+
+    let pumpOrTankList = frm.doc.mobile_warehouse_items.map(item => item.mw_plate_number);
+    // console.log("You great" + pumpOrTankList)
+
+    frappe.call({
+        method: "petro_station_app.custom_api.api.get_total_qty_and_amount",
+        args: {
+            station: frm.doc.station,
+            status: frm.doc.status,
+            from_date: frm.doc.from_date,
+            to_date: frm.doc.to_date,
+            employee:frm.doc.employee,
+            pump_or_tank_list: pumpOrTankList // Pass the list of pump_or_tank values
+        },
+        callback: function (response) {
+            // console.log(response);
+            if (response && response.message) {
+                // console.log(response.message);
+                if (Object.keys(response.message.warehouses).length === 0) {
+                    frappe.msgprint(__('No Data Found'));
+                } else {
+                    // Update specific fields with new data
+                    frm.doc.mobile_warehouse_items.forEach(item => {
+                        // console.log(response.message.warehouses);
+                        // console.log(item);
+                        if (response.message.warehouses[item.mw_plate_number]) {
+                            let warehouseData = response.message.warehouses[item.mw_plate_number];
+                            // console.log(warehouseData);
+                            item.quantity_based_on_sales = warehouseData.qty;
+                            item.sales_based_on_invoices = warehouseData.amount;
+                            item.pump_rate = warehouseData.average_rate;
+                            item.sales_based_on_meter_reading = item.pump_rate * item.difference_on_opening_and_closing_quantit;
+                            item.difference_amount = item.sales_based_on_meter_reading - item.sales_based_on_invoices;
+                        } else {
+                            item.quantity_based_on_sales = null;
+                            item.sales_based_on_invoices = null;
+                            item.pump_rate = null;
+                            item.sales_based_on_meter_reading = null;
+                            item.difference_amount = null;
+                        }
+                    });
+
+                    // Refresh the items table to reflect the changes
+                    let percentaget_discount = ((response.message.additional_discount_amount / response.message.grand_total) * 100).toFixed(2) + '%';
+                    // Set and refresh the specified fields
+                    frm.set_value('total_discount', response.message.additional_discount_amount);
+                    frm.refresh_field('total_discount');
+                    frm.set_value('total_sales', response.message.grand_total);
+                    frm.refresh_field('total_sales');
+                    frm.set_value('total_credit_sales', response.message.outstanding_amount);
+                    frm.refresh_field('total_credit_sales');
+                    frm.set_value('total_cash_sales', response.message.total_payments);
+                    frm.refresh_field('total_cash_sales');
+                    frm.set_value('percentaget_discount', percentaget_discount);
+                    frm.refresh_field('percentaget_discount');
+                    frm.refresh_field("items");
+
+                }
+            } else {
+                // Handle error or unexpected response
+                frappe.msgprint(__('Error fetching data. Please try again later.'));
+            }
+        },
+        error: function (err) {
+            // Handle server call error
+            // console.log(err);
+            frappe.msgprint(__('Error fetching data. Please try again later.'));
+        }
+    });
+}
+
+
+
+
+
 function populateInvoiceItemsOutstanding(frm) {
     frappe.call({
         method: 'petro_station_app.custom_api.invoice.get_sales_invoices_with_outstanding',
         args: {
             cost_center: frm.doc.station,
             posting_date: frm.doc.from_date,
+            end_date: frm.doc.end_date,
             employee: frm.doc.employee,
         },
         callback: function (r) {
@@ -992,7 +1094,7 @@ function populateInvoiceItemsStockEntry(frm) {
         },
         error: function (err) {
             // Handle server call error
-            console.log(err);
+            // console.log(err);
             frappe.msgprint(__('Error fetching data. Please try again later.'));
         }
     });

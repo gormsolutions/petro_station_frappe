@@ -31,6 +31,9 @@ class PurchaseManagement(Document):
         purchase_receipt_entry.posting_date = self.date
         purchase_receipt_entry.due_date = self.due_date
         purchase_receipt_entry.supplier_delivery_note = self.supplier_invoice
+        purchase_receipt_entry.cost_center = self.cost_center
+        purchase_receipt_entry.branch = self.branch
+        purchase_receipt_entry.location = self.location
         purchase_receipt_entry.bill_date = self.supplier_invoice_date
         purchase_receipt_entry.currency = self.currency
         
@@ -51,12 +54,23 @@ class PurchaseManagement(Document):
 
         for item in self.items:
             if self.currency:
+                # Find the corresponding Purchase Order Item
+                po_item = frappe.db.get_value(
+                    "Purchase Order Item",
+                    {
+                        "parent": self.purchase_order_number,
+                        "item_code": item.item
+                    },
+                    "name"
+                )
                 purchase_receipt_entry.append("items", {
                     "item_code": item.item,
                     "qty": item.qty,
                     "rate": item.rate,
+                    "purchase_order":self.purchase_order_number,
                     "warehouse": item.warehouse,
-                    "cost_center": item.cost_center
+                    "cost_center": item.cost_center,
+                    "purchase_order_item": po_item,
                 })
 
         if purchase_receipt_entry.items:
@@ -86,12 +100,15 @@ class PurchaseManagement(Document):
         purchase_invoice_entry.posting_time = purchase_invo.posting_time
         purchase_invoice_entry.posting_date = purchase_invo.posting_date
         purchase_invoice_entry.due_date = self.due_date
+        purchase_invoice_entry.cost_center = self.cost_center
+        purchase_invoice_entry.branch = self.branch
+        purchase_invoice_entry.location = self.location
         purchase_invoice_entry.bill_no = purchase_invo.supplier_delivery_note
         purchase_invoice_entry.bill_date = self.supplier_invoice_date
         purchase_invoice_entry.buying_price_list = self.price_list
         
          # Set conversion rates based on currency
-        if self.currency == 'UGX':
+        if self.currency == 'NGN':
             purchase_invoice_entry.conversion_rate = 1
             purchase_invoice_entry.plc_conversion_rate = 1
        
@@ -141,6 +158,9 @@ class PurchaseManagement(Document):
             purchase_invoice_entry.posting_date = invoice_date
             purchase_invoice_entry.due_date = self.due_date
             purchase_invoice_entry.bill_no = self.supplier_invoice
+            purchase_invoice_entry.cost_center = self.cost_center
+            purchase_invoice_entry.branch = self.branch
+            purchase_invoice_entry.location = self.location
             purchase_invoice_entry.bill_date = self.supplier_invoice_date
             purchase_invoice_entry.buying_price_list = self.price_list
             purchase_invoice_entry.custom_purchase_management_id = self.name
@@ -184,11 +204,15 @@ class PurchaseManagement(Document):
             stock_entry = frappe.new_doc("Stock Entry")
             stock_entry.stock_entry_type = "Material Transfer"
             stock_entry.set_posting_time = 1  # Allow setting of custom posting time
+            stock_entry.branch = self.branch
+            stock_entry.location = self.location
+            stock_entry.cost_center = self.cost_center
         
             # Use the date and time from the first valid item in this group
             stock_entry.posting_date = items[0].date if items[0].date else frappe.utils.today()
             stock_entry.posting_time = items[0].time if items[0].time else frappe.utils.nowtime()
             stock_entry.custom_purchase_management_id = self.name
+            
             stock_entry.t_warehouse = target_store
 
             # Add items to the stock entry
@@ -217,6 +241,11 @@ class PurchaseManagement(Document):
                 frappe.msgprint(_("No valid items to transfer for target store {0}").format(target_store), alert=True)
 
     def create_landed_cost_voucher(self):
+        # Check if child table exists and has rows
+        if not hasattr(self, 'other_items') or not self.other_items:
+            # frappe.msgprint(_("No items to transfer"), alert=True)
+            return
+        
         existing_lcv = frappe.get_all("Landed Cost Voucher", filters={"custom_purchase_management_id": self.name}, limit=1)
         if existing_lcv:
             frappe.msgprint(_("Landed Cost Voucher already exists for this Purchase Management ID"))

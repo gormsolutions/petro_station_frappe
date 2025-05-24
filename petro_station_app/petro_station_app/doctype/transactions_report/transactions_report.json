@@ -92,7 +92,7 @@
    "label": "Grand Totals"
   },
   {
-   "default": "PSA-TRACC-2024-00001",
+   "default": "PSA-TR-2025-00001",
    "fieldname": "transaction_id",
    "fieldtype": "Link",
    "label": "Transaction ID",
@@ -267,7 +267,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-10 18:39:04.478401",
+ "modified": "2025-05-17 13:30:03.803212",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Transactions Report",

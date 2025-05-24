@@ -10,13 +10,15 @@
 // Custom Script for Fuel Sales App
 frappe.ui.form.on('Fuel Sales App', {
 
+    
+
     // validate: function(frm) {
     //     validate_previous_day_shifts(frm);
     // },
 
     before_submit: function(frm) {
         // Calling the function on submission
-        validate_previous_day_shifts(frm);
+        // validate_previous_day_shifts(frm);
     },
     
     refresh: function(frm) {
@@ -38,6 +40,25 @@ frappe.ui.form.on('Fuel Sales App', {
                 });
             });
         }
+        // Only show the button if the document is not submitted
+          if (!frm.is_new() || frm.doc.docstatus === 0) {
+            frm.add_custom_button(__('Sales Order'), function () {
+                erpnext.utils.map_current_doc({
+                    method: "petro_station_app.custom_api.sales_order.fetch_sales_order.map_sales_order_to_fuel_sales",
+                    source_doctype: "Sales Order",
+                    target: frm,
+                    setters: {
+                        customer: frm.doc.customer,
+                    },
+                    get_query_filters: {
+                        docstatus: 1,
+                        status: ["not in", ["Closed", "On Hold"]],
+                        per_billed: ["<", 99.99],
+                        company: frm.doc.company,
+                    }
+                });
+            }, __("Get Items From"));
+        }
        },
        
        fetch_attenant_pumps: function(frm) {
@@ -56,37 +77,24 @@ frappe.ui.form.on('Fuel Sales App', {
         // postStockReconciliation(frm) 
 
     },
+    select_other_modes_of_payment(frm) {
+        if (frm.doc.select_other_modes_of_payment == 1) {
+            frm.set_value('include_payments', 0);
+            frm.set_df_property('include_payments', 'read_only', 1);
+        } else {
+            frm.set_df_property('include_payments', 'read_only', 0);
+        }
+    },
 
 });
 
 
-function validate_previous_day_shifts(frm) {
-    frappe.call({
-        method: 'petro_station_app.custom_api.Create_shifts.create_shift.validate_previous_day_shifts',
-        args: {
-            station: frm.doc.station,
-            posting_date: frm.doc.date
-        },
-        callback: function(r) {
-            if (r.message && !r.message.status) {
-                frappe.msgprint(r.message.message);
-                frappe.validated = false;  // block the save
-            }
-        },
-        error: function(err) {
-            // Handle thrown server-side errors like frappe.throw
-            frappe.msgprint({
-                title: __('Validation Error'),
-                indicator: 'red',
-                message: err.message || __('An error occurred while validating shifts.')
-            });
-            frappe.validated = false;  // stop the save as well
-        }
-    });
-}
 
-
-
+frappe.ui.form.on('Fuel Modes Items', {
+    amount: function (frm, cdt, cdn) {
+        calculateTotalsmod(frm);
+    }
+});
 
 
 frappe.ui.form.on('Expense Claim Items', {
@@ -95,6 +103,8 @@ frappe.ui.form.on('Expense Claim Items', {
         
     }
 });
+
+
 frappe.ui.form.on('Fuel Sales Items', {
     item_code: function(frm, cdt, cdn) {
         var item = frappe.get_doc(cdt, cdn);
@@ -130,6 +140,42 @@ frappe.ui.form.on('Fuel Sales Items', {
         }
     },
 });
+
+
+
+function validate_previous_day_shifts(frm) {
+    frappe.call({
+        method: 'petro_station_app.custom_api.Create_shifts.create_shift.validate_previous_day_shifts',
+        args: {
+            station: frm.doc.station,
+            posting_date: frm.doc.date
+        },
+        callback: function(r) {
+            if (r.message && !r.message.status) {
+                frappe.msgprint(r.message.message);
+                frappe.validated = false;  // block the save
+            }
+        },
+        error: function(err) {
+            // Handle thrown server-side errors like frappe.throw
+            frappe.msgprint({
+                title: __('Validation Error'),
+                indicator: 'red',
+                message: err.message || __('An error occurred while validating shifts.')
+            });
+            frappe.validated = false;  // stop the save as well
+        }
+    });
+}
+
+function calculateTotalsmod(frm) {
+    var grand_total = 0;
+    frm.doc.payments.forEach(function (item) {
+        grand_total += item.amount;
+    });
+    frm.set_value('total_paid_amount', grand_total);
+    refresh_field('payments');
+}
 
 
 function calculateTotalsTransfers(frm) {
@@ -348,9 +394,13 @@ function fetchPumps(frm) {
             'station': frm.doc.station
         },
         callback: function (response) {
+            // console.log('mobileTankValues:', response.message);
             if (response.message && response.message.length > 0) {
                 // response.message contains an array of pump_or_tank values
                 let pumpOrTankValues = response.message; // Array of pump_or_tank values
+                // let mobileTankValues = response.message;
+                // console.log('pumpOrTankValues:', pumpOrTankValues);
+                // console.log('mobileTankValues:', mobileTankValues);
 
                 // Iterate through the pump_or_tank values from the API response
                 pumpOrTankValues.forEach(warehouse => {

@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-05-21 08:15:59.464548",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "transit_warehouse",
+  "pump"
+ ],
+ "fields": [
+  {
+   "fieldname": "transit_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tanks",
+   "link_filters": "[[\"Warehouse\",\"warehouse_type\",\"=\",\"Transit\"]]",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "pump",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Pump",
+   "link_filters": "[[\"Warehouse\",\"warehouse_type\",\"in\",[\"Pump\",\"MOBILE WAREHOUSE\"]]]",
+   "options": "Warehouse"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-05-21 15:47:45.404535",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Warehouse Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

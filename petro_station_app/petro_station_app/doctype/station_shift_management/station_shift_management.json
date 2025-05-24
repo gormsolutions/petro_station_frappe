@@ -8,6 +8,9 @@
  "engine": "InnoDB",
  "field_order": [
   "from_date",
+  "start_time",
+  "end_date",
+  "end_time",
   "from_time",
   "station",
   "station_point",
@@ -24,6 +27,7 @@
   "get_all_shift_details",
   "section_break_sidz",
   "items",
+  "mobile_warehouse_items",
   "section_break_doxq",
   "get_shift_details",
   "column_break_kajf",
@@ -33,6 +37,7 @@
   "section_break_fsse",
   "overal_shift_closing_items",
   "meter_based_grand_total_amount",
+  "different_amount",
   "section_break_uqtj",
   "get_calculations",
   "total_sales",
@@ -56,6 +61,8 @@
   "total_qty_pms",
   "total_qty_ago",
   "invoice_items",
+  "calcuate_qty",
+  "total_qty",
   "get_all_transfers_for_today",
   "cash_transfers",
   "get_all_expense_for_today",
@@ -98,7 +105,7 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Date"
+   "label": "Start Date"
   },
   {
    "fieldname": "from_time",
@@ -149,13 +156,15 @@
    "allow_on_submit": 1,
    "fieldname": "total_sales",
    "fieldtype": "Currency",
-   "label": "Total Sales"
+   "label": "Total Sales",
+   "read_only": 1
   },
   {
    "allow_on_submit": 1,
    "fieldname": "total_cash_sales",
    "fieldtype": "Currency",
-   "label": "Total Cash Sales"
+   "label": "Total Cash Sales",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ihxx",
@@ -165,13 +174,15 @@
    "allow_on_submit": 1,
    "fieldname": "total_discount",
    "fieldtype": "Currency",
-   "label": "Total Discount"
+   "label": "Total Discount",
+   "read_only": 1
   },
   {
    "allow_on_submit": 1,
    "fieldname": "total_credit_sales",
    "fieldtype": "Currency",
-   "label": "Total Credit Sales"
+   "label": "Total Credit Sales",
+   "read_only": 1
   },
   {
    "allow_on_submit": 1,
@@ -234,7 +245,8 @@
    "allow_on_submit": 1,
    "fieldname": "percentaget_discount",
    "fieldtype": "Data",
-   "label": "Percentage Discount"
+   "label": "Percentage Discount",
+   "read_only": 1
   },
   {
    "fieldname": "get_bankings_and_cash",
@@ -401,7 +413,8 @@
    "allow_on_submit": 1,
    "fieldname": "meter_based_grand_total_amount",
    "fieldtype": "Currency",
-   "label": "Meter based Grand Total Amount"
+   "label": "Meter based Grand Total Amount",
+   "read_only": 1
   },
   {
    "allow_on_submit": 1,
@@ -424,6 +437,7 @@
   {
    "fieldname": "post_cash_sale",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Post Cash Sale"
   },
   {
@@ -487,14 +501,70 @@
    "fieldname": "todays_credit_sales",
    "fieldtype": "Currency",
    "hidden": 1,
-   "label": "Shift Credit Sales"
+   "label": "Shift Credit Sales",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "columns": 9,
+   "fieldname": "mobile_warehouse_items",
+   "fieldtype": "Table",
+   "label": "Mobile Warehouse Items Shift Management",
+   "options": "Mobile Warehouse Items"
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "Total Qty"
+  },
+  {
+   "fieldname": "calcuate_qty",
+   "fieldtype": "Button",
+   "label": "Calcuate Qty"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "different_amount",
+   "fieldtype": "Currency",
+   "label": "Difference Amount between Meter based Grand Total Amount and\u00a0Total\u00a0Sales",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "start_time",
+   "fieldtype": "Time",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Start Time"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "End date"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "end_time",
+   "fieldtype": "Time",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "End Time"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2025-05-07 17:17:25.486051",
+ "modified": "2025-05-24 12:36:20.943901",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Station Shift Management",

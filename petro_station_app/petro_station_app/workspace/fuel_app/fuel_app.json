@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"dXS6wsNQqU\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5YxDA2-mhv\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Oil &amp; Gas Sales Management</span>\",\"col\":12}},{\"id\":\"5KYuV8VukZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Fuel Sales App Cash\",\"col\":3}},{\"id\":\"t6jI5OGQrQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Invoices OR Credit Sales Only\",\"col\":3}},{\"id\":\"6rUTeUDTlp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Shift Closing\",\"col\":3}},{\"id\":\"UC6M5nLwEj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dipping Log\",\"col\":3}},{\"id\":\"bNuhlP86py\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pump Meter Reading\",\"col\":3}},{\"id\":\"dGnn3sOsG_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SALES REPORT SUMMARY\",\"col\":3}},{\"id\":\"bnmTf3T5Jc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transfer Cash\",\"col\":3}},{\"id\":\"LUrxAVt3iG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive Payments from Customers\",\"col\":3}},{\"id\":\"q8-iDDM_A-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bank Deposits\",\"col\":3}},{\"id\":\"2HzaGco7U0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Statement\",\"col\":3}},{\"id\":\"v88Aq2ICXR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cash Refunds\",\"col\":3}},{\"id\":\"WAZEuuu02u\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Cash Refund Settings\",\"col\":3}},{\"id\":\"gH69l6tY97\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Document\",\"col\":3}},{\"id\":\"cbrtx2Ge5h\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Credit Statement\",\"col\":3}},{\"id\":\"NlKfrJJQAk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transactions Report\",\"col\":3}},{\"id\":\"-yEHLLkDNJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bank Deposits\",\"col\":3}},{\"id\":\"mNq4-cuzta\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Report \",\"col\":3}},{\"id\":\"mJa6-WKp1w\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Suppliers\",\"col\":3}},{\"id\":\"9aXTw2OW7f\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meter Readings\",\"col\":3}},{\"id\":\"zZiiniKOmo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dipping Log\",\"col\":3}},{\"id\":\"CVEMmgCJ1W\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Change Price\",\"col\":3}},{\"id\":\"i12Ra3PM3J\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payway\",\"col\":3}},{\"id\":\"hFZ07M8mVG\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"SLeZyyuQou\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Oil &amp; Gas Purchase Management</b></span>\",\"col\":12}},{\"id\":\"s8t9tqaOEq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Fuel\",\"col\":3}},{\"id\":\"pYU7K_Uy1R\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Suppliers Demanding\",\"col\":3}},{\"id\":\"IJEiG9SHLU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Ledger\",\"col\":3}},{\"id\":\"f3TboUG5Uf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Fuel Stock Balances.\",\"col\":3}},{\"id\":\"73dOX1ZdK4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Receipts\",\"col\":3}},{\"id\":\"dHfEHZ5Re3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"transfer fuel\",\"col\":3}},{\"id\":\"PC2Apy4IVF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Reconciliation\",\"col\":3}},{\"id\":\"3F8hEDOXUG\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"BQkWdMIzh9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Other Expenses and Purchases<b></b></span>\",\"col\":12}},{\"id\":\"5bDPTUzJqv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Report\",\"col\":3}},{\"id\":\"D50gXKZYXJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Requisitions from Staff\",\"col\":3}},{\"id\":\"JFjm2HZzQQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Direct Station Expenses\",\"col\":3}},{\"id\":\"_Ve48Sildu\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>                                                Reports</b></span>\",\"col\":12}},{\"id\":\"zwA_oDWw4w\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"opening Balance\",\"col\":3}},{\"id\":\"xUa0Y_SDvN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opening Customer Balances\",\"col\":3}},{\"id\":\"wdbUxhdK5S\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Invoice\",\"col\":3}},{\"id\":\"HMLchnOh3S\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"View Details\",\"col\":3}},{\"id\":\"2GLZ5M0Lqf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Opening Balances\",\"col\":3}},{\"id\":\"KsNfxBd9ay\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Expense Report\",\"col\":3}},{\"id\":\"ZDImxA54CN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Report\",\"col\":3}},{\"id\":\"UIc2I4_BTh\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"HH EXPENSES\",\"col\":3}}]",
+ "content": "[{\"id\":\"dXS6wsNQqU\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5YxDA2-mhv\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Oil &amp; Gas Sales Management</span>\",\"col\":12}},{\"id\":\"5KYuV8VukZ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Fuel Sales App Cash\",\"col\":3}},{\"id\":\"t6jI5OGQrQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Invoices OR Credit Sales Only\",\"col\":3}},{\"id\":\"6rUTeUDTlp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opening and Closing shift\",\"col\":3}},{\"id\":\"UC6M5nLwEj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dipping Log\",\"col\":3}},{\"id\":\"bNuhlP86py\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pump Meter Reading\",\"col\":3}},{\"id\":\"dGnn3sOsG_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"SALES REPORT SUMMARY\",\"col\":3}},{\"id\":\"bnmTf3T5Jc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transfer Cash\",\"col\":3}},{\"id\":\"LUrxAVt3iG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive Payments from Customers\",\"col\":3}},{\"id\":\"2HzaGco7U0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Statement\",\"col\":3}},{\"id\":\"NlKfrJJQAk\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transactions Report\",\"col\":3}},{\"id\":\"kCamXE9-l2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transaction Accounts\",\"col\":3}},{\"id\":\"-yEHLLkDNJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bank Deposits\",\"col\":3}},{\"id\":\"mNq4-cuzta\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Report \",\"col\":3}},{\"id\":\"mJa6-WKp1w\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Suppliers\",\"col\":3}},{\"id\":\"9aXTw2OW7f\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Meter Readings\",\"col\":3}},{\"id\":\"zZiiniKOmo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dipping Log\",\"col\":3}},{\"id\":\"CVEMmgCJ1W\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Change Price\",\"col\":3}},{\"id\":\"rUWsfAInPm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Journal Entry\",\"col\":3}},{\"id\":\"xQFyCMLQ0c\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Order\",\"col\":3}},{\"id\":\"eY56jsff0M\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"baqMwrldwL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"MzIVutcIdX\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Material Request\",\"col\":3}},{\"id\":\"hFZ07M8mVG\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"SLeZyyuQou\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Oil &amp; Gas Purchase Management</b></span>\",\"col\":12}},{\"id\":\"s8t9tqaOEq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Fuel\",\"col\":3}},{\"id\":\"71byUkbX4x\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Order\",\"col\":3}},{\"id\":\"pYU7K_Uy1R\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Suppliers Demanding\",\"col\":3}},{\"id\":\"IJEiG9SHLU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Ledger\",\"col\":3}},{\"id\":\"73dOX1ZdK4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Receipts\",\"col\":3}},{\"id\":\"dHfEHZ5Re3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"transfer fuel\",\"col\":3}},{\"id\":\"PC2Apy4IVF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Reconciliation\",\"col\":3}},{\"id\":\"A5-_nbBPaQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Invoice\",\"col\":3}},{\"id\":\"3F8hEDOXUG\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"BQkWdMIzh9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Other Expenses and Purchases<b></b></span>\",\"col\":12}},{\"id\":\"5bDPTUzJqv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Report\",\"col\":3}},{\"id\":\"D50gXKZYXJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Requisitions from Staff\",\"col\":3}},{\"id\":\"JFjm2HZzQQ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Direct Station Expenses\",\"col\":3}},{\"id\":\"nedB3Xb4ow\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Balance\",\"col\":3}},{\"id\":\"_Ve48Sildu\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>                                                Reports</b></span>\",\"col\":12}},{\"id\":\"zwA_oDWw4w\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"opening Balance\",\"col\":3}},{\"id\":\"xUa0Y_SDvN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opening Customer Balances\",\"col\":3}},{\"id\":\"wdbUxhdK5S\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Purchase Invoice\",\"col\":3}},{\"id\":\"2GLZ5M0Lqf\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Opening Balances\",\"col\":3}},{\"id\":\"ZDImxA54CN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Monthly Report\",\"col\":3}},{\"id\":\"HMLchnOh3S\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Detail Report Per Individual General Ledger\u00a0Account\",\"col\":3}},{\"id\":\"rwR1XKBU61\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Shortage on Sales Report\",\"col\":3}},{\"id\":\"9rITc65U3j\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Other Reports</b></span>\",\"col\":12}},{\"id\":\"dLsedZ9rjm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Station Shift Management Shortage Report\",\"col\":3}}]",
  "creation": "2024-05-11 18:14:35.116049",
  "custom_blocks": [],
  "docstatus": 0,
@@ -8,12 +8,12 @@
  "for_user": "",
  "hide_custom": 0,
  "icon": "color-monthly-rank",
- "idx": 18,
+ "idx": 20,
  "indicator_color": "",
  "is_hidden": 0,
  "label": "Fuel App",
  "links": [],
- "modified": "2025-05-01 15:21:00.711996",
+ "modified": "2025-05-24 15:19:46.928838",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Fuel App",
@@ -35,8 +35,101 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Customer Document",
-   "link_to": "Customer Document",
+   "label": "Journal Entry",
+   "link_to": "Journal Entry",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Station Shift Management Shortage Report",
+   "type": "URL",
+   "url": "https://erp.alihsanoilandgas.com/app/station-shift-management/view/report/Station%20Shift%20Management%20Shortage%20Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Stock Balance",
+   "type": "URL",
+   "url": "https://erp.alihsanoilandgas.com/app/query-report/Stock%20Balance?company=AL-IHSAN+OIL+%26+GAS+NIGERIA+LIMITED&from_date=2025-04-22&to_date="
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Detail Report Per Individual General Ledger\u00a0Account",
+   "link_to": "Detailed Report",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Order",
+   "link_to": "Sales Order",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Employee Shortage on Sales Report",
+   "type": "URL",
+   "url": "https://erp.alihsanoilandgas.com/app/journal-entry/view/report/Employee%20Shortage%20on%20Sales%20Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Fuel Sales App Cash",
+   "link_to": "Fuel Sales App",
+   "stats_filter": "[[\"Fuel Sales App\",\"select_other_modes_of_payment\",\"=\",1,false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Opening and Closing shift",
+   "link_to": "Station Shift Management",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Transaction Accounts",
+   "link_to": "Transaction Accounts",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Material Request",
+   "link_to": "Material Request",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Invoice",
+   "link_to": "Sales Invoice",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Purchase Order",
+   "link_to": "Purchase Order",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Purchase Invoice",
+   "link_to": "Purchase Invoice",
    "stats_filter": "[]",
    "type": "DocType"
   },
@@ -51,16 +144,10 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "HH EXPENSES",
-   "type": "URL",
-   "url": "http://147.79.101.23/app/station-expenses/view/report/Expense%20Report"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Fuel Stock Balances.",
-   "link_to": "Fuel Stock Balances.",
-   "type": "Report"
+   "label": "Delivery Note",
+   "link_to": "Delivery Note",
+   "stats_filter": "[]",
+   "type": "DocType"
   },
   {
    "color": "Grey",
@@ -96,14 +183,6 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Purchase Invoice",
-   "link_to": "Purchase Invoice",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "Sales Report ",
    "link_to": "Sales Register",
    "type": "Report"
@@ -113,14 +192,6 @@
    "doc_view": "List",
    "label": "opening Balance",
    "link_to": "Journal Entry",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Payway",
-   "link_to": "PAYWAY",
    "stats_filter": "[]",
    "type": "DocType"
   },
@@ -142,13 +213,6 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Expense Report",
-   "type": "URL",
-   "url": "http://147.79.101.23/app/station-expenses/view/report/Expense%20Report"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "Monthly Report",
    "link_to": "Monthly Report",
    "stats_filter": "[]",
@@ -165,40 +229,8 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "View Details",
-   "link_to": "Detailed Report",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Cash Refunds",
-   "link_to": "Cash Refund",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "Customer Statement",
    "link_to": "Statement",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Credit Statement",
-   "link_to": "Customer Statement",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Cash Refund Settings",
-   "link_to": "Cash Refund Settings",
    "stats_filter": "[]",
    "type": "DocType"
   },
@@ -223,14 +255,6 @@
    "label": "Purchase Receipts",
    "link_to": "Purchase Receipt",
    "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Fuel Sales App Cash",
-   "link_to": "Fuel Sales App",
-   "stats_filter": "[[\"Fuel Sales App\",\"include_payments\",\"=\",1,false]]",
    "type": "DocType"
   },
   {
@@ -292,14 +316,6 @@
    "doc_view": "List",
    "label": "Transfer Cash",
    "link_to": "Transfer Cash",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Shift Closing",
-   "link_to": "Station Shift Management",
    "stats_filter": "[]",
    "type": "DocType"
   },

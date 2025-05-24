@@ -21,13 +21,14 @@ class StationShiftManagement(Document):
         difference = abs(self.meter_based_grand_total_amount - self.total_sales)
 
         # Check if the difference is within tolerance
-        if difference > tolerance:
-            # Throw an error if the difference exceeds the tolerance
-            frappe.throw(
-                f"Meter Based Grand Total Amount ({self.meter_based_grand_total_amount}) must be within {tolerance} of Total Sales ({self.total_sales}). Difference: {difference}."
-            )
+        # if difference > tolerance:
+        #     # Throw an error if the difference exceeds the tolerance
+        #     frappe.throw(
+        #         f"Meter Based Grand Total Amount ({self.meter_based_grand_total_amount}) must be within {tolerance} of Total Sales ({self.total_sales}). Difference: {difference}."
+        #     )
         
-        self.create_next_shift()
+        if self.items:
+            self.create_next_shift()
 
         # self.take_dipping_before()
  
@@ -182,8 +183,9 @@ class StationShiftManagement(Document):
             # Debug: Log the current from_date
             # frappe.log_error(f"Current from_date: {self.from_date}", "Shift Debug")
 
-            # Ensure items are present to process
-            if not self.items:
+            # Ensure items are present to process Throws the error only when: self.items is empty or None, AND
+            # self.mobile_warehouse_items is not empty
+            if not self.items and self.mobile_warehouse_items:
                 frappe.throw(_("No items found to map for the next shift."))
 
             # Group rows by employee_for_next_shift

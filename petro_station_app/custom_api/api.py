@@ -30,7 +30,7 @@ def get_fuel_items():
     # Fetch all items with the item group 'Fuel'
     fuel_items = frappe.get_list(
         'Item', 
-        filters={'item_group': 'Fuel'},
+        # filters={'item_group': 'Fuel'},
         fields=['name']
     )
     return fuel_items
@@ -249,8 +249,21 @@ def get_details_cost_center(station):
     from_warehouse = frappe.get_all(
         "Warehouse",
         filters={
-            "custom_cost_centre": station,
-            "warehouse_type": ["in", ["Pump", "Store"]]
+            "custom_cost_center": station,
+            "warehouse_type": ["in", ["Pump"]]
+        },
+        fields=["name"]
+    )
+    return from_warehouse
+
+@frappe.whitelist()
+def get_mobile_warehouse(station):
+    # Get warehouses with the specified cost center and warehouse types
+    from_warehouse = frappe.get_all(
+        "Warehouse",
+        filters={
+            "custom_cost_center": station,
+            "warehouse_type": ["in", ["MOBILE WAREHOUSE"]]
         },
         fields=["name"]
     )
@@ -262,7 +275,7 @@ def get_details_tanks(station):
     from_warehouse = frappe.get_all(
         "Warehouse",
         filters={
-            "custom_cost_centre": station,
+            "custom_cost_center": station,
             "warehouse_type": ["in", ["Transit"]]
         },
         fields=["name","custom_tank_item"]
@@ -283,94 +296,186 @@ def get_details_employee(station):
     )
     return fetch_employee
 
+# @frappe.whitelist()
+# def get_gl_account(station, employee=None, from_date=None):
+#     if not from_date:
+#         return {"error": "from_date is required"}
+
+#     # Fetch Payment Entry Vouchers related to the employee
+#     fetch_voucher = frappe.get_all(
+#         "Payment Entry",
+#         filters={
+#             "cost_center": station,
+#             "custom_employee": employee,  # Assuming you have a field for employee in Payment Entry
+#             "posting_date": from_date  # Correctly filtering for exact date
+#         },
+#         fields=["name", "custom_employee"]
+#     )
+
+#     # Fetch Journal Entry Vouchers related to the employee
+#     fetch_journal_voucher = frappe.get_all(
+#         "Journal Entry",
+#         filters={
+#             "custom_cost_center": station,
+#             "custom_employee": employee,  # Assuming you have a field for employee in Journal Entry
+#             "posting_date": from_date  # Correctly filtering for exact date
+#         },
+#         fields=["name", "custom_employee"]
+#     )
+
+#     # Get the list of voucher names from both Payment Entries and Journal Entries
+#     voucher_nos = [entry['name'] for entry in fetch_voucher]
+#     journal_voucher_nos = [entry['name'] for entry in fetch_journal_voucher]
+
+#     if not voucher_nos and not journal_voucher_nos:
+#         return {"message": "No entries found for the given employee and station"}
+
+#     # Fetch GL Entries for Payment Entries
+#     fetch_payment_entries = frappe.get_all(
+#         "GL Entry",
+#         filters={
+#             "cost_center": station,
+#             "voucher_no": ["in", voucher_nos],
+#             "voucher_type": "Payment Entry",
+#             "is_cancelled": 0,
+#             "posting_date": from_date  # Correctly filtering for exact date
+#         },
+#         fields=["name", "debit", "credit", "voucher_no", "account"]
+#     )
+
+#     # Fetch GL Entries for Journal Entries
+#     fetch_journal_entries = frappe.get_all(
+#         "GL Entry",
+#         filters={
+#             "cost_center": station,
+#             "voucher_no": ["in", journal_voucher_nos],
+#             "voucher_type": "Journal Entry",
+#             "is_cancelled": 0,
+#             "posting_date": from_date  # Correctly filtering for exact date
+#         },
+#         fields=["name", "debit", "credit", "voucher_no", "account"]
+#     )
+
+#     # Combine both fetched entries
+#     fetch_entries = fetch_payment_entries + fetch_journal_entries
+
+#     if not fetch_entries:
+#         return {"message": "No GL entries found for the specified employee, station, and date"}
+
+#     # Dictionary to store the total debits and credits for each account
+#     account_totals = {}
+
+#     # Sum up debits and credits for accounts of type "Cash"
+#     for entry in fetch_entries:
+#         account_doc = frappe.get_doc("Account", entry['account'])
+        
+#         # if account_doc.account_type == "Cash":
+#         if account_doc.account_type in ["Cash", "Bank"]:
+#             if entry['account'] not in account_totals:
+#                 account_totals[entry['account']] = {
+#                     "account": entry['account'],
+#                     "total_debits": 0,
+#                     "total_credits": 0
+#                 }
+#             # Add debits and credits
+#             account_totals[entry['account']]["total_debits"] += entry['debit']
+#             account_totals[entry['account']]["total_credits"] += entry['credit']
+
+#     # Convert the dictionary to a list of account totals
+#     result = list(account_totals.values())
+
+#     return result
+
 @frappe.whitelist()
-def get_gl_account(station, employee=None, from_date=None):
-    if not from_date:
-        return {"error": "from_date is required"}
+def get_gl_account(station, employee=None, from_date=None, end_date=None):
+    if not from_date or not end_date:
+        return {"error": "from_date and end_date are required"}
 
     # Fetch Payment Entry Vouchers related to the employee
-    fetch_voucher = frappe.get_all(
+    payment_entries = frappe.get_all(
         "Payment Entry",
         filters={
             "cost_center": station,
-            "custom_employee": employee,  # Assuming you have a field for employee in Payment Entry
-            "posting_date": from_date  # Correctly filtering for exact date
+            "custom_employee": employee,
+            "posting_date": ["between", [from_date, end_date]]
         },
-        fields=["name", "custom_employee"]
+        fields=["name", "custom_employee", "mode_of_payment"]
     )
 
-    # Fetch Journal Entry Vouchers related to the employee
-    fetch_journal_voucher = frappe.get_all(
+    # Map voucher name to mode_of_payment
+    payment_modes = {entry["name"]: entry["mode_of_payment"] for entry in payment_entries}
+
+    # Fetch Journal Entry Vouchers
+    journal_entries = frappe.get_all(
         "Journal Entry",
         filters={
             "custom_cost_center": station,
-            "custom_employee": employee,  # Assuming you have a field for employee in Journal Entry
-            "posting_date": from_date  # Correctly filtering for exact date
+            "custom_employee": employee,
+            "posting_date": ["between", [from_date, end_date]]
         },
         fields=["name", "custom_employee"]
     )
 
-    # Get the list of voucher names from both Payment Entries and Journal Entries
-    voucher_nos = [entry['name'] for entry in fetch_voucher]
-    journal_voucher_nos = [entry['name'] for entry in fetch_journal_voucher]
+    # Get voucher numbers
+    payment_voucher_nos = [entry['name'] for entry in payment_entries]
+    journal_voucher_nos = [entry['name'] for entry in journal_entries]
 
-    if not voucher_nos and not journal_voucher_nos:
-        return {"message": "No entries found for the given employee and station"}
+    if not payment_voucher_nos and not journal_voucher_nos:
+        return {"message": "No entries found for the given employee, station, and date range"}
 
     # Fetch GL Entries for Payment Entries
-    fetch_payment_entries = frappe.get_all(
+    payment_gl_entries = frappe.get_all(
         "GL Entry",
         filters={
             "cost_center": station,
-            "voucher_no": ["in", voucher_nos],
+            "voucher_no": ["in", payment_voucher_nos],
             "voucher_type": "Payment Entry",
             "is_cancelled": 0,
-            "posting_date": from_date  # Correctly filtering for exact date
+            "posting_date": ["between", [from_date, end_date]]
         },
         fields=["name", "debit", "credit", "voucher_no", "account"]
     )
 
     # Fetch GL Entries for Journal Entries
-    fetch_journal_entries = frappe.get_all(
+    journal_gl_entries = frappe.get_all(
         "GL Entry",
         filters={
             "cost_center": station,
             "voucher_no": ["in", journal_voucher_nos],
             "voucher_type": "Journal Entry",
             "is_cancelled": 0,
-            "posting_date": from_date  # Correctly filtering for exact date
+            "posting_date": ["between", [from_date, end_date]]
         },
         fields=["name", "debit", "credit", "voucher_no", "account"]
     )
 
     # Combine both fetched entries
-    fetch_entries = fetch_payment_entries + fetch_journal_entries
+    all_gl_entries = payment_gl_entries + journal_gl_entries
 
-    if not fetch_entries:
-        return {"message": "No GL entries found for the specified employee, station, and date"}
+    if not all_gl_entries:
+        return {"message": "No GL entries found for the specified filters"}
 
-    # Dictionary to store the total debits and credits for each account
+    # Dictionary to store totals per account
     account_totals = {}
 
-    # Sum up debits and credits for accounts of type "Cash"
-    for entry in fetch_entries:
+    for entry in all_gl_entries:
         account_doc = frappe.get_doc("Account", entry['account'])
-        
-        if account_doc.account_type == "Cash":
-            if entry['account'] not in account_totals:
-                account_totals[entry['account']] = {
-                    "account": entry['account'],
+
+        if account_doc.account_type in ["Cash", "Bank"]:
+            key = entry['account']
+            if key not in account_totals:
+                account_totals[key] = {
+                    "account": key,
                     "total_debits": 0,
-                    "total_credits": 0
+                    "total_credits": 0,
+                    "mode_of_payment": payment_modes.get(entry['voucher_no']) if entry['voucher_no'] in payment_modes else None
                 }
-            # Add debits and credits
-            account_totals[entry['account']]["total_debits"] += entry['debit']
-            account_totals[entry['account']]["total_credits"] += entry['credit']
 
-    # Convert the dictionary to a list of account totals
-    result = list(account_totals.values())
+            account_totals[key]["total_debits"] += entry['debit']
+            account_totals[key]["total_credits"] += entry['credit']
 
-    return result
+    return list(account_totals.values())
+
 
 @frappe.whitelist()
 def get_gl_acount_withoutdate(station):
@@ -400,8 +505,95 @@ def get_gl_acount_withoutdate(station):
     return account_totals
 
 
+# @frappe.whitelist()
+# def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=None, end_date=None,status=None):
+#     import json
+#     from datetime import datetime
+
+#     totals = {
+#         'warehouses': {},
+#         'grand_total': 0,
+#         'additional_discount_amount': 0,
+#         'outstanding_amount': 0,
+#         'total_payments': 0
+#     }
+
+#     # Convert pump_or_tank_list from JSON string to Python list if necessary
+#     if isinstance(pump_or_tank_list, str):
+#         pump_or_tank_list = json.loads(pump_or_tank_list)
+
+#     filters = {
+#         "docstatus": 1,
+#         "posting_date": from_date,
+#     }
+
+#     if status:
+#         filters["status"] = status
+        
+#     if employee:
+#         filters["custom_employee"] = employee
+
+#     sales_invoices = frappe.get_list(
+#         "Sales Invoice",
+#         filters=filters,
+#         fields=["name", "posting_date", "posting_time", "grand_total", "discount_amount", "outstanding_amount"]
+#     )
+
+#     for invoice in sales_invoices:
+#         invoice_doc = frappe.get_doc("Sales Invoice", invoice.name)
+
+#         # Ensure posting_time is in the correct string format before parsing
+#         posting_time_str = str(invoice_doc.posting_time)
+
+#         # Combine posting_date and posting_time to a single datetime
+#         invoice_posting_datetime = datetime.combine(invoice_doc.posting_date, datetime.strptime(posting_time_str, '%H:%M:%S').time())
+
+#         # Check if any item in the invoice has the specified cost_center
+#         has_matching_item = any(item.cost_center == station for item in invoice_doc.items)
+
+#         if has_matching_item:
+#             # Aggregate grand total and outstanding amount
+#             totals['grand_total'] += invoice_doc.grand_total
+#             totals['outstanding_amount'] += invoice_doc.outstanding_amount
+
+#             # Aggregate additional discount amount only if outstanding amount is 0
+#             if invoice_doc.outstanding_amount < 50:
+#                 totals['additional_discount_amount'] += invoice_doc.discount_amount
+
+#             # Aggregate total payments from related payment entries
+#             payment_entries = frappe.get_list(
+#                 "Payment Entry",
+#                 filters={"reference_name": invoice.name, "docstatus": 1,"custom_employee":employee},
+#                 fields=["paid_amount"]
+#             )
+#             for payment in payment_entries:
+#                 totals['total_payments'] += payment.paid_amount
+
+#         for item in invoice_doc.items:
+#             if item.cost_center == station and item.warehouse in pump_or_tank_list:
+#                 if item.warehouse not in totals['warehouses']:
+#                     totals['warehouses'][item.warehouse] = {
+#                         'qty': 0,
+#                         'amount': 0,
+#                         'total_rate': 0,
+#                         'count': 0
+#                     }
+
+#                 totals['warehouses'][item.warehouse]['qty'] += item.qty
+#                 totals['warehouses'][item.warehouse]['amount'] += item.amount
+#                 totals['warehouses'][item.warehouse]['total_rate'] += item.rate * item.qty
+#                 totals['warehouses'][item.warehouse]['count'] += item.qty
+
+#     # Calculate average rate
+#     for warehouse, data in totals['warehouses'].items():
+#         if data['count'] > 0:
+#             data['average_rate'] = data['total_rate'] / data['count']
+#         else:
+#             data['average_rate'] = 0
+
+#     return totals
 @frappe.whitelist()
-def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=None,status=None):
+def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=None, end_date=None, status=None):
     import json
     from datetime import datetime
 
@@ -417,14 +609,21 @@ def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=Non
     if isinstance(pump_or_tank_list, str):
         pump_or_tank_list = json.loads(pump_or_tank_list)
 
+    # Setup filters
     filters = {
-        "docstatus": 1,
-        "posting_date": from_date,
+        "docstatus": 1
     }
+
+    if from_date and end_date:
+        filters["posting_date"] = ["between", [from_date, end_date]]
+    elif from_date:
+        filters["posting_date"] = [">=", from_date]
+    elif end_date:
+        filters["posting_date"] = ["<=", end_date]
 
     if status:
         filters["status"] = status
-        
+
     if employee:
         filters["custom_employee"] = employee
 
@@ -437,28 +636,35 @@ def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=Non
     for invoice in sales_invoices:
         invoice_doc = frappe.get_doc("Sales Invoice", invoice.name)
 
-        # Ensure posting_time is in the correct string format before parsing
+        # Ensure posting_time is in correct format before parsing
         posting_time_str = str(invoice_doc.posting_time)
+        invoice_posting_datetime = datetime.combine(
+            invoice_doc.posting_date,
+            datetime.strptime(posting_time_str, '%H:%M:%S').time()
+        )
 
-        # Combine posting_date and posting_time to a single datetime
-        invoice_posting_datetime = datetime.combine(invoice_doc.posting_date, datetime.strptime(posting_time_str, '%H:%M:%S').time())
-
-        # Check if any item in the invoice has the specified cost_center
+        # Check if invoice has any item matching the cost center
         has_matching_item = any(item.cost_center == station for item in invoice_doc.items)
 
         if has_matching_item:
-            # Aggregate grand total and outstanding amount
+            # Aggregate amounts
             totals['grand_total'] += invoice_doc.grand_total
             totals['outstanding_amount'] += invoice_doc.outstanding_amount
 
-            # Aggregate additional discount amount only if outstanding amount is 0
             if invoice_doc.outstanding_amount < 50:
                 totals['additional_discount_amount'] += invoice_doc.discount_amount
 
-            # Aggregate total payments from related payment entries
+            # Fetch and sum related payment entries
+            payment_filters = {
+                "reference_name": invoice.name,
+                "docstatus": 1
+            }
+            if employee:
+                payment_filters["custom_employee"] = employee
+
             payment_entries = frappe.get_list(
                 "Payment Entry",
-                filters={"reference_name": invoice.name, "docstatus": 1,"custom_employee":employee},
+                filters=payment_filters,
                 fields=["paid_amount"]
             )
             for payment in payment_entries:
@@ -474,19 +680,18 @@ def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=Non
                         'count': 0
                     }
 
-                totals['warehouses'][item.warehouse]['qty'] += item.qty
-                totals['warehouses'][item.warehouse]['amount'] += item.amount
-                totals['warehouses'][item.warehouse]['total_rate'] += item.rate * item.qty
-                totals['warehouses'][item.warehouse]['count'] += item.qty
+                warehouse_data = totals['warehouses'][item.warehouse]
+                warehouse_data['qty'] += item.qty
+                warehouse_data['amount'] += item.amount
+                warehouse_data['total_rate'] += item.rate * item.qty
+                warehouse_data['count'] += item.qty
 
-    # Calculate average rate
+    # Calculate average rate per warehouse
     for warehouse, data in totals['warehouses'].items():
-        if data['count'] > 0:
-            data['average_rate'] = data['total_rate'] / data['count']
-        else:
-            data['average_rate'] = 0
+        data['average_rate'] = data['total_rate'] / data['count'] if data['count'] else 0
 
     return totals
+
 
 @frappe.whitelist()
 def get_system_reading(pump,from_date):

@@ -19,6 +19,8 @@ class TransferCash(Document):
         payment_entry.payment_type = "Internal Transfer"
         payment_entry.posting_date = self.posting_date
         payment_entry.cost_center = self.station
+        payment_entry.location= self.location,
+        payment_entry.branch = self.branch
         payment_entry.paid_from = self.account_paid_from 
         payment_entry.paid_to = self.account_paid_to
         payment_entry.reference_no = self.reference_no
@@ -26,12 +28,13 @@ class TransferCash(Document):
         payment_entry.paid_amount = self.paid_amount
         payment_entry.received_amount = self.paid_amount
         payment_entry.custom_employee = self.employee
-        payment_entry.custom_transfer_cash = self.name
+        # payment_entry.custom_transfer_cash = self.name
              
         # Save and submit the Payment Entry
         payment_entry.insert()
         payment_entry.submit()
         self.transfer_id = payment_entry.name
+        frappe.db.set_value("Transfer Cash", self.name, "transfer_id", payment_entry.name)
         frappe.msgprint(_(f"Cash Transer {payment_entry.name} createrd for {self.name} Successfully"))
                 
         # Return the payment entry name

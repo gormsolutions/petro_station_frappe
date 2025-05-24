@@ -14,6 +14,8 @@
   "supplier_invoice",
   "supplier_invoice_date",
   "cost_center",
+  "location",
+  "branch",
   "column_break_gsdv",
   "date",
   "time",
@@ -23,6 +25,7 @@
   "price_list",
   "due_date",
   "lr_date",
+  "purchase_order_number",
   "section_break_lvit",
   "items",
   "section_break_liio",
@@ -193,12 +196,13 @@
   {
    "fieldname": "grand_total_usd",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Grand Total USD"
   },
   {
    "fieldname": "grand_total_ugx",
    "fieldtype": "Currency",
-   "label": "Grand Total UGX"
+   "label": "Grand Total NGN"
   },
   {
    "allow_on_submit": 1,
@@ -281,12 +285,32 @@
   {
    "fieldname": "section_break_wsgw",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "label": "Location",
+   "options": "Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch",
+   "reqd": 1
+  },
+  {
+   "fieldname": "purchase_order_number",
+   "fieldtype": "Link",
+   "label": "Purchase Order Number",
+   "options": "Purchase Order"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-18 18:51:34.664618",
+ "modified": "2025-05-17 16:50:23.665214",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Purchase Management",

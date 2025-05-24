@@ -1,0 +1,455 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-06-21 10:00:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "currency_section",
+  "default_currency",
+  "default_exchange_currency",
+  "column_break_4",
+  "create_exchange_entries",
+  
+  "account_settings_section",
+  "default_cash_account",
+  "default_bank_account",
+  "default_receivable_account",
+  "exclude_hq_cash_account",
+  "column_break_9",
+  "default_sales_account",
+  "default_cogs_account",
+  "default_expense_account",
+  
+  "fuel_settings_section",
+  "default_fuel_item_group",
+  "fuel_stock_warehouse_type",
+  "column_break_14",
+  "pump_warehouse_type",
+  "tank_warehouse_type",
+  "transit_warehouse_type",
+  
+  "tank_pump_management_section",
+  "minimum_tank_level_percentage",
+  "critical_tank_level_percentage",
+  "column_break_23",
+  "maximum_pump_variance_percentage",
+  "enable_auto_dipping",
+  
+  "shift_management_section",
+  "default_shift_duration_hours",
+  "require_employee_handover",
+  "column_break_28",
+  "auto_close_shift_after_hours",
+  "shift_gl_variance_tolerance",
+  
+  "card_management_section",
+  "default_card_credit_limit",
+  "default_card_validity_days",
+  "column_break_33",
+  "card_series_prefix",
+  "enable_card_expiry_notifications",
+  
+  "report_settings_section",
+  "default_report_days",
+  "include_canceled_transactions",
+  "column_break_38",
+  "disable_detailed_reports_for_roles",
+  "default_chart_type",
+  
+  "notification_settings_section",
+  "enable_low_stock_notifications",
+  "enable_shift_closure_notifications",
+  "column_break_43",
+  "email_sender_address",
+  "notification_cc_emails",
+  "purchase_defaults_section",
+  "default_purchase_warehouse",
+  "default_purchase_cost_center",
+  "column_break_pd_1",
+  "default_purchase_items",
+  "default_other_items",
+  "default_qty_update_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "currency_section",
+   "fieldtype": "Section Break",
+   "label": "Currency Settings"
+  },
+  {
+   "default": "UGX",
+   "fieldname": "default_currency",
+   "fieldtype": "Link",
+   "label": "Default Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "default": "USD",
+   "fieldname": "default_exchange_currency",
+   "fieldtype": "Link",
+   "label": "Default Exchange Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "create_exchange_entries",
+   "fieldtype": "Check",
+   "label": "Create Exchange Rate Entries Automatically"
+  },
+  {
+   "fieldname": "account_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Account Settings"
+  },
+  {
+   "fieldname": "default_cash_account",
+   "fieldtype": "Link",
+   "label": "Default Cash Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_bank_account",
+   "fieldtype": "Link",
+   "label": "Default Bank Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_receivable_account",
+   "fieldtype": "Link",
+   "label": "Default Receivable Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "exclude_hq_cash_account",
+   "fieldtype": "Link",
+   "label": "Exclude HQ Cash Account",
+   "description": "This account will be excluded from cash balance calculations",
+   "options": "Account"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_sales_account",
+   "fieldtype": "Link",
+   "label": "Default Sales Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_cogs_account",
+   "fieldtype": "Link",
+   "label": "Default COGS Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_expense_account",
+   "fieldtype": "Link",
+   "label": "Default Expense Account",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fuel_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Fuel Settings"
+  },
+  {
+   "default": "Fuel",
+   "fieldname": "default_fuel_item_group",
+   "fieldtype": "Link",
+   "label": "Default Fuel Item Group",
+   "options": "Item Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fuel_stock_warehouse_type",
+   "fieldtype": "Data",
+   "label": "Fuel Stock Warehouse Type",
+   "default": "Stock"
+  },
+  {
+   "fieldname": "column_break_14",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pump_warehouse_type",
+   "fieldtype": "Data",
+   "label": "Pump Warehouse Type",
+   "default": "Pump"
+  },
+  {
+   "fieldname": "tank_warehouse_type",
+   "fieldtype": "Data",
+   "label": "Tank Warehouse Type",
+   "default": "Tank"
+  },
+  {
+   "fieldname": "transit_warehouse_type",
+   "fieldtype": "Data",
+   "label": "Transit Warehouse Type",
+   "default": "Transit"
+  },
+  {
+   "fieldname": "tank_pump_management_section",
+   "fieldtype": "Section Break",
+   "label": "Tank & Pump Management"
+  },
+  {
+   "default": "15",
+   "fieldname": "minimum_tank_level_percentage",
+   "fieldtype": "Percent",
+   "label": "Minimum Tank Level Percentage",
+   "description": "Stock alerts will be generated when tank level falls below this percentage"
+  },
+  {
+   "default": "5",
+   "fieldname": "critical_tank_level_percentage",
+   "fieldtype": "Percent",
+   "label": "Critical Tank Level Percentage",
+   "description": "Urgent alerts will be generated when tank level falls below this percentage"
+  },
+  {
+   "fieldname": "column_break_23",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "2",
+   "fieldname": "maximum_pump_variance_percentage",
+   "fieldtype": "Percent",
+   "label": "Maximum Pump Variance Percentage",
+   "description": "Maximum allowed variance between theoretical and actual pump readings"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_auto_dipping",
+   "fieldtype": "Check",
+   "label": "Enable Automated Dipping Entries"
+  },
+  {
+   "fieldname": "shift_management_section",
+   "fieldtype": "Section Break",
+   "label": "Shift Management Settings"
+  },
+  {
+   "default": "8",
+   "fieldname": "default_shift_duration_hours",
+   "fieldtype": "Int",
+   "label": "Default Shift Duration (Hours)",
+   "description": "Default duration for station shifts"
+  },
+  {
+   "default": "1",
+   "fieldname": "require_employee_handover",
+   "fieldtype": "Check",
+   "label": "Require Employee Handover",
+   "description": "If checked, shift closure will require handover confirmation"
+  },
+  {
+   "fieldname": "column_break_28",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "12",
+   "fieldname": "auto_close_shift_after_hours",
+   "fieldtype": "Int",
+   "label": "Auto-close Shift After Hours",
+   "description": "System will auto-close shifts after this many hours (0 to disable)"
+  },
+  {
+   "default": "1000",
+   "fieldname": "shift_gl_variance_tolerance",
+   "fieldtype": "Currency",
+   "label": "Shift GL Variance Tolerance",
+   "description": "Maximum allowed variance in GL accounts at shift closure"
+  },
+  {
+   "fieldname": "card_management_section",
+   "fieldtype": "Section Break",
+   "label": "Fuel Card Management"
+  },
+  {
+   "default": "10000",
+   "fieldname": "default_card_credit_limit",
+   "fieldtype": "Currency",
+   "label": "Default Card Credit Limit",
+   "description": "Default credit limit for new fuel cards"
+  },
+  {
+   "default": "365",
+   "fieldname": "default_card_validity_days",
+   "fieldtype": "Int",
+   "label": "Default Card Validity (Days)",
+   "description": "Number of days new cards are valid for"
+  },
+  {
+   "fieldname": "column_break_33",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "card_series_prefix",
+   "fieldtype": "Data",
+   "label": "Card Series Prefix",
+   "description": "Optional prefix for card series numbers"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_card_expiry_notifications",
+   "fieldtype": "Check",
+   "label": "Enable Card Expiry Notifications",
+   "description": "Send notifications before cards expire"
+  },
+  {
+   "fieldname": "report_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Report Settings"
+  },
+  {
+   "default": "30",
+   "fieldname": "default_report_days",
+   "fieldtype": "Int",
+   "label": "Default Report Days",
+   "description": "Default number of days to include in reports"
+  },
+  {
+   "default": "0",
+   "fieldname": "include_canceled_transactions",
+   "fieldtype": "Check",
+   "label": "Include Canceled Transactions",
+   "description": "Include canceled transactions in reports"
+  },
+  {
+   "fieldname": "column_break_38",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "disable_detailed_reports_for_roles",
+   "fieldtype": "Table MultiSelect",
+   "label": "Disable Detailed Reports For Roles",
+   "description": "Selected roles will not see detailed transaction reports",
+   "options": "Has Role"
+  },
+  {
+   "default": "Bar",
+   "fieldname": "default_chart_type",
+   "fieldtype": "Select",
+   "label": "Default Chart Type",
+   "options": "Bar\nLine\nPie\nPercentage"
+  },
+  {
+   "fieldname": "notification_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Notification Settings"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_low_stock_notifications",
+   "fieldtype": "Check",
+   "label": "Enable Low Stock Notifications"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable_shift_closure_notifications",
+   "fieldtype": "Check",
+   "label": "Enable Shift Closure Notifications"
+  },
+  {
+   "fieldname": "column_break_43",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "email_sender_address",
+   "fieldtype": "Data",
+   "label": "Email Sender Address",
+   "description": "Email address used for sending notifications",
+   "options": "Email"
+  },
+  {
+   "fieldname": "notification_cc_emails",
+   "fieldtype": "Small Text",
+   "label": "Notification CC Emails",
+   "description": "Comma-separated list of email addresses to CC on notifications"
+  },
+  {
+   "fieldname": "purchase_defaults_section",
+   "fieldtype": "Section Break",
+   "label": "Purchase Defaults"
+  },
+  {
+    "fieldname": "default_purchase_warehouse",
+    "fieldtype": "Link",
+    "label": "Default Purchase Warehouse",
+    "options": "Warehouse",
+    "description": "Default warehouse for items in Purchase Management"
+   },
+   {
+    "fieldname": "default_purchase_cost_center",
+    "fieldtype": "Link",
+    "label": "Default Purchase Cost Center",
+    "options": "Cost Center",
+    "description": "Default cost center for items in Purchase Management"
+   },
+   {
+    "fieldname": "column_break_pd_1",
+    "fieldtype": "Column Break"
+   },
+   {
+    "fieldname": "default_purchase_items",
+    "fieldtype": "Table",
+    "label": "Default Purchase Items",
+    "options": "Default Purchase Item",
+    "description": "Items automatically added to 'Items' table in Purchase Management"
+   },
+   {
+    "fieldname": "default_other_items",
+    "fieldtype": "Table",
+    "label": "Default Other Items",
+    "options": "Default Other Item",
+    "description": "Items automatically added to 'Other Items' table in Purchase Management, with associated supplier"
+   },
+    {
+    "fieldname": "default_qty_update_items",
+    "fieldtype": "Table",
+    "label": "Default Qty Update Items",
+    "options": "Default Qty Update Item",
+    "description": "Items in 'Other Items' whose Qty is updated based on 'Items' total Qty"
+   }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2023-06-21 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Petro Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+} 

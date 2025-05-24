@@ -22,7 +22,6 @@
   "date",
   "time",
   "due_date",
-  "net_total",
   "invoice_no",
   "employee",
   "pump_attendant_name",
@@ -33,9 +32,15 @@
   "total_qty",
   "additional_discount_amount",
   "column_break_bfdf",
+  "net_total",
   "grand_totals",
   "settings_tab",
   "company",
+  "branch",
+  "location",
+  "column_break_iott",
+  "sales_order_number",
+  "remarks",
   "expenses_tab",
   "section_break_vark",
   "mode_of_payment",
@@ -186,7 +191,7 @@
    "label": "Settings"
   },
   {
-   "default": "Shell Elgon",
+   "default": "AL-IHSAN OIL & GAS NIGERIA LIMITED",
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
@@ -324,6 +329,7 @@
   {
    "fieldname": "customers_doc_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Customer's Doc"
   },
   {
@@ -363,12 +369,12 @@
    "allow_on_submit": 1,
    "fieldname": "invoice_no",
    "fieldtype": "Data",
+   "hidden": 1,
    "in_filter": 1,
    "in_global_search": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Invoice No",
-   "reqd": 1
+   "label": "Invoice No"
   },
   {
    "fieldname": "person_recieving",
@@ -421,12 +427,42 @@
    "label": "Station Invoice Number",
    "read_only": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks",
+   "reqd": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "label": "Location",
+   "options": "Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_iott",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_order_number",
+   "fieldtype": "Link",
+   "label": "Sales Order Number",
+   "options": "Sales Order"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-04 10:43:37.540996",
+ "modified": "2025-05-15 19:05:36.653961",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Credit Sales App",

@@ -27,7 +27,7 @@
    "fieldname": "qty",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty"
+   "label": "Accepted Quantity"
   },
   {
    "fieldname": "rate",
@@ -71,7 +71,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-03 19:12:56.584079",
+ "modified": "2025-05-17 20:40:09.184846",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Purchase Management Items",
