@@ -87,7 +87,7 @@ def get_shift_details_mobilewarehouse(doc,price_list):
         # Add the values to the existing entry for this fuel
         shift_details[fuel]['opening_grand_total'] += row.opening_quantity
         shift_details[fuel]['closing_grand_total'] += row.closing_quantity
-        shift_details[fuel]['qty_on_meter'] += row.difference_on_opening_and_closing_quantit
+        shift_details[fuel]['qty_on_meter'] += row.diff_opp_closs
         shift_details[fuel]['qty_on_sales'] += row.quantity_based_on_sales
 
     # Return the aggregated shift details grouped by fuel

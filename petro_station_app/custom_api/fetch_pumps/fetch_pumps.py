@@ -54,7 +54,7 @@ def get_pump_or_tank(employee=None, date=None, shift=None, station=None):
             """
             SELECT DISTINCT 
                 shift_item.mw_plate_number,
-                shift_item.difference_on_opening_and_closing_quantit
+                shift_item.diff_opp_closs
             FROM 
                 `tabMobile Warehouse Items` AS shift_item
             JOIN 
@@ -88,7 +88,7 @@ def get_pump_or_tank(employee=None, date=None, shift=None, station=None):
         ] + [
             {
                 "pump_or_tank": row.get("mw_plate_number"),
-                "qty_sold_on_meter_reading": row.get("difference_on_opening_and_closing_quantit")
+                "qty_sold_on_meter_reading": row.get("diff_opp_closs")
             }
             for row in mobliewarehouses_or_tank_values
         ]

@@ -1,6 +1,7 @@
 from frappe.model.document import Document
 import frappe
 from frappe.utils import add_days, today
+from frappe.utils import nowtime, today
 from frappe import _
 
 
@@ -29,6 +30,9 @@ class StationShiftManagement(Document):
         
         if self.items:
             self.create_next_shift()
+        
+        if self.mobile_warehouse_items:
+            self.create_next_shift_mobile()
 
         # self.take_dipping_before()
  
@@ -253,6 +257,108 @@ class StationShiftManagement(Document):
                         next_shift_doc.append("items", {
                             "pump_or_tank": row.pump_or_tank,
                             "opening_meter_reading": row.closing_meter_reading,
+                        })
+
+                # Debug: Log the details of the next shift being created or updated
+                # frappe.log_error(
+                #     f"Processed next shift document for employee: {employee}, date: {next_date}",
+                #     "Shift Debug"
+                # )
+
+                # Save or insert the shift document. They remain as drafts.
+                if existing_shift_data:
+                    next_shift_doc.save()
+                else:
+                    next_shift_doc.insert()
+
+            frappe.msgprint(_("Next shifts created or updated successfully for all applicable employees."))
+
+        except Exception as e:
+            # Log the error and throw a generic error message
+            frappe.log_error(frappe.get_traceback(), "Shift Creation Error")
+            frappe.throw(_("An unexpected error occurred while creating the next shift."))
+
+
+    def create_next_shift_mobile(self):
+        try:
+            # Determine the next shift and date
+            next_shift = "Night" if self.shift == "Day" else "Day"
+            next_date = self.end_date if self.shift == "Day" else add_days(self.end_date, 1)
+
+            # Debug: Log the current from_date
+            # frappe.log_error(f"Current from_date: {self.from_date}", "Shift Debug")
+
+            # Ensure items are present to process Throws the error only when: self.items is empty or None, AND
+            # self.mobile_warehouse_items is not empty
+            if not self.mobile_warehouse_items and self.items:
+                frappe.throw(_("No items found to map for the next shift."))
+
+            # Group rows by employee_for_next_shift
+            employee_groups = {}
+            for row in self.mobile_warehouse_items:
+                if not row.employee_for_next_shift:
+                    frappe.throw(_("The employee for the next shift is mandatory for MW Plate number {0}. Please set the employee for the next shift.")
+                             .format(row.mw_plate_number))
+                employee_groups.setdefault(row.employee_for_next_shift, []).append(row)
+
+            # Process each unique employee
+            for employee, rows in employee_groups.items():
+            # Check if a shift already exists for this employee, date, and shift,
+            # and also get the docstatus.
+                existing_shift_data = frappe.db.get_value(
+                    "Station Shift Management",
+                    {"from_date": next_date, "shift": next_shift, "employee": employee},
+                    ["name", "docstatus"],
+                    as_dict=True
+                )
+
+                if existing_shift_data:
+                # Only update if the existing shift is still a draft (docstatus == 0)
+                    if existing_shift_data.docstatus != 0:
+                        # frappe.log_error(
+                        #     f"Existing shift for employee {employee} on {next_date} is not a draft (docstatus {existing_shift_data.docstatus}). Skipping update.",
+                        #     "Shift Debug"
+                        # )
+                        continue
+                    else:
+                        next_shift_doc = frappe.get_doc("Station Shift Management", existing_shift_data.name)
+                else:
+                    # Create a new document (draft by default)
+                    next_shift_doc = frappe.new_doc("Station Shift Management")
+                    next_shift_doc.update({
+                        "from_date": next_date,
+                        "shift": next_shift,
+                        "start_time": nowtime(),
+                        "station": self.station,
+                        "price_list": self.price_list,
+                        "employee": employee,  # Set the employee for this shift
+                    })
+
+                # Process rows for this employee
+                for row in rows:
+                    # Check if there's already an entry for the employee and pump/tank in the next shift
+                    existing_item = next(
+                        (item for item in next_shift_doc.get("mobile_warehouse_items") if item.mw_plate_number == row.mw_plate_number),
+                        None
+                    )
+
+                    if existing_item:
+                        # Update existing item's opening meter reading from the corresponding closing meter reading
+                        opening_meter = frappe.db.get_value(
+                            "Mobile Warehouse Items",  # Child table
+                            {
+                                "parent": self.name,
+                                "mw_plate_number": row.mw_plate_number,
+                                "employee_for_next_shift": row.employee_for_next_shift
+                            },
+                            "closing_quantity"
+                        )
+                        existing_item.opening_quantity = opening_meter
+                    else:
+                        # Map closing meter reading to opening meter reading for a new item row
+                        next_shift_doc.append("mobile_warehouse_items", {
+                            "mw_plate_number": row.mw_plate_number,
+                            "opening_quantity": row.closing_quantity,
                         })
 
                 # Debug: Log the details of the next shift being created or updated

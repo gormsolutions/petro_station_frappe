@@ -132,6 +132,28 @@ frappe.ui.form.on('Station Shift Management', {
                 }
             }
         });
+        frappe.call({
+        method: 'petro_station_app.custom_api.api.get_mobile_warehouse',
+        args: {
+            station: frm.doc.station,
+        },
+        callback: function (r) {
+            if (r.message && Array.isArray(r.message)) {
+                let items = r.message;
+
+                if (items.length > 0) {
+                    for (let i = 0; i < items.length; i++) {
+                        let new_item = frm.add_child('mobile_warehouse_items');
+                        new_item.mw_plate_number = items[i].name;
+                        // Populate other fields if needed
+                    }
+                    frm.refresh_field('mobile_warehouse_items');
+                } else {
+                    frappe.msgprint("No mobile warehouse items found for the selected station.");
+                }
+            }
+        }
+    });
         populateInvoiceItems(frm);
 
         populateCashTransferTable(frm);
@@ -836,8 +858,9 @@ function fetchSalesDetailsMobileWarehouse(frm) {
                             item.quantity_based_on_sales = warehouseData.qty;
                             item.sales_based_on_invoices = warehouseData.amount;
                             item.pump_rate = warehouseData.average_rate;
-                            item.sales_based_on_meter_reading = item.pump_rate * item.difference_on_opening_and_closing_quantit;
-                            item.difference_amount = item.sales_based_on_meter_reading - item.sales_based_on_invoices;
+                            // item.difference_amount = item.sales_based_on_meter_reading - item.sales_based_on_invoices;
+                            item.sales_based_on_meter_reading = item.pump_rate * item.diff_opp_closs;
+                            
                         } else {
                             item.quantity_based_on_sales = null;
                             item.sales_based_on_invoices = null;
