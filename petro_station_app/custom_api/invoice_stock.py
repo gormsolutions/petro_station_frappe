@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 @frappe.whitelist()
-def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=None, status=None):
+def get_total_qty_and_amount(station, from_date, pump_or_tank_list, end_date=None, employee=None, status=None):
     totals = {
         'warehouses': {},
         'grand_total': 0,
@@ -18,10 +18,18 @@ def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=Non
     if isinstance(pump_or_tank_list, str):
         pump_or_tank_list = json.loads(pump_or_tank_list)
 
+    # Prepare filters for Sales Invoice
     filters = {
-        "docstatus": 1,
-        "posting_date": from_date,
+        "docstatus": 1
     }
+
+    if from_date and end_date:
+        filters["posting_date"] = ["between", [from_date, end_date]]
+    else:
+        if from_date:
+            filters["posting_date"] = [">=", from_date]
+        if end_date:
+            filters["posting_date"] = ["<=", end_date]
 
     if status:
         filters["status"] = status
@@ -71,39 +79,53 @@ def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=Non
                     totals['warehouses'][item.warehouse]['count'] += item.qty
                     totals['total_qty'] += item.qty
 
-    # Aggregate Stock Entry data
+    # Prepare filters for Stock Entry
+    se_filters = {
+        "docstatus": 1,
+        "stock_entry_type": "Material Transfer"
+    }
+
+    if from_date and end_date:
+        se_filters["posting_date"] = ["between", [from_date, end_date]]
+    else:
+        if from_date:
+            se_filters["posting_date"] = [">=", from_date]
+        if end_date:
+            se_filters["posting_date"] = ["<=", end_date]
+
     stock_entries = frappe.get_list(
         "Stock Entry",
-        filters={"stock_entry_type": "Material Transfer", "posting_date": from_date, "docstatus": 1},
+        filters=se_filters,
         fields=["name"]
     )
 
     for stock_entry in stock_entries:
         stock_entry_doc = frappe.get_doc("Stock Entry", stock_entry.name)
         for item in stock_entry_doc.items:
-            source_warehouse_doc = frappe.get_doc("Warehouse", item.s_warehouse)
-            if source_warehouse_doc.warehouse_type == "Pump":
-                for warehouse_type in ['s_warehouse', 't_warehouse']:
-                    warehouse = getattr(item, warehouse_type)
-                    if warehouse in pump_or_tank_list:
-                        if warehouse not in totals['warehouses']:
-                            totals['warehouses'][warehouse] = {
-                                'qty': 0,
-                                'amount': 0,
-                                'total_rate': 0,
-                                'count': 0
-                            }
+            try:
+                source_warehouse_doc = frappe.get_doc("Warehouse", item.s_warehouse)
+                if source_warehouse_doc.warehouse_type == "Pump":
+                    for warehouse_type in ['s_warehouse', 't_warehouse']:
+                        warehouse = getattr(item, warehouse_type)
+                        if warehouse in pump_or_tank_list:
+                            if warehouse not in totals['warehouses']:
+                                totals['warehouses'][warehouse] = {
+                                    'qty': 0,
+                                    'amount': 0,
+                                    'total_rate': 0,
+                                    'count': 0
+                                }
 
-                        totals['warehouses'][warehouse]['qty'] += item.qty
-                        totals['warehouses'][warehouse]['amount'] += item.amount
-                        totals['warehouses'][warehouse]['total_rate'] += item.basic_rate * item.qty
-                        totals['warehouses'][warehouse]['count'] += item.qty
-                        totals['total_qty'] += item.qty
+                            totals['warehouses'][warehouse]['qty'] += item.qty
+                            totals['warehouses'][warehouse]['amount'] += item.amount
+                            totals['warehouses'][warehouse]['total_rate'] += item.basic_rate * item.qty
+                            totals['warehouses'][warehouse]['count'] += item.qty
+                            totals['total_qty'] += item.qty
+            except:
+                continue
 
+    # Calculate average rate
     for warehouse, data in totals['warehouses'].items():
-        if data['count'] > 0:
-            data['average_rate'] = data['total_rate'] / data['count']
-        else:
-            data['average_rate'] = 0
+        data['average_rate'] = data['total_rate'] / data['count'] if data['count'] else 0
 
     return totals

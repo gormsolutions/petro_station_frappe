@@ -390,6 +390,7 @@ function fetchPumps(frm) {
         args: {
             'date': frm.doc.date,
             'employee': frm.doc.employee,
+            'employee_name': frm.doc.employee_name,
             'shift': frm.doc.shift,
             'station': frm.doc.station
         },

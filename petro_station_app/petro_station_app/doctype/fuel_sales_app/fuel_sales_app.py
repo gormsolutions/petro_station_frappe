@@ -88,6 +88,11 @@ class FuelSalesApp(Document):
                     if item.number_plate:
                         remarks += f"Item: {item.item_code}, Quantity: {item.qty}, Amount: {item.amount}, Vehicle Plate: {item.number_plate}\n"
                 invoice.remarks = remarks
+                
+                # Set Terms and Conditions
+                invoice.tc_name = "Sales Invoice Template"  # replace with the actual name of your terms template
+                invoice.terms = frappe.db.get_value("Terms and Conditions", invoice.tc_name, "terms")
+                
                 invoice.insert()
                 invoice.submit()
 
@@ -136,7 +141,7 @@ class FuelSalesApp(Document):
                                 frappe.db.get_all(
                                     "Station Shift Management",
                                     filters={
-                                        "from_date": self.date,
+                                        # "from_date": self.date,
                                         "employee": self.employee,
                                         "shift": self.shift
                                     },
@@ -155,7 +160,7 @@ class FuelSalesApp(Document):
                                 frappe.db.get_all(
                                     "Station Shift Management",
                                     filters={
-                                        "from_date": self.date,
+                                        # "from_date": self.date,
                                         "employee": self.employee,
                                         "shift": self.shift
                                     },
@@ -295,7 +300,7 @@ class FuelSalesApp(Document):
             pe.payment_type = "Receive"
             pe.party_type = "Customer"
             pe.party = self.customer
-            pe.posting_date = frappe.utils.nowdate()
+            pe.posting_date = self.date
             pe.company = self.company
             pe.mode_of_payment = mode.mode_of_payment
             pe.custom_employee = self.employee
@@ -403,6 +408,10 @@ class FuelSalesApp(Document):
             })
 
         if dn.items:
+            # Set Terms and Conditions
+            dn.tc_name = "Way Bill Template"  # replace with the actual name of your terms template
+            dn.terms = frappe.db.get_value("Terms and Conditions", dn.tc_name, "terms")
+                
             dn.insert()
             # dn.submit()
             for row in sales_invoice.items:

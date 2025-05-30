@@ -125,7 +125,6 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Dipping Date ",
-   "read_only": 1,
    "reqd": 1
   },
   {
@@ -133,7 +132,6 @@
    "fieldname": "dipping_time",
    "fieldtype": "Time",
    "label": "Dipping Time",
-   "read_only": 1,
    "reqd": 1
   },
   {
@@ -154,7 +152,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-05-16 03:36:20.274976",
+ "modified": "2025-05-28 11:59:01.517339",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Dipping Log",

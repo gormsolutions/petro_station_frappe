@@ -781,6 +781,7 @@ function populateInvoiceItems(frm) {
                 for (var i = 0; i < invoices.length; i++) {
                     var invoice = invoices[i];
                     var items = invoice.Items; // Assuming Items is an array
+                    // console.log(item['Quantity'])
 
                     // Loop through each item in the invoice
                     for (var j = 0; j < items.length; j++) {
@@ -1065,12 +1066,13 @@ function populateInvoiceItemsStockEntry(frm) {
             station: frm.doc.station,
             status: frm.doc.status,
             from_date: frm.doc.from_date,
+            end_date: frm.doc.end_date,
             employee: frm.doc.employee,
             to_date: frm.doc.to_date,
             pump_or_tank_list: pumpOrTankList // Pass the list of pump_or_tank values
         },
         callback: function (response) {
-            // console.log(response);
+            console.log(response);
             if (response && response.message) {
                 // console.log(pumpOrTankList);
                 if (Object.keys(response.message.warehouses).length === 0) {
@@ -1078,6 +1080,7 @@ function populateInvoiceItemsStockEntry(frm) {
                 } else {
                     // Update specific fields with new data
                     frm.doc.items.forEach(item => {
+                        // console.log(warehouseData.qty);
                         if (response.message.warehouses[item.pump_or_tank]) {
                             let warehouseData = response.message.warehouses[item.pump_or_tank];
                             item.qty_based_on_sales = warehouseData.qty;

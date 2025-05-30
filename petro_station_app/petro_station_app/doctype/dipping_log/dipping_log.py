@@ -23,8 +23,8 @@ class DippingLog(Document):
                 frappe.throw(f"A DippingLog entry already exists for tank {self.tank}, branch {self.branch} on {self.dipping_date}.")
 
         # Ensure the gain or loss is within the allowed range
-        if self.dipping_difference is not None and (self.dipping_difference < -500 or self.dipping_difference > 500):
-            frappe.throw("The dipping Level difference should be between (Gain) Of -150 and (Loss) of 150.")
+        if self.dipping_difference is not None and (self.dipping_difference < -200 or self.dipping_difference > 200):
+            frappe.throw("The dipping Level difference should be between (Gain) Of -200 and (Loss) of 200.")
     
     def on_submit(self):
         if self.dipping_difference is None or self.dipping_difference == 0:

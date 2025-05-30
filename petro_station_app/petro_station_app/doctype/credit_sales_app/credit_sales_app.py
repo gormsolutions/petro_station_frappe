@@ -42,12 +42,10 @@ class CreditSalesApp(Document):
                 FROM `tabStation Shift Management item` shift_item
                 JOIN `tabStation Shift Management` shift_doc
                   ON shift_item.parent = shift_doc.name
-                WHERE shift_doc.from_date = %(date)s
-                  AND shift_doc.employee = %(employee)s
+                WHERE shift_doc.employee = %(employee)s
                   AND shift_doc.shift = %(shift)s
                   AND shift_item.pump_or_tank = %(warehouse)s
             """, {
-                'date': self.date,
                 'employee': self.employee,
                 'shift': self.shift,
                 'warehouse': item.warehouse
@@ -58,12 +56,11 @@ class CreditSalesApp(Document):
                 FROM `tabMobile Warehouse Items` shift_item
                 JOIN `tabStation Shift Management` shift_doc
                   ON shift_item.parent = shift_doc.name
-                WHERE shift_doc.from_date = %(date)s
-                  AND shift_doc.employee = %(employee)s
+                WHERE shift_doc.employee = %(employee)s
                   AND shift_doc.shift = %(shift)s
                   AND shift_item.mw_plate_number = %(warehouse)s
             """, {
-                'date': self.date,
+                # 'date': self.date,
                 'employee': self.employee,
                 'shift': self.shift,
                 'warehouse': item.warehouse
@@ -160,6 +157,10 @@ class CreditSalesApp(Document):
 
         if not dn.items:
             frappe.throw(_("No items found to create Delivery Note."))
+            
+        # Set Terms and Conditions
+        dn.tc_name = "Way Bill Template"  # replace with the actual name of your terms template
+        dn.terms = frappe.db.get_value("Terms and Conditions", dn.tc_name, "terms")
 
         dn.insert()
         # dn.submit()
@@ -210,6 +211,9 @@ class CreditSalesApp(Document):
                         f"Plate: {row.number_plate}"
                     )
             inv.remarks = remarks
+            # Set Terms and Conditions
+            inv.tc_name = "Sales Invoice Template"  # replace with the actual name of your terms template
+            inv.terms = frappe.db.get_value("Terms and Conditions", inv.tc_name, "terms")
 
             inv.insert()
             inv.submit()

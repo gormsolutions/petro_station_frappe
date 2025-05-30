@@ -592,6 +592,7 @@ def get_gl_acount_withoutdate(station):
 #             data['average_rate'] = 0
 
 #     return totals
+
 @frappe.whitelist()
 def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=None, end_date=None, status=None):
     import json
@@ -638,10 +639,12 @@ def get_total_qty_and_amount(station, from_date, pump_or_tank_list, employee=Non
 
         # Ensure posting_time is in correct format before parsing
         posting_time_str = str(invoice_doc.posting_time)
-        invoice_posting_datetime = datetime.combine(
-            invoice_doc.posting_date,
-            datetime.strptime(posting_time_str, '%H:%M:%S').time()
-        )
+        try:
+            time_obj = datetime.strptime(posting_time_str, '%H:%M:%S.%f').time()
+        except ValueError:
+            time_obj = datetime.strptime(posting_time_str, '%H:%M:%S').time()
+
+        invoice_posting_datetime = datetime.combine(invoice_doc.posting_date, time_obj)
 
         # Check if invoice has any item matching the cost center
         has_matching_item = any(item.cost_center == station for item in invoice_doc.items)

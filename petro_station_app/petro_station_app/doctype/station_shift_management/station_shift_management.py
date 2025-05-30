@@ -69,8 +69,8 @@ class StationShiftManagement(Document):
             )
 
             # If drafts are found, raise an error
-            if stock_entry_details_drafts:
-                frappe.throw(f"You still haven't Recieved some draft stock entries for station {self.station}. Please complete them before proceeding.")
+            # if stock_entry_details_drafts:
+            #     frappe.throw(f"You still haven't Recieved some draft stock entries for station {self.station}. Please complete them before proceeding.")
         
         
 

@@ -1,27 +1,161 @@
+# import json
+# import frappe
+# from frappe import _
+
+# @frappe.whitelist()
+# def get_pump_or_tank(employee=None, date=None, shift=None, station=None):
+#     try:
+#         # Check if any of the parameters are None and handle accordingly
+#         # if not employee:
+#         #     frappe.throw(_("Employee is required"))
+#         if not date:
+#             frappe.throw(_("Date is required"))
+#         # if not shift:
+#         #     frappe.throw(_("Shift is required"))
+#         # if not station:
+#         #     frappe.throw(_("Station is required"))
+        
+#         # Sanitize inputs by stripping leading/trailing spaces (after checking they're not None)
+#         employee = employee.strip() if employee else None
+#         date = date.strip() if date else None
+#         shift = shift.strip() if shift else None
+#         station = station.strip() if station else None
+
+#         # Fetch the distinct pump_or_tank values and their associated qty_sold_on_meter_reading
+#         pump_or_tank_values = frappe.db.sql(
+#             """
+#             SELECT DISTINCT 
+#                 shift_item.pump_or_tank,
+#                 shift_item.qty_sold_on_meter_reading
+#             FROM 
+#                 `tabStation Shift Management item` AS shift_item
+#             JOIN 
+#                 `tabStation Shift Management` AS shift_doc
+#             ON 
+#                 shift_item.parent = shift_doc.name
+#             WHERE 
+#                 shift_doc.from_date = %(date)s
+#                 AND shift_doc.station = %(station)s
+#                 AND shift_doc.employee = %(employee)s
+#                 AND shift_doc.shift = %(shift)s
+#             """,
+#             {
+#                 'date': date,  # Date has already been stripped
+#                 'employee': employee,  # Employee has already been stripped
+#                 'shift': shift,  # Shift has already been stripped
+#                 'station': station  # Station has already been stripped
+#             },
+#             as_dict=True
+#         )
+        
+        
+#         # fetch mobile warehouse
+#         mobliewarehouses_or_tank_values = frappe.db.sql(
+#             """
+#             SELECT DISTINCT 
+#                 shift_item.mw_plate_number,
+#                 shift_item.diff_opp_closs
+#             FROM 
+#                 `tabMobile Warehouse Items` AS shift_item
+#             JOIN 
+#                 `tabStation Shift Management` AS shift_doc
+#             ON 
+#                 shift_item.parent = shift_doc.name
+#             WHERE 
+#                 shift_doc.from_date = %(date)s
+#                 AND shift_doc.station = %(station)s
+#                 AND shift_doc.employee = %(employee)s
+#                 AND shift_doc.shift = %(shift)s
+#             """,
+#             {
+#                 'date': date,  # Date has already been stripped
+#                 'employee': employee,  # Employee has already been stripped
+#                 'shift': shift,  # Shift has already been stripped
+#                 'station': station  # Station has already been stripped
+#             },
+#             as_dict=True
+#         )
+
+        
+        
+#         # Validate and return the results
+#         return [
+#             {
+#                 "pump_or_tank": row.get("pump_or_tank"),
+#                 "qty_sold_on_meter_reading": row.get("qty_sold_on_meter_reading")
+#             }
+#             for row in pump_or_tank_values
+#         ] + [
+#             {
+#                 "pump_or_tank": row.get("mw_plate_number"),
+#                 "qty_sold_on_meter_reading": row.get("diff_opp_closs")
+#             }
+#             for row in mobliewarehouses_or_tank_values
+#         ]
+
+#     except json.JSONDecodeError as e:
+#         frappe.throw(_("Invalid JSON in filters: {0}").format(str(e)))
+
+#     except frappe.db.ProgrammingError as e:
+#         frappe.throw(_("SQL Error: {0}").format(str(e)))
+
+#     except Exception as e:
+#         frappe.throw(_("An unexpected error occurred: {0}").format(str(e)))
+
 import json
 import frappe
 from frappe import _
+from datetime import datetime
 
 @frappe.whitelist()
 def get_pump_or_tank(employee=None, date=None, shift=None, station=None):
     try:
-        # Check if any of the parameters are None and handle accordingly
-        # if not employee:
-        #     frappe.throw(_("Employee is required"))
+        # Validate required fields
         if not date:
             frappe.throw(_("Date is required"))
-        # if not shift:
-        #     frappe.throw(_("Shift is required"))
-        # if not station:
-        #     frappe.throw(_("Station is required"))
-        
-        # Sanitize inputs by stripping leading/trailing spaces (after checking they're not None)
-        employee = employee.strip() if employee else None
-        date = date.strip() if date else None
-        shift = shift.strip() if shift else None
-        station = station.strip() if station else None
+        if not employee:
+            frappe.throw(_("Employee is required"))
+        if not shift:
+            frappe.throw(_("Shift is required"))
+        if not station:
+            frappe.throw(_("Station is required"))
 
-        # Fetch the distinct pump_or_tank values and their associated qty_sold_on_meter_reading
+        # Strip inputs
+        employee = employee.strip()
+        date = date.strip()
+        shift = shift.strip()
+        station = station.strip()
+        employee_name = frappe.db.get_value("Employee", employee, "employee_name") or employee
+
+        # Convert date string to datetime.date
+        date_obj = datetime.strptime(date, "%Y-%m-%d").date()
+
+        # First, check if a matching document exists (any status)
+        shift_doc = frappe.db.get_value(
+            "Station Shift Management",
+            {
+                "employee": employee,
+                "shift": shift,
+                "station": station
+            },
+            ["name", "docstatus", "from_date"],
+            order_by="from_date desc"
+        )
+
+        if not shift_doc:
+            frappe.throw(_("No matching Station Shift Management document found."))
+
+        doc_name, docstatus, from_date = shift_doc
+
+        if docstatus == 1:
+            frappe.throw(_("This document has already been submitted."))
+        elif docstatus == 2:
+            frappe.throw(_("This document has been cancelled."))
+        elif date_obj < from_date:
+            frappe.throw(_("The selected date is before the shift date for {0} on {1}.").format(employee_name, str(from_date)))
+                
+
+        # Fetch from Station Shift Management item
         pump_or_tank_values = frappe.db.sql(
             """
             SELECT DISTINCT 
@@ -29,56 +163,29 @@ def get_pump_or_tank(employee=None, date=None, shift=None, station=None):
                 shift_item.qty_sold_on_meter_reading
             FROM 
                 `tabStation Shift Management item` AS shift_item
-            JOIN 
-                `tabStation Shift Management` AS shift_doc
-            ON 
-                shift_item.parent = shift_doc.name
             WHERE 
-                shift_doc.from_date = %(date)s
-                AND shift_doc.station = %(station)s
-                AND shift_doc.employee = %(employee)s
-                AND shift_doc.shift = %(shift)s
+                shift_item.parent = %(doc_name)s
             """,
-            {
-                'date': date,  # Date has already been stripped
-                'employee': employee,  # Employee has already been stripped
-                'shift': shift,  # Shift has already been stripped
-                'station': station  # Station has already been stripped
-            },
+            {'doc_name': doc_name},
             as_dict=True
         )
-        
-        
-        # fetch mobile warehouse
-        mobliewarehouses_or_tank_values = frappe.db.sql(
+
+        # Fetch from Mobile Warehouse Items
+        mobile_warehouse_values = frappe.db.sql(
             """
             SELECT DISTINCT 
                 shift_item.mw_plate_number,
                 shift_item.diff_opp_closs
             FROM 
                 `tabMobile Warehouse Items` AS shift_item
-            JOIN 
-                `tabStation Shift Management` AS shift_doc
-            ON 
-                shift_item.parent = shift_doc.name
             WHERE 
-                shift_doc.from_date = %(date)s
-                AND shift_doc.station = %(station)s
-                AND shift_doc.employee = %(employee)s
-                AND shift_doc.shift = %(shift)s
+                shift_item.parent = %(doc_name)s
             """,
-            {
-                'date': date,  # Date has already been stripped
-                'employee': employee,  # Employee has already been stripped
-                'shift': shift,  # Shift has already been stripped
-                'station': station  # Station has already been stripped
-            },
+            {'doc_name': doc_name},
             as_dict=True
         )
 
-        
-        
-        # Validate and return the results
+        # Return combined results
         return [
             {
                 "pump_or_tank": row.get("pump_or_tank"),
@@ -90,18 +197,17 @@ def get_pump_or_tank(employee=None, date=None, shift=None, station=None):
                 "pump_or_tank": row.get("mw_plate_number"),
                 "qty_sold_on_meter_reading": row.get("diff_opp_closs")
             }
-            for row in mobliewarehouses_or_tank_values
+            for row in mobile_warehouse_values
         ]
 
+    except ValueError:
+        frappe.throw(_("Invalid date format. Use YYYY-MM-DD."))
     except json.JSONDecodeError as e:
         frappe.throw(_("Invalid JSON in filters: {0}").format(str(e)))
-
     except frappe.db.ProgrammingError as e:
         frappe.throw(_("SQL Error: {0}").format(str(e)))
-
     except Exception as e:
         frappe.throw(_("An unexpected error occurred: {0}").format(str(e)))
-
 
 
 import frappe
