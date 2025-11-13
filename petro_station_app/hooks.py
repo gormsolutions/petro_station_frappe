@@ -143,14 +143,16 @@ doc_events = {
     #     "on_cancel": "method",
     #     "on_trash": "method"
     # },
+
     "Sales Invoice": {
         "on_submit": [
             # "petro_station_app.custom_api.stock_transfer.create_stock_transfer_server",
             "petro_station_app.custom_api.meter_reading.create_pump_meter_reading",
-            
+            "petro_station_app.custom_api.sales_invoice.create_wht_journal_entry"
         ],
         "on_cancel": "petro_station_app.custom_api.meter_reading.create_pump_meter_reading"
     },
+
     "Fuel Sales App": {
       
         "on_submit": "petro_station_app.custom_api.update_item_price.update_item_price"

@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-07-13 17:26:19.136440",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item",
+  "warehouse",
+  "system_qty",
+  "physical_qty",
+  "difference"
+ ],
+ "fields": [
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "options": "Item"
+  },
+  {
+   "fieldname": "system_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "System Qty",
+   "options": "Item"
+  },
+  {
+   "fieldname": "physical_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Physical Qty",
+   "options": "Item"
+  },
+  {
+   "fieldname": "difference",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Difference",
+   "options": "Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-07-13 18:10:45.269676",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Stock Verification Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -32,6 +32,7 @@
   "gas_empty_cylinders",
   "settings_tab",
   "company",
+  "remarks",
   "amended_from",
   "expenses_tab",
   "section_break_vark",
@@ -49,7 +50,6 @@
   },
   {
    "allow_in_quick_entry": 1,
-   "default": "Gas sales Customer",
    "fieldname": "customer",
    "fieldtype": "Link",
    "label": "Customer",
@@ -87,7 +87,7 @@
   },
   {
    "allow_in_quick_entry": 1,
-   "default": "1",
+   "default": "0",
    "description": "Un Check to Post Credit Sales",
    "fieldname": "include_payments",
    "fieldtype": "Check",
@@ -254,12 +254,18 @@
    "label": "Store For Empties",
    "link_filters": "[[\"Warehouse\",\"name\",\"in\",[\"Empty Cylinders Gulu Depot - SE\",\"Empty Cylinders Jinja Depot - SE\",\"Empty Cylinder Mbale Store - SE\",\"Field Stock Empty Cylinders - SE\"]]]",
    "options": "Warehouse"
+  },
+  {
+   "default": "Shell Elgon",
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-05-02 13:11:42.409705",
+ "modified": "2025-08-07 17:41:43.280249",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Gas Invoices",

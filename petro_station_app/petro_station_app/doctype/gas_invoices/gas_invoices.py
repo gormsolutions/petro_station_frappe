@@ -102,6 +102,76 @@ class GasInvoices(Document):
     #         frappe.log_error(message=str(e), title="Payment Entry Creation Error")
     #         frappe.throw(_("Error in creating Payment Entry: {0}".format(str(e))))
     
+    
+    def create_sales_invoice(self):
+        existing_sales_invoice = frappe.db.exists("Sales Invoice", {
+            "custom_gas_invice_id": self.name,
+            "docstatus": 1
+        })
+        
+        if existing_sales_invoice:
+            frappe.msgprint(_("Sales Invoice already exists for this transaction"))
+            return
+        
+        sales_invoice = frappe.new_doc("Sales Invoice")
+        sales_invoice.customer = self.customer
+        sales_invoice.due_date = self.due_date
+        # sales_invoice.allocate_advances_automatically = not self.include_payments
+        sales_invoice.cost_center = self.station
+        sales_invoice.update_stock = 1
+        sales_invoice.set_posting_time = 1
+        sales_invoice.posting_date = self.date
+        sales_invoice.remarks = self.remarks
+        sales_invoice.posting_time = self.time
+        sales_invoice.custom_gas_invice_id = self.name
+        sales_invoice.custom_employee = self.employee
+                
+        promotional_items = []
+        total_amount = 0
+        
+        for item in self.items:
+            # Fetch item details from Item doctype
+            custom_on_promotion, custom_promotion_amount = frappe.get_value(
+                "Item", 
+                item.item_code, 
+                ["custom_on_promotion", "custom_promotion_amount"]
+            )
+            # Calculate the discounted rate
+            discounted_rate = item.rate - (item.discount_amount or 0)
+            
+            sales_invoice.append("items", {
+                "item_code": item.item_code,
+                "qty": item.qty,
+                "rate": discounted_rate,
+                "warehouse": self.store,
+                "uom":item.uom,
+                # "amount": item.amount,
+                # "custom_gas_discount": item.discount_amount,
+                "cost_center": self.station,
+            })
+            
+            total_amount += item.amount
+
+            # Check if the item is promotional
+            if custom_on_promotion == 1 and custom_promotion_amount:
+                promotional_items.append({
+                    "item_code": item.item_code,
+                    "promotion_amount": custom_promotion_amount,
+                    "qty": item.qty,
+                })
+
+        if sales_invoice.items:
+            sales_invoice.insert()
+            sales_invoice.submit()
+            frappe.msgprint(_("Sales Invoice created and submitted"))
+            
+            # Create a Journal Entry for promotional items
+            if promotional_items:
+                self.create_promotion_journal_entry(promotional_items, total_amount, sales_invoice.name)
+
+            if self.include_payments:
+                self.create_payment_entry(sales_invoice)
+   
     def create_payment_entry(self, sales_invoice):
         mode_of_pay_doc = frappe.get_doc("Mode of Payment", self.mode_of_payment)
         default_account = next((account.default_account for account in mode_of_pay_doc.accounts if account.default_account), None)
@@ -142,6 +212,8 @@ class GasInvoices(Document):
         payment_entry.custom_gas_invice_id = self.name
         payment_entry.custom_employee = self.employee
         payment_entry.cost_center = self.station
+        payment_entry.reference_date = self.date
+        payment_entry.reference_no = self.remarks
 
     # Reference the Sales Invoice in Payment Entry
         payment_entry.append("references", {
@@ -230,72 +302,7 @@ class GasInvoices(Document):
             # Remove the flag after execution
             delattr(self, "_from_on_update")
 
-    def create_sales_invoice(self):
-        existing_sales_invoice = frappe.db.exists("Sales Invoice", {
-            "custom_gas_invice_id": self.name,
-            "docstatus": 1
-        })
-        
-        if existing_sales_invoice:
-            frappe.msgprint(_("Sales Invoice already exists for this transaction"))
-            return
-        
-        sales_invoice = frappe.new_doc("Sales Invoice")
-        sales_invoice.customer = self.customer
-        sales_invoice.due_date = self.due_date
-        sales_invoice.allocate_advances_automatically = not self.include_payments
-        sales_invoice.cost_center = self.station
-        sales_invoice.update_stock = 1
-        sales_invoice.set_posting_time = 1
-        sales_invoice.posting_date = self.date
-        sales_invoice.posting_time = self.time
-        sales_invoice.custom_gas_invice_id = self.name
-        sales_invoice.custom_employee = self.employee
-                
-        promotional_items = []
-        total_amount = 0
-        
-        for item in self.items:
-            # Fetch item details from Item doctype
-            custom_on_promotion, custom_promotion_amount = frappe.get_value(
-                "Item", 
-                item.item_code, 
-                ["custom_on_promotion", "custom_promotion_amount"]
-            )
-            # Calculate the discounted rate
-            discounted_rate = item.rate - (item.discount_amount or 0)
-            
-            sales_invoice.append("items", {
-                "item_code": item.item_code,
-                "qty": item.qty,
-                "rate": discounted_rate,
-                "warehouse": self.store,
-                # "amount": item.amount,
-                # "custom_gas_discount": item.discount_amount,
-                "cost_center": self.station,
-            })
-            
-            total_amount += item.amount
 
-            # Check if the item is promotional
-            if custom_on_promotion == 1 and custom_promotion_amount:
-                promotional_items.append({
-                    "item_code": item.item_code,
-                    "promotion_amount": custom_promotion_amount
-                })
-
-        if sales_invoice.items:
-            sales_invoice.insert()
-            sales_invoice.submit()
-            frappe.msgprint(_("Sales Invoice created and submitted"))
-            
-            # Create a Journal Entry for promotional items
-            if promotional_items:
-                self.create_promotion_journal_entry(promotional_items, total_amount, sales_invoice.name)
-
-            if self.include_payments:
-                self.create_payment_entry(sales_invoice)
-    
                 
     def create_promotion_journal_entry(self, promotional_items, total_amount, sales_invoice_name):
         # Fetch default promotional account and mode of payment account from Promotional Settings
@@ -323,7 +330,8 @@ class GasInvoices(Document):
         total_credit = 0
         
         # Calculate total promotion amount
-        total_promotion_amount = sum(item.get('promotion_amount') for item in promotional_items)
+        # total_promotion_amount = sum(item.get('promotion_amount') for item in promotional_items)
+        total_promotion_amount = sum(item.get('promotion_amount', 0) * item.get('qty', 0) for item in promotional_items)
 
         
         # Debit Entry for 1310 - Debtors - SE account (Grand Total of the invoice)
@@ -346,7 +354,7 @@ class GasInvoices(Document):
             journal_entry.append("accounts", {
                 "account": promotional_account,
                 "party_type": "Customer",
-                "party": self.customer,
+                "party": "Government subsidy",
                 "description": f"Promotion for {self.name}",
                 "debit_in_account_currency": total_promotion_amount,
                 "credit_in_account_currency": 0,

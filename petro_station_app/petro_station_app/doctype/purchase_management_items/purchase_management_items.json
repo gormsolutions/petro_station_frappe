@@ -39,7 +39,8 @@
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Amount"
+   "label": "Amount",
+   "read_only": 1
   },
   {
    "fieldname": "amt_usd",
@@ -71,7 +72,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-03 19:12:56.584079",
+ "modified": "2025-10-22 15:45:56.182104",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Purchase Management Items",

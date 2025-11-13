@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-08-14 13:32:09.247667",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_in_stock",
+  "opening_qty",
+  "received",
+  "returned",
+  "truck",
+  "sales",
+  "closing_qty"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_in_stock",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item in Stock",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Gas\"]]",
+   "options": "Item"
+  },
+  {
+   "fieldname": "returned",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Returned",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Gas\"]]",
+   "options": "Item"
+  },
+  {
+   "fieldname": "truck",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Truck",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Gas\"]]",
+   "options": "Item"
+  },
+  {
+   "fieldname": "sales",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Shop(sales)",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Gas\"]]",
+   "options": "Item"
+  },
+  {
+   "fieldname": "opening_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Opening",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Gas\"]]",
+   "options": "Item"
+  },
+  {
+   "fieldname": "received",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Recieved",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Gas\"]]",
+   "options": "Item"
+  },
+  {
+   "fieldname": "closing_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Closing",
+   "link_filters": "[[\"Item\",\"item_group\",\"=\",\"Gas\"]]",
+   "options": "Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-08-14 16:38:39.920232",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Transactional Report Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

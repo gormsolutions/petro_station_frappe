@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fdfdfd;
+      padding: 40px;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      color: #c79810;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      width: 120px;
+      float: left;
+    }
+
+    .controls {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #ffd700;
+      color: #000;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .footer {
+      margin-top: 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .signature-line {
+      border-top: 1px solid #aaa;
+      width: 300px;
+      text-align: center;
+      padding-top: 5px;
+    }
+
+    .export-btn,
+    .print-btn {
+      background-color: #c79810;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="/assets/petro_station_app/img/Shell-Logo.png" alt="Company Logo" class="logo">
+  <h2>STOCK AS <span id="report-date">--/--/----</span></h2>
+
+  <div class="controls">
+    <label for="as_of_date">As of Date:</label>
+    <input type="date" id="as_of_date">
+    <button onclick="loadData()" class="export-btn">Generate</button>
+    <button onclick="exportExcel()" class="export-btn">Export to Excel</button>
+    <button onclick="window.print()" class="print-btn">Print</button>
+  </div>
+
+  <div id="report-container"></div>
+
+  <div class="footer">
+    <div class="signature-line">Prepared By</div>
+    <div class="signature-line">Approved By</div>
+  </div>
+
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  let reportData = {};
+  let as_of_date = null;
+  let store = null;
+
+  async function loadData() {
+    as_of_date = document.getElementById('as_of_date').value;
+    document.getElementById('report-date').innerText = new Date(as_of_date).toLocaleDateString();
+
+    const res = await axios.get("http://147.79.101.23/api/method/petro_station_app.custom_api.gas_invoice.stock_balances.get_qty_as_of_date", {
+      params: { as_of_date }
+    });
+
+    const data = res.data.message;
+    const warehouses = ['Jinja', 'Gulu', 'Mbale'];
+
+    let html = '<table><thead><tr><th>Item</th>';
+    warehouses.forEach(w => {
+      html += `<th>${w} System Qty</th><th>${w} Physical Qty</th><th>${w} Difference</th>`;
+    });
+    html += '</tr></thead><tbody>';
+
+    reportData = {};
+
+    // Reset store (we will set store to the first warehouse with a physical qty > 0)
+    store = null;
+
+    Object.entries(data).forEach(([item_type, wh_data]) => {
+      let grouped = {};
+      warehouses.forEach(w => {
+        // Find full warehouse name key in wh_data matching partial w
+        const wh_full = Object.keys(wh_data).find(k => k.toLowerCase().includes(w.toLowerCase()));
+        if (wh_full && wh_data[wh_full]) {
+          wh_data[wh_full].forEach(row => {
+            const key = row.item_code;
+            if (!grouped[key]) grouped[key] = {};
+            grouped[key][w] = {
+              item_code: row.item_code,
+              warehouse: w,
+              system_qty: row.qty_after_transaction,
+              physical_qty: 0,
+              difference: row.qty_after_transaction
+            };
+          });
+        }
+      });
+
+      html += `<tr><td colspan="${warehouses.length * 3}" style="text-align:left;font-weight:bold;padding-top:20px;">${item_type.toUpperCase()}</td></tr>`;
+
+      Object.entries(grouped).forEach(([item_code, whs]) => {
+        html += `<tr><td>${item_code}</td>`;
+        if (!reportData[item_code]) reportData[item_code] = {};
+
+        warehouses.forEach(w => {
+          if (!whs[w]) {
+            whs[w] = { system_qty: 0, physical_qty: 0, difference: 0 };
+          }
+
+          reportData[item_code][w] = whs[w];
+
+          const inputId = `${item_code}_${w}_phy`;
+          const diffId = `${item_code}_${w}_diff`;
+
+          html += `
+            <td>${whs[w].system_qty}</td>
+            <td><input type="number" id="${inputId}" data-item="${item_code}" data-wh="${w}" value="0" min="0" oninput="updateDifference(this)"></td>
+            <td id="${diffId}">${whs[w].difference}</td>
+          `;
+        });
+
+        html += '</tr>';
+      });
+    });
+
+    html += '</tbody></table><button class="export-btn" onclick="submitToERPNext()">Submit</button>';
+    document.getElementById('report-container').innerHTML = html;
+  }
+
+  function updateDifference(input) {
+    const item = input.dataset.item;
+    const wh = input.dataset.wh;
+    const val = parseFloat(input.value || "0");
+    const sysQty = reportData[item][wh].system_qty;
+    const diff = sysQty - val;
+
+    reportData[item][wh].physical_qty = val;
+    reportData[item][wh].difference = diff;
+
+    document.getElementById(`${item}_${wh}_diff`).innerText = diff;
+
+    // If this physical_qty > 0 and store not set, set it to this warehouse
+    if (val > 0 && !store) {
+      store = wh;
+    }
+  }
+
+  async function submitToERPNext() {
+    if (!store) {
+      alert("Please enter physical quantities for at least one warehouse.");
+      return;
+    }
+
+    try {
+      // Get CSRF token
+      const csrfResponse = await fetch('http://147.79.101.23/api/method/petro_station_app.custom_api.auth.regenerate_session', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      const csrfData = await csrfResponse.json();
+      const csrfToken = csrfData.message.csrf_token;
+
+      // Submit
+      const response = await fetch('http://147.79.101.23/api/method/petro_station_app.custom_api.gas_invoice.get_grouped_current_qty.submit_stock_verification', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Frappe-CSRF-Token': csrfToken
+        },
+        body: JSON.stringify({
+          data: reportData,
+          as_of_date,
+          store
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Submitted successfully to ERPNext.");
+      } else {
+        alert("Error submitting: " + (result.message || "Unknown error"));
+        console.error(result);
+      }
+    } catch (e) {
+      alert("Submission failed: " + e.message);
+      console.error(e);
+    }
+  }
+
+  function exportExcel() {
+    const table = document.querySelector("table");
+    const wb = XLSX.utils.table_to_book(table, { sheet: "Stock" });
+    XLSX.writeFile(wb, "stock_report.xlsx");
+  }
+</script>
+
+</body>
+
+</html>

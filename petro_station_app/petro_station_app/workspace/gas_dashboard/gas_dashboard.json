@@ -1,18 +1,18 @@
 {
  "charts": [],
- "content": "[{\"id\":\"QWhtC9F_VK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h1\\\">Gas Dashboard</span>\",\"col\":12}},{\"id\":\"b3dMmjGfav\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Sales\",\"col\":3}},{\"id\":\"EDV6IHT1sg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive payment from Customer\",\"col\":3}},{\"id\":\"_CEIn2XxrL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item-wise Sales Register\",\"col\":3}},{\"id\":\"rog1SlXFEQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"></span><span class=\\\"h2\\\">Oil &amp; Gas Purchase Management</span>\",\"col\":12}},{\"id\":\"WGBDxBzEc_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Stock Balance\",\"col\":3}},{\"id\":\"LxW1wI6UnB\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bank Entry\",\"col\":3}},{\"id\":\"G_mA-IzCpT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Purchases\",\"col\":3}},{\"id\":\"JBJ3AXV01z\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opening Customer Balances\",\"col\":3}},{\"id\":\"H5xoIKMYQb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transfer Stock\",\"col\":3}},{\"id\":\"Vi5pDVOIkn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Balances\",\"col\":3}},{\"id\":\"nU3JiZ7Ufu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Suppliers\",\"col\":3}},{\"id\":\"ToZPdvw1BL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock movement Report\",\"col\":3}},{\"id\":\"V0l1dqc9XJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Statement\",\"col\":3}}]",
+ "content": "[{\"id\":\"QWhtC9F_VK\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h1\\\">Gas Dashboard</span>\",\"col\":12}},{\"id\":\"b3dMmjGfav\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Sales\",\"col\":3}},{\"id\":\"EDV6IHT1sg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Receive payment from Customer\",\"col\":3}},{\"id\":\"_CEIn2XxrL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Item-wise Sales Register\",\"col\":3}},{\"id\":\"Eb0jjBY6_K\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Item Setting\",\"col\":3}},{\"id\":\"vL6J1YLkVg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Stock Balance\",\"col\":3}},{\"id\":\"Y05XUhR2YE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Customer Balances\",\"col\":3}},{\"id\":\"LVd44iq5zo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Verification\",\"col\":3}},{\"id\":\"HO8JJJN_up\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Sales Daily Report\",\"col\":3}},{\"id\":\"_M-LD6Ausc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transactional Report\",\"col\":3}},{\"id\":\"WGBDxBzEc_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Stock Balance\",\"col\":3}},{\"id\":\"7FZWKsppQH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"General Ledger - Voucher Finder\",\"col\":3}},{\"id\":\"T_5TdR3b3E\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"rog1SlXFEQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"></span><span class=\\\"h2\\\">Oil &amp; Gas Purchase Management</span>\",\"col\":12}},{\"id\":\"LxW1wI6UnB\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bank Entry\",\"col\":3}},{\"id\":\"G_mA-IzCpT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Gas Purchases\",\"col\":3}},{\"id\":\"JBJ3AXV01z\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Opening Customer Balances\",\"col\":3}},{\"id\":\"H5xoIKMYQb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transfer Stock\",\"col\":3}},{\"id\":\"Vi5pDVOIkn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Balances\",\"col\":3}},{\"id\":\"nU3JiZ7Ufu\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Suppliers\",\"col\":3}},{\"id\":\"ToZPdvw1BL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock movement Report\",\"col\":3}},{\"id\":\"V0l1dqc9XJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Customer Statement\",\"col\":3}},{\"id\":\"V4FcNmXqLo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Stock Reconciliation\",\"col\":3}}]",
  "creation": "2024-10-28 16:23:35.174608",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
- "idx": 10,
+ "idx": 12,
  "indicator_color": "orange",
  "is_hidden": 0,
  "label": "GAS DASHBOARD",
  "links": [],
- "modified": "2025-03-10 15:13:28.898361",
+ "modified": "2025-09-02 12:20:14.044438",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "GAS DASHBOARD",
@@ -50,6 +50,37 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Stock Reconciliation",
+   "link_to": "Stock Reconciliation",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "General Ledger - Voucher Finder",
+   "link_to": "General Ledger - Voucher Finder",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Invoice",
+   "link_to": "Sales Invoice",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Transactional Report",
+   "link_to": "Transactional Report",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Item-wise Sales Register",
    "link_to": "Item-wise Sales Register",
    "type": "Report"
@@ -59,14 +90,29 @@
    "doc_view": "List",
    "label": "Gas Sales",
    "link_to": "Gas Invoices",
-   "stats_filter": "[]",
+   "stats_filter": "[[\"Gas Invoices\",\"docstatus\",\"!=\",\"2\",false]]",
    "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Gas Customer Balances",
+   "type": "URL",
+   "url": "http://147.79.101.23/customer_balances_gas"
   },
   {
    "color": "Grey",
    "doc_view": "List",
    "label": "Receive payment from Customer",
    "link_to": "Payment Entry",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Stock Verification",
+   "link_to": "Custom Stock Verification",
    "stats_filter": "[]",
    "type": "DocType"
   },
@@ -87,6 +133,13 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Gas Sales Daily Report",
+   "link_to": "Gas Sales Daily Report",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Opening Customer Balances",
    "link_to": "Opening Invoice Creation Tool",
    "type": "DocType"
@@ -101,6 +154,14 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Stock Item Setting",
+   "link_to": "Stock Items",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Pay Suppliers",
    "link_to": "Payment Entry",
    "stats_filter": "[[\"Payment Entry\",\"party_type\",\"=\",\"Supplier\",false],[\"Payment Entry\",\"payment_type\",\"=\",\"Pay\",false]]",
@@ -109,17 +170,17 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Gas Stock Balance",
-   "link_to": "Gas Stock Balance",
-   "type": "Report"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
    "label": "Bank Entry",
    "link_to": "Payment Entry",
    "stats_filter": "[[\"Payment Entry\",\"payment_type\",\"=\",\"Internal Transfer\",false],[\"Payment Entry\",\"mode_of_payment\",\"=\",\"Hashim Gas Cash\",false],[\"Payment Entry\",\"paid_to\",\"=\",\"1250 - Stanbic Bank Hashim Gas ltd - SE\",false],[\"Payment Entry\",\"paid_from\",\"=\",\"1190 - Hashim Gas Limited Cash - SE\",false]]",
    "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Gas Stock Balance",
+   "type": "URL",
+   "url": "http://147.79.101.23/gas_stock"
   }
  ],
  "title": "GAS DASHBOARD"

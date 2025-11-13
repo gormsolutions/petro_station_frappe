@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        #output {
+            font-family: Arial, sans-serif;
+            margin-top: 20px;
+        }
+        .status-message {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            color: green;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <div id="output" class="status-message"></div>
+    <table id="itemsTable">
+        <thead>
+            <tr>
+                <th>Item Code</th>
+                <th>Item Name</th>
+                <th>Item Group</th>
+                <th>Stock UOM</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        // WebSocket connection to listen for real-time updates from Frappe
+        const ws = new WebSocket("wss://147.79.101.23/socket.io");
+
+        // On WebSocket open
+        ws.onopen = () => {
+            console.log("WebSocket connection established!");
+            document.getElementById("output").innerHTML = "<span class='status-message'>WebSocket connection established!</span>";
+        };
+
+        // Handle incoming messages (real-time events)
+        ws.onmessage = (event) => {
+            const response = JSON.parse(event.data);
+            
+            // Check for item data update event
+            if (response.event === 'item_data_update') {
+                const items = response.message.items;
+                console.log("Items received:", items);
+
+                // Update the table with fetched items
+                const tableBody = document.querySelector("#itemsTable tbody");
+                tableBody.innerHTML = "";  // Clear existing rows
+
+                items.forEach(item => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.item_code}</td>
+                        <td>${item.item_name}</td>
+                        <td>${item.item_group}</td>
+                        <td>${item.stock_uom}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        };
+
+        // Handle WebSocket errors
+        ws.onerror = (error) => {
+            console.error("WebSocket error:", error);
+            document.getElementById("output").innerHTML = "<span class='error-message'>WebSocket error: " + error.message + "</span>";
+        };
+
+        // On WebSocket close
+        ws.onclose = () => {
+            console.log("WebSocket connection closed.");
+            document.getElementById("output").innerHTML = "<span class='error-message'>WebSocket connection closed.</span>";
+        };
+    </script>
+</body>
+</html>

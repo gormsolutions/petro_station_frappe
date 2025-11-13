@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-07-10 16:53:48.609356",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_yrcc",
+  "from_date",
+  "column_break_esyp",
+  "section_break_vpeg",
+  "current_stock_warehouse",
+  "current_stock_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "current_stock_items",
+   "fieldtype": "Table",
+   "label": "Current Stock Items",
+   "options": "Current Stock Items"
+  },
+  {
+   "fieldname": "current_stock_warehouse",
+   "fieldtype": "Table",
+   "label": "Current Stock warehouse",
+   "options": "Current Stock warehouse"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "From Date"
+  },
+  {
+   "fieldname": "column_break_esyp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_vpeg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_yrcc",
+   "fieldtype": "Section Break",
+   "hidden": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-07-13 00:34:05.908975",
+ "modified_by": "Administrator",
+ "module": "Petro Station App",
+ "name": "Stock Items",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
