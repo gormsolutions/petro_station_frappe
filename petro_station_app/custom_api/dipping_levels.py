@@ -88,3 +88,29 @@ def fetch_dipping_logs(branch, dipping_date):
     )
     return dipping_logs
 
+
+import frappe
+from erpnext.stock.utils import get_stock_balance
+
+
+def set_cost_price(doc, method):
+
+    if not doc.item_code or not doc.tank:
+        return
+
+    # Get valuation rate exactly like Stock Reconciliation
+    stock_balance = get_stock_balance(
+        doc.item_code,
+        doc.tank,
+        with_valuation_rate=True
+    )
+
+    # stock_balance = (qty, valuation_rate)
+    valuation_rate = stock_balance[1]
+
+    if not valuation_rate:
+        frappe.throw(f"Valuation rate not found for Item {doc.item_code} in {doc.tank}")
+
+    # ✅ Set it to cost_price
+    doc.cost_price = valuation_rate
+

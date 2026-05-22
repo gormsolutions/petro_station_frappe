@@ -21,6 +21,7 @@
   "time",
   "employee",
   "store",
+  "prn",
   "section_break_egou",
   "gas_items_sold_column",
   "items",
@@ -170,7 +171,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Fuel Sales App",
+   "options": "Gas Invoices",
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
@@ -220,7 +221,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Fuel Sales App",
+   "options": "Gas Invoices",
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
@@ -252,7 +253,7 @@
    "fieldname": "store_for_empties",
    "fieldtype": "Link",
    "label": "Store For Empties",
-   "link_filters": "[[\"Warehouse\",\"name\",\"in\",[\"Empty Cylinders Gulu Depot - SE\",\"Empty Cylinders Jinja Depot - SE\",\"Empty Cylinder Mbale Store - SE\",\"Field Stock Empty Cylinders - SE\"]]]",
+   "link_filters": "[[\"Warehouse\",\"name\",\"in\",[\"Empty Cylinders Gulu Depot - SE\",\"Empty Cylinders Jinja Depot - SE\",\"Empty Cylinder Mbale Store - SE\",\"Field Stock Empty Cylinders - SE\",\"Empty Cylinder west - SE\"]]]",
    "options": "Warehouse"
   },
   {
@@ -260,12 +261,17 @@
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
+  },
+  {
+   "fieldname": "prn",
+   "fieldtype": "Data",
+   "label": "PRN"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-08-07 17:41:43.280249",
+ "modified": "2026-04-09 23:22:09.661138",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Gas Invoices",

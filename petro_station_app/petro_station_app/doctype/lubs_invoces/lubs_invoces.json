@@ -234,6 +234,9 @@
   {
    "fieldname": "invoice_no",
    "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Invoice No"
   },
   {
@@ -245,7 +248,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-23 17:11:51.683302",
+ "modified": "2026-01-08 15:20:58.605482",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Lubs Invoces",

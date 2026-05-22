@@ -11,6 +11,7 @@
   "section_break_ret9",
   "tank",
   "item_code",
+  "cost_price",
   "current_acty_qty",
   "current_dipping_level",
   "dipping_difference",
@@ -49,8 +50,7 @@
   {
    "fieldname": "current_acty_qty",
    "fieldtype": "Float",
-   "label": "Current Actual Qty",
-   "read_only": 1
+   "label": "Current Actual Qty"
   },
   {
    "fieldname": "current_dipping_level",
@@ -123,7 +123,6 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Dipping Date ",
-   "read_only": 1,
    "reqd": 1
   },
   {
@@ -131,14 +130,19 @@
    "fieldname": "dipping_time",
    "fieldtype": "Time",
    "label": "Dipping Time",
-   "read_only": 1,
    "reqd": 1
+  },
+  {
+   "fieldname": "cost_price",
+   "fieldtype": "Currency",
+   "label": "Cost Price",
+   "options": "Item"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-09-09 19:00:29.714182",
+ "modified": "2026-02-17 13:47:36.674492",
  "modified_by": "Administrator",
  "module": "Petro Station App",
  "name": "Dipping Log",
